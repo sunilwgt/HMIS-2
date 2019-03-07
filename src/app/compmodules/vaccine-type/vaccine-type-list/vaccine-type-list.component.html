@@ -1,0 +1,33 @@
+<div class="col-md-12">
+
+  <!-- <app-header-buttons></app-header-buttons> -->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="pull-right add_print">
+        <button type="button" class="btn btn-primary btn-flat btn-lg pull-right" (click)="addVaccineType()">Add Vaccine Type</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="clearfix"></div>
+  <div style="margin: auto; margin-top:10px">
+    <data-table id="patients-grid" headerTitle="Vaccine list" [items]="vaccine" [itemCount]="vaccineCount" (reload)="reloadVaccineType($event)"
+      [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false" [expandableRows]="false"
+      [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
+
+      <data-table-column [property]="'vaccine_type_name'" [header]="'Vaccine Name'" [sortable]="true">
+      </data-table-column>
+      <data-table-column [property]="'description'" [header]="'Description'" [sortable]="true">
+      </data-table-column>
+      <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true">
+        <ng-template #dataTableCell let-item="item">
+          <hmis-generic-action [itemdata]=item (clickHandler)="clickEventHandler($event)"></hmis-generic-action>
+        </ng-template>
+      </data-table-column>
+    </data-table>
+  </div>
+
+
+
+</div>

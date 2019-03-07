@@ -1,0 +1,21 @@
+<div class="col-md-12">
+  <!-- <app-header-buttons></app-header-buttons> -->
+  <button type="button" class="btn btn-primary btn-flat btn-lg pull-right" (click)="addDischargeType()">Add discharge type</button>
+  <div class="clearfix"></div>
+  <div style="margin: auto; margin-top:50px">
+    <data-table id="patients-grid" headerTitle="Discharge type list" [items]="dischargetype" [itemCount]="dischargetypeCount"
+      (reload)="reloadDischargeType($event)" [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false"
+      [expandableRows]="false" [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
+
+      <data-table-column [property]="'discharge_type_name'" [header]="'Discharge Type'" [sortable]="true">
+      </data-table-column>
+      <data-table-column [property]="'description'" [header]="'Description'" [sortable]="true">
+      </data-table-column>
+      <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true">
+        <ng-template #dataTableCell let-item="item">
+          <hmis-generic-action [itemdata]=item (clickHandler)="clickEventHandler($event)"></hmis-generic-action>
+        </ng-template>
+      </data-table-column>
+    </data-table>
+  </div>
+</div>

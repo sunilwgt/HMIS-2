@@ -1,0 +1,26 @@
+<nav class="sidebar-nav active">
+  <ul id="sidebarnav" class="in" [class.toggle-nav]="commonService.minisidebar">
+    <li [ngClass]="{'nav_list':!isActive, 'active':isActive}" (click)="menuClickHandler()">
+      <div [ngClass]="{'has-arrow':menuInfo.hasSubmenu}">
+        <!-- <i class="{{menuInfo.iconClass}}"></i> -->
+        <app-icon-list [imageName]="menuInfo.iconClass"></app-icon-list>
+        <span class="hide-menu">{{menuInfo.name}}</span>
+      </div>
+
+      <ul aria-expanded="true" *ngIf="isActive" class="collapse in sub-menu">
+        <li *ngFor="let item of menuInfo.submenus" (click)="subMenuClickHandler($event,item)">
+          <div [ngClass]="{'has-arrow':item.hasSubmenu}" aria-expanded="true">
+            <span class="hide-menu">{{item.name}}</span>
+          </div>
+
+          <ul aria-expanded="true" *ngIf="item.isActive" class="collapse in sub-sub-menu">
+            <div aria-expanded="true" *ngFor="let sitem of item.submenus" (click)="subMenuLevel3ClickHandler($event,sitem)">
+              <span class="hide-menu">{{sitem.name}}</span>
+            </div>
+          </ul>
+        </li>
+      </ul>
+    </li>
+
+  </ul>
+</nav>

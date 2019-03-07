@@ -1,0 +1,152 @@
+
+<div class="row">
+  <div class="col-md-12 block_min_height">
+    <div class="card">
+
+      <hmis-patientsummary></hmis-patientsummary>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4 block_min_height">
+    <div class="card">
+      <hmis-medical-insurance></hmis-medical-insurance>
+    </div>
+  </div>
+  <div class="col-md-8 block_min_height">
+    <div class="card">
+      <hmis-income-summary></hmis-income-summary>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="row">
+  <div class="col-md-4 block_min_height">
+    <div class="card">
+      <hmis-ward-progress [items]="twardList"></hmis-ward-progress>
+    </div>
+  </div>
+
+  <div class="col-md-4 block_min_height">
+    <div class="card">
+      <div class="card-title">
+        <h4>Analytics</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <tbody>
+
+              <tr>
+                <td>Discharge</td>
+                <td>120</td>
+              </tr>
+              <tr>
+                <td>OT</td>
+                <td>15</td>
+              </tr>
+              <tr>
+                <td>Admission</td>
+                <td>150</td>
+              </tr>
+              <tr>
+                <td>Death</td>
+                <td>5</td>
+              </tr>
+              <tr>
+                <td>New born</td>
+                <td>20</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 block_min_height">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">To-do</h4>
+        <div class="card-content">
+          <div class="todo-list">
+            <div class="tdl-holder">
+              <div class="tdl-content">
+                <ul>
+                  <li>
+                    <label>
+                      <input type="checkbox">
+                      <i class="bg-success"></i>
+                      <span>Order Of The Day</span>
+                      <a href="#" class="ti-close"></a>
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input checked="" type="checkbox">
+                      <i class="bg-success"></i>
+                      <span>OT Schedule</span>
+                      <a href="#" class="ti-close"></a>
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input checked="" type="checkbox">
+                      <i class="bg-success"></i>
+                      <span>Weekly Calendar</span>
+                      <a href="#" class="ti-close"></a>
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input checked="" type="checkbox">
+                      <i class="bg-success"></i>
+                      <span>IPD Schedule</span>
+                      <a href="#" class="ti-close"></a>
+                    </label>
+                  </li>
+                </ul>
+                <form>
+                  <div class="input-group">
+                    <input class="form-control" placeholder="Type here.." type="text">
+                    <div class="input-group-btn">
+                      <button class="btn btn-default btn-info" type="submit">
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <hmis-approval-chart></hmis-approval-chart>
+<button class="btn btn-info" (click)="onapprove()">Approve</button>
+
+    </div>
+  </div>
+  <!-- <div class="col-md-6 block_min_height">
+    <div class="card">
+<button class="btn btn-info" (click)="onapprove()">Approve</button>
+    </div>
+  </div> -->
+</div>
+
+
+
+<!-- <div class="row">
+  <div class="col-md-6 block_min_height">
+    <div class="card">7th</div>
+  </div>
+</div> -->

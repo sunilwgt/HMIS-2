@@ -1,0 +1,7 @@
+.loader { background: rgba(0,0,0,.7); position: fixed; width: 100%; height: 100%; left: 0; top: 0; z-index: 99999;
+    img { width:128px; height: 128px; position: absolute; left: 50%; top: 50%; margin-left: -64px; margin-top: -64px;}
+  }
+
+.visibleStyle{
+  display: none;
+}

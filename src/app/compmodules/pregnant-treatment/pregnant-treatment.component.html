@@ -1,0 +1,22 @@
+<div class="card crd_frm">
+  <div class="card-body" style="margin-bottom: 0 ">
+    <div class="basic-form">
+      <form name="department_form" novalidate="novalidate">
+        <div class="row">
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Pregnant code'" class="col-lg-6 col-sm-6"
+            [propName]="'pregnant_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Description'" class="col-lg-6 col-sm-6"
+            [propName]="'description'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <div class="col-lg-6 col-sm-6">
+            <div class="add_department">
+              <button *ngIf="showSubmitBtn" type="submit" class="btn btn-default btn-info" (click)="submitClickHandler()">{{submitBtnLabel}}</button>
+            </div>
+          </div>
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

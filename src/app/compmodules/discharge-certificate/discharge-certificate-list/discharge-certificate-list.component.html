@@ -1,0 +1,38 @@
+<div class="col-md-12">
+
+    <!-- <app-header-buttons></app-header-buttons> -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right add_print">
+                <button type="button" class="btn btn-primary btn-flat btn-lg pull-right" (click)="addDischrageCertificate()">Add Discharge</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div style="margin: auto; margin-top:10px">
+        <data-table id="patients-grid" headerTitle="Discharge list" [items]="dischargeCertificates" [itemCount]="dischargeCertificateCount" (reload)="reloaddischargeCertificates($event)"
+            [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false" [expandableRows]="false"
+            [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
+
+            <data-table-column [property]="'admission_sequence'" [header]="'Admission Id'" [sortable]="true" [width]="140">
+            </data-table-column>
+            <data-table-column [property]="'patient_registration_no'" [header]="'Registration Id'" [sortable]="true" [width]="160">
+            </data-table-column>
+            <data-table-column [property]="'patient_name'" [header]="'Patient Name'" [sortable]="true" [width]="160">
+            </data-table-column>
+            <data-table-column [property]="'date_of_admission'" [header]="'Admitted On'" [sortable]="true" [width]="160">
+            </data-table-column>
+            <data-table-column [property]="'discharge_date'" [header]="'Discharged On'" [sortable]="true"[width]="160">
+            </data-table-column>
+            <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true" [width]="150">
+                <ng-template #dataTableCell let-item="item">
+                    <hmis-generic-action [itemdata]=item (clickHandler)="clickEventHandler($event)"></hmis-generic-action>
+                </ng-template>
+            </data-table-column>
+        </data-table>
+    </div>
+
+
+
+</div>

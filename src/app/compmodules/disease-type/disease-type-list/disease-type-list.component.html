@@ -1,0 +1,32 @@
+<div class="col-md-12">
+
+    <!-- <app-header-buttons></app-header-buttons> -->
+    <button type="button" class="btn btn-primary btn-flat btn-lg pull-right" (click)="addDisease()">Add Disease</button>
+    <div class="clearfix"></div>
+    <div style="margin: auto; margin-top:50px">
+        <data-table id="patients-grid" headerTitle="Disease list" [items]="diseases" [itemCount]="diseasesCount" (reload)="reloadDiseases($event)"
+            [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false" [expandableRows]="false"
+            [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
+
+            <data-table-column [property]="'$id'" [header]="'Sl. No.'" [sortable]="true">
+            </data-table-column>
+            <data-table-column [property]="'decease_type_name'" [header]="'Disease Name'" [sortable]="true">
+            </data-table-column>
+            <data-table-column [property]="'description'" [header]="'Disease Description'" [sortable]="true">
+            </data-table-column>
+            <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true">
+                <ng-template #dataTableCell let-item="item">
+                    <hmis-generic-action [itemdata]=item (clickHandler)="clickEventHandler($event)"></hmis-generic-action>
+                </ng-template>
+            </data-table-column>
+        </data-table>
+        <div style="margin-top: 10px">
+            <b>Selected:</b>
+            <!-- <span *ngIf="patientsTable.selectedRow == null"><i>No item selected</i></span>
+        <span [textContent]="patientsTable.selectedRow && patientsTable.selectedRow.item.title"></span> -->
+        </div>
+    </div>
+
+
+
+</div>

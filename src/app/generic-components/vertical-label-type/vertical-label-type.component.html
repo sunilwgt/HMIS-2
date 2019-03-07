@@ -1,0 +1,287 @@
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.CompText]">
+  <div class="form-group">
+    <generic-popup [modalOption]="modalOption"></generic-popup>
+    <label>{{labelname}}</label>
+    <div class="select_block">
+      <input class="form-control" placeholder="{{placeholderLabel}}" type="text" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"
+        [disabled]="!_isEditable" >
+      <a class="bed_pop" *ngIf="showInfoIcon" (click)="showIconInfoDetails()">
+        <i class="{{infoIconClass}}"></i>
+      </a>
+    </div>
+    <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
+  </div>
+</ng-template>
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compnumber]">
+  <div class="form-group">
+    <label>{{labelname}}</label>
+    <div class="form_inline_">
+      <input placeholder="{{placeholderLabel}}" class="form-control" type="number" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"
+        [disabled]="!_isEditable">
+    </div>
+    <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
+  </div>
+</ng-template>
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compdate]">
+  <div class="form-group">
+    <label>{{labelname}}</label>
+    <input placeholder="{{placeholderLabel}}" class="form-control"  type="date"  [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"
+      [disabled]="!_isEditable">
+    <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
+  </div>
+</ng-template>
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compdatepast]">
+  <div class="form-group">
+    <label>{{labelname}}</label>
+    <input placeholder="{{placeholderLabel}}" class="form-control"   [min]="mindate"  [max]="maxdate"  type="date" (click)="date()"  [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"
+      [disabled]="!_isEditable">
+    <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
+  </div>
+</ng-template>
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.CompTime]">
+  <div class="form-group">
+    <label>{{labelname}}</label>
+    <input placeholder="{{placeholderLabel}}" class="form-control" type="time" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"
+      [disabled]="!_isEditable">
+    <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
+  </div>
+</ng-template>
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compselect]">
+  <div class="form-group">
+    <generic-popup></generic-popup>
+    <label>{{labelname}}</label>
+    <div class="select_block">
+      <div class="select_custom">
+        <select class="form-control" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)" [disabled]="!_isEditable">
+          <option [selected]="op.value === compValue.fieldValue" *ngFor="let op of selectOptions" value="{{op.value}}">{{op.label}}</option>
+          <!-- <option>---Please select---</option>
+              <option>A+</option>
+              <option>A-</option>
+              <option>B+</option>
+              <option>B-</option>
+              <option>O+</option>
+              <option>O-</option>
+              <option>AB+</option>
+              <option>AB-</option> -->
+        </select>
+      </div>
+      <a class="bed_pop" *ngIf="showInfoIcon" (click)="showIconInfoDetails()">
+        <i class="{{infoIconClass}}"></i>
+      </a>
+    </div>
+    <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
+  </div>
+</ng-template>
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compselectselected]">
+    <div class="form-group">
+      <generic-popup></generic-popup>
+      <label>{{labelname}}</label>
+      <div class="select_block">
+        <div class="select_custom">
+          <select class="form-control" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)" [disabled]="!_isEditable">
+            <option [selected]="op.value === this.compData.approval_status_id" *ngFor="let op of selectOptions" value="{{op.value}}">{{op.label}}</option>
+          </select>
+        </div>
+        <a class="bed_pop" *ngIf="showInfoIcon" (click)="showIconInfoDetails()">
+          <i class="{{infoIconClass}}"></i>
+        </a>
+      </div>
+      <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
+    </div>
+  </ng-template>
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compradio]">
+  <div class="form-group" [ngClass]="{'viewmode':!_isEditable}">
+    <label>{{labelname}}</label>
+    <div>
+      <label class="radio_cont" *ngFor="let op of radioOptions">{{op.label}}
+        <input name="{{_dynamicGrpName}}" type="radio" (click)="onClickModelChange($event)" [disabled]="!_isEditable" value="{{op.value}}"
+          [checked]="op.checked">
+
+        <span class="rchcmrk"></span>
+      </label>
+    </div>
+    <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
+  </div>
+</ng-template>
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Comptextarea]">
+  <div class="form-group">
+    <label for="notes">{{labelname}}</label>
+    <textarea rows="4" id="" class="form-control h-auto" placeholder="" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"
+      [disabled]="!_isEditable"></textarea>
+    <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
+
+  </div>
+</ng-template>
+
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compaddress]">
+  <div class="form-group">
+    <label for="notes">{{labelname}}</label>
+    <textarea rows="4" id="" class="form-control h-auto" placeholder="Address" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"
+      [disabled]="!_isEditable"></textarea>
+  </div>
+</ng-template>
+
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Comptel]">
+  <div class="form-group">
+    <label>{{labelname}}</label>
+    <input placeholder="Phone no" class="form-control" type="tel" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"
+      [disabled]="!_isEditable">
+    <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
+  </div>
+</ng-template>
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.CompSubmit]">
+  <div class="row">
+    <div class="col-md-12 btn-xs-small">
+      <button type="submit" class="btn btn-info" [disabled]="!_isEditable">Submit</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compfile]">
+  <hmis-imgcapture></hmis-imgcapture>
+</ng-template>
+
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.CompTextFieldOnly]">
+  <input class="form-control" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)" type="text" [disabled]="!_isEditable">
+</ng-template>
+
+
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.CompradioNoLabel]">
+  <div class="form-group" [ngClass]="{'viewmode':!_isEditable}">
+    <div>
+      <label class="radio_cont" *ngFor="let op of radioOptions">{{op.label}}
+        <input name="{{_dynamicGrpName}}" type="radio" (click)="onClickModelChange($event)" [disabled]="!_isEditable" value="{{op.value}}"
+          checked="{{op.checked}}">
+        <span class="rchcmrk"></span>
+      </label>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compcheckbox]">
+  <div class="form-group crd_frm" [ngClass]="{'viewmode':!_isEditable}">
+    <div class="basic-form tdl-content  tdl-holder">
+      <label>
+        <!--input name="{{_dynamicGrpName}}" type="checkbox" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"
+          [disabled]="!_isEditable"-->
+        <input name="{{_dynamicGrpName}}" type="checkbox" (click)="onClickModelChange($event)" [disabled]="!_isEditable" value="{{checkBoxValue}}">
+        <i class="bg-primary"></i>
+      </label>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compchecklist]">
+  <div class="form-group">
+    <label>{{labelname}}</label>
+    <div class="basic-form tdl-content  tdl-holder">
+      <label>
+        <input name="department_type" type="checkbox">
+        <i class="bg-primary"></i>
+        <span>Joint Replacement</span>
+      </label>
+      <label>
+        <input name="department_type" type="checkbox">
+        <i class="bg-primary"></i>
+        <span>Limb Reconstruction</span>
+      </label>
+      <label>
+        <input name="department_type" type="checkbox">
+        <i class="bg-primary"></i>
+        <span>Spine/Backache</span>
+      </label>
+      <label>
+        <input name="department_type" type="checkbox">
+        <i class="bg-primary"></i>
+        <span>Paediatric Orthopaedics</span>
+      </label>
+      <label>
+        <input name="department_type" type="checkbox">
+        <i class="bg-primary"></i>
+        <span>Physiotherapy</span>
+      </label>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compemail]">
+  <div class="form-group">
+    <label class="required">Email id</label>
+    <input name="email_id" class="form-control input-default" placeholder="Email id" type="email" [(ngModel)]="compValue.fieldValue"
+      (ngModelChange)="onModelChange($event)">
+  </div>
+</ng-template>
+
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compfiletwo]">
+  <div class="form-group">
+    <label>Upload an image</label>
+    <div class="input-group upld_file">
+      <input id="uploadFile" class="form-control" placeholder="Choose File" disabled="disabled">
+      <div class="input-group-btn">
+        <div class="fileUpload btn btn-info">
+          <span>
+            <i class="glyphicon glyphicon-upload"></i> Upload</span>
+          <input id="uploadBtn" class="upload" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)" type="file">
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<!-- <ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compbillrow]">
+  <div class="billing-item-row">
+    <div style="width:10%">2</div>
+    <div style="width:70%">{{labelname}}</div>
+    <div style="width:20%">
+      <input class="form-control" placeholder="00.00" type="number">
+    </div>
+  </div>
+</ng-template> -->
+ <ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compbillrow]">
+  <div class="billing-item-row" *ngFor="let item of data; let i=index" >
+    <div style="width:10%">{{item.others}}</div>
+    <div style="width:70%">{{item.label}} </div>
+    <div style="width:20%">
+      <input class="form-control" placeholder="00.00" type="number" [(ngModel)]="item.value" (blur)="onchange(item)" (ngModelChange)="onModelChange($event, item)"
+        [disabled]="!_isEditable" >
+    </div>
+  </div>
+</ng-template> 
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compbillselectrow]">
+  <div class="billing-item-row package-searche">
+    <div style="width:10%">1</div>
+    <div style="width:70%"><span class="package-head">{{labelname}}</span>
+      <div class="input-group">
+          <input class="form-control" style="width:100%; float:right" placeholder="Search Package" type="Search" [(ngModel)]="compValue.fieldValue"
+          (ngModelChange)="onModelChange($event)" [disabled]="!_isEditable">
+          <div class="search_list_dropdown" [ngClass]="{'active': (data | package:compValue.fieldValue).length > 0}">
+            <hmis-selected class="listing" *ngFor="let item of data | package:compValue.fieldValue" [itemdata]="item" (itemSelected)="selectedItemClick($event)"></hmis-selected>    
+          </div>
+      </div>  
+    </div>
+
+
+    <div style="width:20%">
+      <input class="form-control" placeholder="00.00" type="number" [(ngModel)]="compValue.amount" [disabled]="_isEditable">
+    </div>
+  </div>
+</ng-template>
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.NextBtn]">
+  <div class="btn-xs-small pull-right">
+    <button class="btn btn-info " (click)="onClickNextBtn()">Next</button>
+  </div>
+</ng-template>

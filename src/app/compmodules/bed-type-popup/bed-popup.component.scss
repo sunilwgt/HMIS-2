@@ -1,0 +1,25 @@
+.bed_list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    bed-item {
+        flex: 0 0 50px;
+        width: 50px;
+        height: 50px;
+        border-radius: 100px;
+        border: 2px solid #08a1ff;
+        margin-bottom: 5px;
+        &.occupied {
+            border: 2px solid #ccc;
+            background: #ccc
+        }
+    }
+}
+
+.bed_nom {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    label { margin-bottom: 0;}
+}

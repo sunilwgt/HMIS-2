@@ -1,0 +1,56 @@
+<div id="main-wrapper" class="login">
+    <!-- Page wrapper  -->
+    <div class="page-wrapper ">
+        <div class="lgpg-bg">
+            <img src="app/images/background.jpg" alt="Bg">
+        </div>
+        <div class="lgcontent">
+            <div class="top-logo">
+                <div class="tl-hd">
+                    <a href="#">
+                        <img src="app/images/logo_main.png" class="img-responsive">
+
+                    </a>
+                </div>
+                <div class="tl-side-smallhd">
+                    <span></span>
+                </div>
+            </div>
+            <div class="xs-logo">
+                <a href="#">
+                    <img src="app/images/hmis_logo.png" class="img-responsive">
+                </a>
+            </div>
+            <div class="lgformarea">
+                <div class="lgformarea-hd">Login</div>
+
+                <!-- <label class="error_block">E-mail or password was incorrect, please try again</label> -->
+                <form class="customform" action="index.html">
+                    <div class="form-group with-icon">
+                        <i class="fa fa-user"></i>
+                        <input class="form-control custom-txt-input" placeholder="Username" type="text" id="name" name="name" [(ngModel)]="user.userName"
+                            #name="ngModel" required="">
+                        <label *ngIf="invaliduser">{{invaliduser}}</label>
+                    </div>
+                    <div class="form-group with-icon">
+                        <i class="fa fa-lock"></i>
+                        <input class="form-control custom-pass-input" id="password" name="password" #password="ngModel" placeholder="Password" type="password"
+                            [(ngModel)]="user.password" required="">
+                        <label *ngIf="invalidpassword">{{invalidpassword}}</label>
+                    </div>
+                    <label *ngIf="invalidCredentials" class="inv_cre">{{invalidCredentials}}</label>
+                    <div class="form-group text-center">
+                        <button class="btn custom-btn btn-block" (click)="submitLogin()">Login</button>
+                    </div>
+                    <div class="form-group text-center">
+                        <a class="btn btn-link custom-btn-link rtbrdr" (click)="openForgetPasswordModal()">Forgot Password</a>
+                        <div class="clearfix"></div>
+                        <a href="#" class="btn btn-link custom-btn-link rtbrdr" data-toggle="tooltip" title="" data-original-title="Please fill details in the above fields to login. If you don't remember your password, click on Forgot Password link to reset your password.">Help</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- <app-loader></app-loader> -->

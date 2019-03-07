@@ -1,0 +1,45 @@
+<div class="col-md-12">
+    <app-header-buttons [csvjson]="patients"></app-header-buttons>
+    <!--img src="app/images/left_logo.png"-->
+    <div style="margin: auto; margin-top:10px">
+        <data-table id="patients-grid" headerTitle="" [items]="patients" [itemCount]="patientCount" (reload)="reloadPatients($event)"
+            [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false" [expandableRows]="false"
+            [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
+
+            <data-table-column [property]="'$id'" [header]="'Seq.'"  [resizable]=true [width]="50">
+            </data-table-column>
+
+            <data-table-column [property]="'patient_registration_no'" [header]="'Reg. No'" [sortable]="true" [resizable]=true [width]="130">
+            </data-table-column>
+            <data-table-column [property]="'patient_first_name'" [header]="'First Name'" [sortable]="true" [resizable]=true [width]="130">
+            </data-table-column>
+            <data-table-column [property]="'patient_last_name'" [header]="'Last Name'" [sortable]="true" [resizable]=true [width]="130">
+            </data-table-column>
+            <!--data-table-column [property]="'patient_last_name'" [header]="'Last Name'" [sortable]="true" [resizable]=true>
+            </data-table-column-->
+            <data-table-column [property]="'patient_sex'" [header]="'Gender'" [sortable]="true" [resizable]=true [width]="100">
+            </data-table-column>
+            <data-table-column [property]="'patient_phone'" [header]="'Phone'" [sortable]="true" [resizable]=true [width]="110">
+            </data-table-column>
+            <!--data-table-column [property]="'patient_age'" [header]="'Age'" [sortable]="true" [resizable]=true>
+            </data-table-column-->
+            <!--data-table-column [property]="'doctor_name'" [header]="'Reffered By'" [sortable]="true" [resizable]=true [width]="160">
+            </data-table-column-->
+            <data-table-column [property]="'admitted_on'" [header]="'DOR'" [sortable]="true" [resizable]=true [width]="120">
+            </data-table-column>
+            <data-table-column [property]="'action'" [header]="'Action'" [sortable]="false" [resizable]=true [width]="250">
+                <ng-template #dataTableCell let-item="item">
+                    <hmis-generic-action [printDisable]="false" [admissionDisable]="false" [itemdata]=item (clickHandler)="clickEventHandler($event)" [actiontypeId]="admissionRL"></hmis-generic-action>
+                </ng-template>
+            </data-table-column>
+        </data-table>
+        <!-- <div style="margin-top: 10px">
+      <b>Selected:</b>
+      <span *ngIf="patientsTable.selectedRow == null"><i>No item selected</i></span>
+      <span [textContent]="patientsTable.selectedRow && patientsTable.selectedRow.item.title"></span>
+  </div> -->
+    </div>
+
+
+
+</div>

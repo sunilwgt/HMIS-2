@@ -1,0 +1,78 @@
+
+.input-group {
+.form-control:not(:last-child) { border-top-right-radius: 3px; border-bottom-right-radius: 3px }
+
+
+.search_list_dropdown {
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 99;
+    left: 0;
+    right: 0;
+    top: 35px;
+    &.active {
+        border: 1px solid #c6c6c6;
+        background: #fff;
+        display: block;
+        text-align: left;
+        
+    }
+}
+
+.listing {
+    margin: 3px 0;
+}
+
+.search_list_dropdown {
+    label {
+        width: 100%;
+        padding-left: 5px;
+        position: relative;
+        margin-top: .5rem;
+        &.active {
+            color: #4680ff;
+            font-weight: bold;
+            &:after {
+                content: "\e64c";
+                font-family: 'themify';
+                display: block;
+                left: 10px;
+                font-weight: bold;
+                position: absolute;
+                top: 3px;
+                z-index: 2;
+                font-size: 12px;
+            }
+        }
+    }
+}
+
+label {
+    width: 100%;
+    padding-left: 5px;
+    position: relative;
+    /* margin-top: .5rem; */
+    min-height: 22px;
+    &.active {
+        color: #4680ff;
+        font-weight: bold;
+        &:after {
+            content: "\e64c";
+            font-family: 'themify';
+            display: block;
+            left: 10px;
+            font-weight: bold;
+            position: absolute;
+            top: 3px;
+            z-index: 2;
+            font-size: 12px;
+        }
+    }
+}
+
+.search_down {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+}

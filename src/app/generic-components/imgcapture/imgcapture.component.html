@@ -1,0 +1,11 @@
+<div class="upload_file_">
+  <video #videoElement id="videoElement" class="videoStyle"></video>
+  <canvas #canvasElement id="canvasElement" class="canvasStyle"></canvas>
+ <!-- <img #image_upload_preview
+  id="image_upload_preview"
+  name="docs"
+  alt="your image"
+  [ngClass]="{visibleStyle:true}"> -->
+  <span (click)="imgProcessHandler()">
+    <i class="fa fa-edit" ></i> {{_btnLabel}}</span>
+</div>

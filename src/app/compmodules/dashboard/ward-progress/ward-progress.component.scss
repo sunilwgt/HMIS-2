@@ -1,0 +1,52 @@
+.ward {
+    margin-bottom: 26px;
+    &>p {
+        color: #67757c;
+        margin-bottom: 10px;
+        font-size: 14px;
+        span {
+            color: #a5a5a5;
+        }
+    }
+    .bg-danger {        
+        .progress { 
+                .bg-warning {
+                background-color: #fc6180 !important;
+                color: #ffffff;
+                fill: #fc6180;
+            }
+        }
+    }
+
+    // .bg-info {
+    //     .progress {
+    //         .progress-bar.bg-warning {
+    //             background-color: #62d1f3 !important;
+    //             color: #ffffff;
+    //             fill: #62d1f3;
+    //         }
+    //     }
+    // }
+
+    // .bg-success {
+    //     .progress {
+    //         .progress-bar.bg-warning {
+    //             background-color: #26dad2 !important;
+    //             color: #ffffff;
+    //             fill: #26dad2;
+    //         }
+    //     }
+    // }
+}
+
+
+
+// .bg-danger {        
+//     .progress { background-color: #ff0000 !important;
+//         .progress-bar {
+//             background-color: #fc6180 !important;
+//             color: #ffffff;
+//             fill: #fc6180;
+//         }
+//     }
+// }

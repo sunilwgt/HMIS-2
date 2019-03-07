@@ -1,0 +1,72 @@
+<div class="card-body" style="margin-bottom: 0 ">
+  <div class="basic-form">
+    <form name="building_form" novalidate="novalidate">
+      <div class="row">
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Patient ID'" class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+          [propName]="'patient_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Admission ID'" class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+          [propName]="'admission_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'OT ID'" class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+          [propName]="'ot_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Baby Weight'" class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+          [propName]="'baby_weight'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Baby Height'" class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+          [propName]="'baby_height'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compradio]" [labelname]="'Is Malnutrition'" [propName]="'Is_malnutrition'"
+          [radioOptions]="bplOption" class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]"  [selectOptions]="deliveryTypeOption" [labelname]="'Delivery Type'" class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+          [propName]="'delivery_type'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Baby Alias Name'" class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+          [propName]="'baby_alias_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compdate]" [labelname]="'Date of Birth'" class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+          [propName]="'dob'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Father Name'" class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6"
+          [propName]="'father_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Mother Name'" class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6"
+          [propName]="'mother_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Father Occupation'" class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6"
+          [propName]="'father_occupation'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Mother Occupation'" class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6"
+          [propName]="'mother_occupation'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Address'" class="col-lg-12 col-sm-12"
+          [propName]="'address'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compradio]" [labelname]="'Is Born Critical Illness'" [propName]="'is_born_critical_illness'"
+          [radioOptions]="bplOption" class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Critical Illness Note'" class="col-lg-12 col-sm-12"
+          [propName]="'critical_illness_note'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compradio]" [labelname]="'Is Twin'" [propName]="'is_twin'" [radioOptions]="bplOption"
+          class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compradio]" [labelname]="'Sex'" [propName]="'sex'" [radioOptions]="genderOptions"
+          class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Delivery Note'" class="col-lg-12 col-sm-12"
+          [propName]="'delivery_note'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+
+        <div class="col-lg-6 col-sm-6">
+          <div class="add_department">
+            <button *ngIf="showSubmitBtn" type="submit" class="btn btn-default btn-info" (click)="submitClickHandler()">{{submitBtnLabel}}</button>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>

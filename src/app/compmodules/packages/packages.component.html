@@ -1,0 +1,27 @@
+<div class="card crd_frm">
+  <div class="card-body" style="margin-bottom: 0 ">
+    <div class="basic-form">
+      <form name="building_form" novalidate="novalidate">
+        <div class="row">
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Package name'" class="col-lg-8 col-sm-8"
+            [propName]="'package_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Package Amount'" class="col-lg-4 col-sm-4"
+            [propName]="'package_amount'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptestarea]" [labelname]="'Description'" class="col-lg-12 col-sm-12"
+            [propName]="'package_description'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <!--hmis-vertical-label-type [templateid]="gencomp[gencomp.Compradio]" [labelname]="'Status'" [propName]="'status'" (compValueChange)="valueChangeHandler($event)"
+            class="col-lg-6 col-sm-6" [radioOptions]="status"></hmis-vertical-label-type-->
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compradio]" [labelname]="'Reimbursement'" [propName]="'is_reimbursable'"
+            (compValueChange)="valueChangeHandler($event)" class="col-lg-6 col-sm-6" [radioOptions]="reimburse"></hmis-vertical-label-type>
+
+          <div class="col-lg-6 col-sm-6">
+            <div class="add_department">
+              <button *ngIf="showSubmitBtn" type="submit" class="btn btn-default btn-info" (click)="submitClickHandler()">{{submitBtnLabel}}</button>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,4 @@
+<div>
+  <ward-type-item *ngFor="let item of wardOptions" [data]="item" (onItemClick)="onItemClickHandler($event)"></ward-type-item>
+  <p *ngIf="!wardOptions">No data available</p>
+</div>

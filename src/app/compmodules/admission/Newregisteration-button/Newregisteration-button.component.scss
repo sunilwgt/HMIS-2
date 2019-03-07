@@ -1,0 +1,30 @@
+.search_form{
+    display: flex;
+    align-items: center;
+    form {
+        .input-group{
+            .form-control { line-height: 1.2}
+        }
+
+        display: inline-block;
+        vertical-align: top;
+        .btn {
+            height: 100%;
+            font-size: 16px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;            
+        }
+    } 
+}
+
+
+.add_print {
+    display: flex;
+    align-items: center;
+    .btn {
+        margin-right: 5px;
+        font-size: 16px;
+        line-height: 1.2;
+        &:last-child { margin-right:0}
+    }
+}

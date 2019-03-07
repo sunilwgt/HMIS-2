@@ -1,0 +1,36 @@
+<div class="col-md-12">
+
+    <!-- <app-header-buttons></app-header-buttons><br> -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right add_print">
+                <button type="button" class="btn btn-primary btn-flat btn-lg pull-right" (click)="addAdmission()">New admission</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div style="margin: auto; margin-top:10px">
+        <data-table id="patients-grid" headerTitle="Patient List" [items]="admissionList" [itemCount]="admissionListCount" (reload)="reloadAdmittedPatientsList($event)"
+            [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false" [expandableRows]="false"
+            [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
+            
+            <data-table-column [property]="'$id'" [header]="'Seq.'"  [resizable]=true [width]="50">
+            </data-table-column>
+            <data-table-column [property]="'admission_sequence'" [header]="'Adm Seq'" [sortable]="true" [resizable]=true [width]="110">
+            </data-table-column>
+            <data-table-column [property]="'patient_registration_no'" [header]="'Reg No'" [sortable]="true" [resizable]=true [width]="120">
+            </data-table-column>
+            <data-table-column [property]="'admission_type_name'" [header]="'Adm Type'" [sortable]="true" [resizable]=true [width]="130">
+            </data-table-column>
+            <data-table-column [property]="'doctor_name'" [header]="'Doctor Under'" [sortable]="true" [resizable]=true [width]="150">
+            </data-table-column>
+            <data-table-column [property]="'admitted_on'" [header]="'DOA'" [sortable]="true" [resizable]=true [width]="130">
+            </data-table-column>
+            <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true" [resizable]=true [width]="290">
+                <ng-template #dataTableCell let-item="item">
+                    <hmis-generic-action [dischargeDisable]="false" [oTDisable]="false" [printDisable]="false" [itemdata]=item (clickHandler)="clickEventHandler($event)"></hmis-generic-action>
+                </ng-template>
+            </data-table-column>
+        </data-table>
+    </div>

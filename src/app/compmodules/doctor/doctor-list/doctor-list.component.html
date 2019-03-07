@@ -1,0 +1,23 @@
+<div class="col-md-12">
+  <!-- <app-header-buttons></app-header-buttons> -->
+  <button type="button" class="btn btn-primary btn-flat btn-lg pull-right" (click)="addDoctor()">Add Doctor</button>
+  <div class="clearfix"></div>
+  <div style="margin: auto; margin-top:50px">
+    <data-table id="patients-grid" headerTitle="Doctors list" [items]="doctor" [itemCount]="doctorCount" (reload)="reloadDoctor($event)"
+      [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false" [expandableRows]="false"
+      [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
+
+      <data-table-column [property]="'first_name'" [header]="'First Name'" [sortable]="true">
+      </data-table-column>
+      <data-table-column [property]="'last_name'" [header]="'Last Name'" [sortable]="true">
+      </data-table-column>
+      <data-table-column [property]="'email_address'" [header]="'Email'" [sortable]="true">
+      </data-table-column>
+      <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true">
+        <ng-template #dataTableCell let-item="item">
+          <hmis-generic-action [itemdata]=item (clickHandler)="clickEventHandler($event)"></hmis-generic-action>
+        </ng-template>
+      </data-table-column>
+    </data-table>
+  </div>
+</div>

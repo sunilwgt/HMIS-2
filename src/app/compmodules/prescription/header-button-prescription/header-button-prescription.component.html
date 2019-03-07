@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="pull-left search_form">
+      <!-- <div class="navbar-form" role="search">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" [(ngModel)]="searchStr">
+          <div class="input-group-btn">
+            <button class="btn btn-primary" (click)="searchIndividualPatient()">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div> -->
+      <hmis-keyup-search [labelname]="'Patient ID'" [data]="patientList" [propName]="'value'" (getSelectedItem)="getSelectedHandlerForPrescription($event)"
+        (onKeyUp)="onKeyUpSearchForPrescription($event)" class=""></hmis-keyup-search>
+    </div>
+    <div class="pull-right add_print">
+      <button type="button" class="btn btn-primary btn-flat btn-lg pull-right" (click)="addprescription()">Add Prescription</button>
+    </div>
+  </div>
+</div>

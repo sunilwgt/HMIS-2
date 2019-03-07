@@ -1,0 +1,57 @@
+<!--generic-popup [modalOption]="modaloption"></generic-popup-->
+<a href="#" class="btn btn-info" (click)="clickViewHandler()" tooltip="View" placement="top" show-delay="300">
+  <i class="fa fa-eye"></i>
+  <span>
+    <!-- <strong>View</strong> -->
+  </span>
+</a>
+<a href="#" class="btn btn-success" (click)="clickEditHandler()" tooltip="Edit" placement="top" show-delay="300">
+  <i class="fa fa-edit"></i>
+  <span>
+    <!-- <strong>Edit</strong> -->
+  </span>
+</a>
+<a href="#" class="btn btn-danger" (click)="clickDeleteHandler()" tooltip="Delete" placement="top" show-delay="300">
+  <i class="fa fa-trash-o"></i>
+  <span>
+    <!-- <strong>Delete</strong> -->
+  </span>
+</a>
+<a *ngIf="!printDisable" href="#" class="btn btn-info" (click)="clickOtherHandler()" tooltip="Print" placement="top" show-delay="300">
+  <i class="fa fa-print"></i>
+  <span>
+    <!-- <strong>Admission</strong> -->
+  </span>
+</a>
+<a *ngIf="!oTDisable" href="#" class="btn btn-info" (click)="clickOTHandler()" tooltip="OT" placement="top" show-delay="300">
+  <i class="fa fa-user-md"></i>
+  <span>
+    <!-- <strong>Admission</strong> -->
+  </span>
+</a>
+<a *ngIf="!dischargeDisable" href="#" class="btn btn-info" (click)="clickDischargeHandler()" tooltip="Discharge" placement="top"
+  show-delay="300">
+  <i class="fa fa-wheelchair"></i>
+  <span>
+    <!-- <strong>Admission</strong> -->
+  </span>
+</a>
+<a *ngIf="!admissionDisable" href="#" class="btn btn-info" (click)="clickAdmissionHandler()" tooltip="Admission" placement="top"
+  show-delay="300">
+  <i class="fa fa-h-square"></i>
+  <span>
+    <!-- <strong>Admission</strong> -->
+  </span>
+</a>
+<label class="switch" *ngIf="!DischargeBedDisable" (change)="clickDischargeBedHandler()" tooltip="Discharge To Bed" placement="top"
+  show-delay="300">
+  <input type="checkbox" [ngModel]="itemdata.Is_Released_to_Bed">
+  <span class="slider round"></span>
+</label>
+<a *ngIf="!emergencyDisable" href="#" class="btn btn-info" (click)="clickEmergencyHandler()" tooltip="Emergency" placement="top"
+  show-delay="300">
+  <i class="fa fa-plus-square"></i>
+  <span>
+    <!-- <strong>Admission</strong> -->
+  </span>
+</a>
