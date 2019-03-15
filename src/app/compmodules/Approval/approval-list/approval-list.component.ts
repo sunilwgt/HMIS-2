@@ -105,7 +105,7 @@ export class ApprovalListComponent extends BaseComponent implements OnInit, OnDe
 
   // }
   private clickEventHandler(eventObj: ActionType): void {
-    console.log('eventobj' , eventObj);
+    // console.log('eventobj' , eventObj);
     switch (eventObj.mode) {
       case MODE_EDIT:
         this.compLoadManager.redirect(RL_APPROVAL);

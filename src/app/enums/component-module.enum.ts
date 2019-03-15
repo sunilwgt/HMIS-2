@@ -73,7 +73,9 @@ export enum ComponentModule {
   ApprovalListModule,
   ApprovedListModule,
   ApprovalDashboardListModule,
-  ApprovalDashboardModule
+  ApprovalDashboardModule,
+  RejectedModule,
+  RejectedListModule
 }
 
 

@@ -103,7 +103,7 @@ export class HmisExternalApisService {
   private handleError(error: any, requestid: string) {
     this.loader.showLoader = false;
     this._result.next({ resulttype: RESULT_ERROR, result: error, requestid: requestid });
-    console.log(error)
+    // console.log(error)
   }
 
 

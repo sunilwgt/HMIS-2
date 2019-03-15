@@ -3,6 +3,8 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import 'icons/font-awesome/css/font-awesome.min.css';
 @import 'icons/themify-icons/themify-icons.css';
+// @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 @media screen and(max-width:1023px) {
     .page-wrapper {
         margin-left: 60px;

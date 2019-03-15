@@ -82,17 +82,17 @@ export class ApprovalComponent extends BaseComponent implements OnInit {
 
     if (data.resulttype === RESULT_TYPE_GET_HOSPITAL_DETAIL_LIST) {
       this.hospitaldata = data.result[0];
-      console.log('hospital details', this.hospitaldata);
+      // console.log('hospital details', this.hospitaldata);
     }
     if (data.resulttype === RESULT_TYPE_GET_ACTION_FOR_APPROVER) {
       // this.hospitaldata = data.result[0];
-      console.log('RESULT_TYPE_GET_ACTION_FOR_APPROVER details', data);
+      // console.log('RESULT_TYPE_GET_ACTION_FOR_APPROVER details', data);
       this.ActionList = data.result;
     }
 
     if (data.resulttype === RESULT_TYPE_SET_APPROVAL) {
       // this.hospitaldata = data.result[0];
-      console.log('Approval set result', data.result[0]);
+      // console.log('Approval set result', data.result[0]);
 
       this.compLoadManager.redirect(RL_APPROVAL_LIST);
       this.hmisApi.getApprovalSearch("");
@@ -101,7 +101,7 @@ export class ApprovalComponent extends BaseComponent implements OnInit {
     }
 
     if (data.resulttype === RESULT_TYPE_UPDATEAPPROVAL_LIST) {
-      console.log('Approval update result', data);
+      // console.log('Approval update result', data);
 
       this.compLoadManager.redirect(RL_APPROVAL_LIST);
       this.hmisApi.getApprovalSearch("");
@@ -114,14 +114,14 @@ export class ApprovalComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.updateDataForEVMode();
     if (this.state.currentstate === MODE_ADD) {
-      console.log('current state ', this.state.currentstate)
+      // console.log('current state ', this.state.currentstate)
       this.compData = new ApprovalModal();
     }
   }
 
 
   invokeAddFunction(): void {
-    console.log('add compdata', this.compData);
+    // console.log('add compdata', this.compData);
     // this.hmisApi.setDepartment(this.compData);
   }
 
@@ -187,7 +187,7 @@ export class ApprovalComponent extends BaseComponent implements OnInit {
       amount: Number(this.compData.package_amount == undefined ? 0 : this.compData.package_amount)
     }
     this.amountInWords = this.comonService.convertNumberToWords(this.finalAmount);
-    console.log('line 225', this.amountInWords);
+    // console.log('line 225', this.amountInWords);
     this.total_bill;
     this.individualChargesEditable = false;
     this.billSummery.packageBilling = evntObj.data;
@@ -197,10 +197,10 @@ export class ApprovalComponent extends BaseComponent implements OnInit {
     this.IsAdjust = evnt.target.checked;
     this.compData.IsAdjust = this.IsAdjust;
 
-    console.log('adjust', this.compData.isAdjust);
-    console.log('compdata', this.compData);
+    // console.log('adjust', this.compData.isAdjust);
+    // console.log('compdata', this.compData);
     const createdby = this.compData.created_by == undefined ? this.hmisApi.userDetail.created_by : this.compData.created_by;
-    console.log('created by', createdby);
+    // console.log('created by', createdby);
   }
 
   private onKeyUpSearchForPatient(evntObj: any): void {
@@ -247,7 +247,7 @@ export class ApprovalComponent extends BaseComponent implements OnInit {
 
     this.newval = event.newval;
     this.compData[event.propname] = event.newval;
-    console.log('compdat', this.compData);
+    // console.log('compdat', this.compData);
   }
 
   protected submitClickHandler() {
@@ -314,7 +314,7 @@ export class ApprovalComponent extends BaseComponent implements OnInit {
 
   updateCharges(evnt) {
 
-    console.log('enters update charge', evnt.price);
+    // console.log('enters update charge', evnt.price);
     if (evnt.label != undefined && evnt.price != undefined) {
       let priceModel = {
         label: evnt.label,
@@ -336,9 +336,9 @@ export class ApprovalComponent extends BaseComponent implements OnInit {
 
     this.amountInWords = this.comonService.convertNumberToWords(this.finalAmount);
     this.total_bill;
-    console.log('pre final amount ', this.finalAmount);
+    // console.log('pre final amount ', this.finalAmount);
     this.finalAmount = this.total_bill - this.totalAdvance;
-    console.log('post final amount ', this.finalAmount);
+    // console.log('post final amount ', this.finalAmount);
 
 
   }

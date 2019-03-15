@@ -4,7 +4,7 @@ import { BaseServices } from '../../../utils/base.service';
 import { HelperFunction } from '../../../utils/helper-function.service';
 import { State } from '../../../models/state';
 import { DatePipe } from '@angular/common';
-import { MODE_EDIT, DISCHARGE, RL_DISCHARGE_CERTIFICATE, MODE_ADD, RESULT_TYPE_SET_BILLING, RESULT_TYPE_SET_EXTERNAL_BILLING, RESULT_TYPE_GET_HOSPITAL_DETAIL_LIST, RESULT_TYPE_SET_PATIENTAPPROVAL } from '../../../models/common';
+import { MODE_EDIT, DISCHARGE, RL_DISCHARGE_CERTIFICATE, MODE_ADD, RESULT_TYPE_SET_BILLING, RESULT_TYPE_SET_EXTERNAL_BILLING, RESULT_TYPE_GET_HOSPITAL_DETAIL_LIST, RESULT_TYPE_SET_PATIENTAPPROVAL, MODE_DISCHARGE } from '../../../models/common';
 import { ISelectOption } from '../../../interfaces/ISelectOption';
 import { PriceListOption } from '../../../models/admission';
 import { Packages, BillingDistribution, PatientApproval } from '../../../models/opd';
@@ -35,7 +35,7 @@ export class BillingPreviewComponent extends BaseComponent implements OnInit {
 
   hmisApiSubscribe(data: any): void {
     if (data.resulttype === RESULT_TYPE_SET_BILLING) {
-this.setpateintapproval(data.result);
+         this.setpateintapproval(data.result);
       this.distributionBillingModel = this.comonService.updateBillingDistributionObject(this.individualCharges, this.patientDetails.registration_id, this.patientDetails.admission_id, data.result, this.distributionBillingModel);
       this.distributionBillingModel.created_by = this.hmisApi.userDetail.created_by;
       this.distributionBillingModel.modified_by = this.hmisApi.userDetail.modified_by;
@@ -44,25 +44,27 @@ this.setpateintapproval(data.result);
     if (data.resulttype === RESULT_TYPE_SET_EXTERNAL_BILLING) {
       if (data.result) {
         this.compLoadManager.closePopup();
+        // this.state.currentstate === MODE_DISCHARGE;
+        this.state.currentstate = DISCHARGE;
         this.compLoadManager.redirect(RL_DISCHARGE_CERTIFICATE);
       }
     }
     if (data.resulttype === RESULT_TYPE_GET_HOSPITAL_DETAIL_LIST) {
       this.hospitaldata = data.result[0];
-      console.log('hospital details', this.hospitaldata);
+      // console.log('hospital details', this.hospitaldata);
     }
     if (data.resulttype === RESULT_TYPE_SET_PATIENTAPPROVAL) {
-      console.log('RESULT_TYPE_SET_PATIENTAPPROVAL', data);
-      console.log('RESULT_TYPE_SET_PATIENTAPPROVAL', data);
+      // console.log('RESULT_TYPE_SET_PATIENTAPPROVAL', data);
+      // console.log('RESULT_TYPE_SET_PATIENTAPPROVAL', data);
 
     }
   }
 
   ngOnInit() {
     // console.clear();
-    console.log('mode ernguer' , this.state.currentstate);
-    console.log('compdata pateintdetails', this.state.stateData.compData);
-    console.log('billingmodel', this.state.stateData.billingModel);
+    // console.log('mode ernguer' , this.state.currentstate);
+    // console.log('compdata pateintdetails', this.state.stateData.compData);
+    // console.log('billingmodel', this.state.stateData.billingModel);
 
     if (this.state.currentstate === DISCHARGE || this.state.currentstate === MODE_ADD) {
       var count = 1;
@@ -123,13 +125,13 @@ this.setpateintapproval(data.result);
       }
 
       // console.log("distribution billing in price list   ", this.distributionBillings);
-      console.log("advanceBilling ", this.advanceBilling);
-      console.log("packageDetails", this.packageDetails);
-      console.log("distributionBilling", this.distributionBilling);
-      console.log("patientDetails", this.patientDetails);
-      console.log("billingModel", this.billingModel);
+      // console.log("advanceBilling ", this.advanceBilling);
+      // console.log("packageDetails", this.packageDetails);
+      // console.log("distributionBilling", this.distributionBilling);
+      // console.log("patientDetails", this.patientDetails);
+      // console.log("billingModel", this.billingModel);
     }
-    console.log("billingModell", this.billingModel);
+    // console.log("billingModell", this.billingModel);
 
     
   }
@@ -150,18 +152,19 @@ this.setpateintapproval(data.result);
   }
 
   setpateintapproval(billingid){
-    console.log('billing id ' , billingid)
     this.Patientapproval.admission_id = this.billingModel.admission_id;
-    this.Patientapproval.approval_status_id = this.billingModel.approvalStatusId;
+    this.Patientapproval.approval_status_id =   '73e53140-947a-451f-bc3e-31018d2a8ba1' // this.billingModel.approvalStatusId;
     this.Patientapproval.assigned_to = this.billingModel.ApproverId;
     this.Patientapproval.created_by = this.billingModel.created_by;
     this.Patientapproval.modified_by = this.billingModel.modified_by;
     this.Patientapproval.patient_id = this.billingModel.patient_id;
     this.Patientapproval.transaction_id = billingid;
     this.Patientapproval.transaction_type = 'Patient Billing';
-    console.log('patient approval data ' , this .Patientapproval)
-
-  this.hmisApi.setPatientApproval(this.Patientapproval);
+    this.Patientapproval.notification_sent = null;
+    this.Patientapproval.Dueamount = 100;
+    this.Patientapproval.TotalAmount = 1000;
+    this.Patientapproval.approval_note = this.billingModel.approval_note;
+     this.hmisApi.setPatientApproval(this.Patientapproval);
   }
 
 

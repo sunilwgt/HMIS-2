@@ -94,3 +94,11 @@
   :host /deep/ .data-table .data-table-row.selected {
       background-color: #E4EDF9;
   }
+
+  .positive {
+    background-color: green;
+}
+
+.negative {
+    background-color: red;
+}

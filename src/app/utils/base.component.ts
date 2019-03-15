@@ -103,7 +103,7 @@ export class BaseComponent implements OnDestroy {
 
   protected valueChangeHandler(evt: CompDataInfo): void {
     this.compData[evt.propname] = evt.newval;
-    console.log('this.compdata' , this.compData);
+    // console.log('this.compdata' , this.compData);
   }
 
   protected submitClickHandler(): void {

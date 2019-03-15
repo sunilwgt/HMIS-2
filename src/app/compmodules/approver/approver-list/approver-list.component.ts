@@ -27,7 +27,7 @@ export class ApproverListComponent extends BaseComponent implements OnInit, OnDe
     this.hmisApi.getapproverSearch("");
   }
   hmisApiSubscribe(data: any): void {
-    console.log('approve list' , data);
+    // console.log('approve list' , data);
     // if (data.resulttype === RESULT_TYPE_GET_BUILDING_LIST) {
     //   this.building = data.result;
     //   this.buildingResource = new DataTableResource(this.building);

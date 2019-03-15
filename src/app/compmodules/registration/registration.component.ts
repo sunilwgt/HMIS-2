@@ -57,7 +57,7 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
 
   hmisApiSubscribe(data: any): void {
 
-console.clear();
+// console.clear();
 console.log('data result type' , data.resulttype)
     
     if (data.resulttype === RESULT_TYPE_SET_PATIENT) {

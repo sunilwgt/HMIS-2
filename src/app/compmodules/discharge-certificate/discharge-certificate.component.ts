@@ -12,7 +12,12 @@ import { DatePipe } from '@angular/common';
 import { State } from '../../models/state';
 import { Discharge } from '../../models/admission';
 declare var jsPDF: any;
-
+import {
+  MatSnackBar,
+  MatSnackBarConfig,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material';
 @Component({
   selector: 'app-discharge-certificate',
   templateUrl: './discharge-certificate.component.html',
@@ -25,11 +30,12 @@ export class DischargeCertificateComponent extends BaseComponent implements OnIn
   private patientData = [];
   private _updateStateObj: State;
   private dischargeCertificateModel: DischargeCertificate = new DischargeCertificate();
-  private isNotEditable: boolean = false;
+  private isNotEditable: boolean = true;
   private isVisible: boolean = false;
   private hospitaldata;
 
-  constructor(baseService: BaseServices, private helperFunc: HelperFunction, public datepipe: DatePipe) {
+  constructor(baseService: BaseServices, private helperFunc: HelperFunction,
+    private snackbar: MatSnackBar, public datepipe: DatePipe) {
     super(baseService);
     this.hmisApi.getHospitalSettings("");
 
@@ -37,6 +43,7 @@ export class DischargeCertificateComponent extends BaseComponent implements OnIn
 
   hmisApiSubscribe(data: any): void {
     if (data.resulttype === RESULT_TYPE_VALIDATE_BILLING_ADJUSTMENT) {
+      console.log('RESULT_TYPE_VALIDATE_BILLING_ADJUSTMENT' , data);
     }
     if (data.resulttype === RESULT_TYPE_GET_DISCHARGED_IPD_LIST) {
       this.createPatientlist(data.result);
@@ -54,26 +61,46 @@ export class DischargeCertificateComponent extends BaseComponent implements OnIn
       this.hmisApi.getBillingSearch("");
     }
     if (data.resulttype === RESULT_TYPE_GET_BILLING_LIST) {
-      this.billingid = '';
+      console.log('this.compData.patient_admission_id ' , this.compData.patient_admission_id);
+      console.log('billing list ' , data.result);
+      console.log('compdata ' , this.compData);
+
+
+      this.billingid = null;
       data.result.forEach(element => {
         if (element.admission_id === this.compData.patient_admission_id) {
           this.billingid = element.ID;
         } else {
+          console.log('billing id not found');
         }
       });
+      if(this.billingid === null){
+        alert("Patient Does not have billing")
+        this.snackbar.open('Patient Does not have Billing', 'Close',
+        {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right',
+        });
+      }
+      console.log('billing id ' , this.billingid)
     }
     if (data.resulttype === RESULT_TYPE_GET_BILLING_LIST_FOR_DISCHARGE) {
-      this.billingid = '';
+      this.billingid = null;
       data.result.forEach(element => {
         if (element.admission_id === this.compData.compData.admission_id) {
           this.billingid = element.ID;
         } else {
         }
       });
+      console.log('billing id for discharge ' , this.billingid)
+
     }
 
 
     if (data.resulttype === RESULT_TYPE_SET_DISCHARGE_CERTIFICATE) {
+      console.log('set discharge certificate' , data);
+      this.createPdfStructureadd(this.compData);
       this.hmisApi.getDischargeCertificateList("");
       this.compLoadManager.closePopup();
       this.compLoadManager.redirect(RL_DISCHARGE_CERTIFICATE_LIST);
@@ -118,17 +145,26 @@ export class DischargeCertificateComponent extends BaseComponent implements OnIn
   }
 
   ngOnInit() {
+    console.log('current state' , this.state.currentstate);
+    console.log('is not editable' , this.isNotEditable);
+
     this._updateStateObj = this.stateService.createState(UPDATE_FIELD_STATE);
     if (this.state.currentstate === MODE_ADD) {
       this.updateDataForEVMode();
+      console.log('statedata' , this.state.stateData);
       this.compData = new Discharge();
-    }  else {
-      this.compData = this.state.stateData;
       this.isNotEditable = true;
-    }
-    if (this.state.currentstate === 'Discharge') {
+      console.log('is not editable in add mode' , this.isNotEditable)
+    }  if (this.state.currentstate === 'Discharge') {
+      this.isNotEditable = false;
+      this.compData = this.state.stateData;
+      console.log('compdata' , this.state.stateData);
       this.hmisApi.getBillingSearchfordischarge("");
+    } if(this.state.currentstate === MODE_EDIT){
+      this.compData = this.state.stateData;
+      this.isNotEditable = false;
     }
+   
   }
 
   private onKeyUpPatientRegNo(evntObj: any): void {
@@ -139,6 +175,9 @@ export class DischargeCertificateComponent extends BaseComponent implements OnIn
 
   protected submitClickHandler() {
 
+    console.log('current state' , this.state.currentstate);
+    console.log('compdata' , this.compData);
+
     if (this.state.currentstate === MODE_ADD) {
       this.dischargeCertificateModel.patient_id = this.compData.patient_registration_id;
       this.dischargeCertificateModel.admission_id = this.compData.patient_admission_id;
@@ -148,9 +187,16 @@ export class DischargeCertificateComponent extends BaseComponent implements OnIn
       this.dischargeCertificateModel.discharge_note = this.compData.discharge_note;
       this.dischargeCertificateModel.created_by = this.hmisApi.userDetail.created_by;
       this.dischargeCertificateModel.modified_by = this.hmisApi.userDetail.modified_by;
+      console.log('dischargecertificate model' , this.dischargeCertificateModel);
+
+      console.log('this.dischargeCertificateModel.patient_id' , this.dischargeCertificateModel.patient_id);
+      console.log('this.dischargeCertificateModel.admission_id' , this.dischargeCertificateModel.admission_id);
+      console.log('this.billingid' , this.billingid);
+
+
       this.hmisApi.ValidateBillingAdjustemnt(this.dischargeCertificateModel.patient_id, this.dischargeCertificateModel.admission_id, this.billingid)//"0d15a6d8-556f-42ba-8043-8faeb8ade666"
       this.hmisApi.setDischargeCertficate(this.dischargeCertificateModel);
-      this.createPdfStructureadd(this.compData);
+      // this.createPdfStructureadd(this.compData);
 
 
     }
@@ -163,8 +209,15 @@ export class DischargeCertificateComponent extends BaseComponent implements OnIn
       this.dischargeCertificateModel.discharge_note = this.compData.discharge_note;
       this.dischargeCertificateModel.created_by = this.hmisApi.userDetail.created_by;
       this.dischargeCertificateModel.modified_by = this.hmisApi.userDetail.modified_by;
+      console.log('dischargecertificate model' , this.dischargeCertificateModel);
+
+      console.log('this.dischargeCertificateModel.patient_id' , this.compData.compData.registration_id);
+      console.log('this.dischargeCertificateModel.admission_id' , this.compData.compData.admission_id);
+      console.log('this.billingid' , this.billingid);
+
+
       this.hmisApi.ValidateBillingAdjustemnt(this.dischargeCertificateModel.patient_id, this.dischargeCertificateModel.admission_id, this.billingid)//"0d15a6d8-556f-42ba-8043-8faeb8ade666"
-      this.createPdfStructuredischarge(this.compData);
+      // this.createPdfStructuredischarge(this.compData);
       this.hmisApi.setDischargeCertficate(this.dischargeCertificateModel);
     }
     else {

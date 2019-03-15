@@ -16,9 +16,12 @@ export const RESULT_TYPE_GET_PENDING_DASHBOARD_LIST: string = "rlPendingDashboar
 export const RESULT_TYPE_DELETE_APPROVAL_DASHBOARD_LIST: string = "rlDeleteApproverDashboardList";
 
 export const RESULT_TYPE_GET_APPROVED_DASHBOARD_LIST: string = "rlApprovedDashboardList";
-
-
+export const RESULT_TYPE_GET_REJECTED_LIST: string = "rlRejectedList";
 export const RESULT_TYPE_GET_APPROVER_DASHBOARD_LISTT: string = "rlApproverDashboardListt";
+
+export const RESULT_TYPE_GET_REJECTED_LIST_FOR_CHART: string = "rlRejectedListForChart";
+export const RESULT_TYPE_GET_PENDING_LIST_FOR_CHART: string = "rlPendingListForchart";
+export const RESULT_TYPE_GET_APPROVED_LIST_FOR_CHART: string = "rlApprovedListForChart";
 
 
 
@@ -98,6 +101,8 @@ export const RL_APPROVAL: string = "rlApproval";
 export const RL_APPROVAL_LIST: string = "rlApproval";
 
 export const RL_APPROVAL_DASHBOARD_LIST: string = "rlApprovalDashboardList";
+export const RL_REJECTED_LIST: string = "rlRejectedList";
+
 
 export const RL_APPROVED_LIST: string = "rlApprovedList";
 

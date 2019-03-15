@@ -35,7 +35,7 @@ export class ApprovedListComponent extends BaseComponent implements OnInit {
   private approveddata = [];
   private notapproveddata = [];
 
-  
+
 
 
   constructor(baseService: BaseServices, public datepipe: DatePipe, private helperFunc: HelperFunction) {
@@ -70,26 +70,25 @@ export class ApprovedListComponent extends BaseComponent implements OnInit {
       // this.hospitaldata = data.result[0];
       this.approveddata = [];
       this.approveddata = data.result;
+      //   this.notapproveddata = [];
+      // for(let d of data.result){
+      //  if(d.approval_status_name === 'Approved'){
+      // this.approveddata.push(d);
+      //  }else{
+      //   this.notapproveddata.push(d);
+      //  }
+      this.approvedlListResource = new DataTableResource(this.approveddata);
+      this.approvedlListResource.count().then(count => {
+        this.approvedListCount = count;
+      });
+      const para = { offset: 0, limit: 15 }
+      this.reloadapprovedList(para);
+    }
+  }
 
-
-    //   this.notapproveddata = [];
-    // for(let d of data.result){
-    //  if(d.approval_status_name === 'Approved'){
-    // this.approveddata.push(d);
-    //  }else{
-    //   this.notapproveddata.push(d);
-    //  }
-    
-
-    this.approvedlListResource = new DataTableResource(this.approveddata);
-    this.approvedlListResource.count().then(count => {
-      this.approvedListCount = count;
-    });
-
-    }}
-  
 
   reloadapprovedList(params) {
+    // console.log('paramss', params);
     this.approvedlListResource.query(params).then(approveddata => this.approveddata = approveddata);
   }
 
@@ -111,9 +110,9 @@ export class ApprovedListComponent extends BaseComponent implements OnInit {
     }
   }
 
-  reloadAdmittedPatientsList(params) {
-    this.admissionListResource.query(params).then(admissionList => this.admissionList = admissionList);
-  }
+  // reloadAdmittedPatientsList(params) {
+  //   this.admissionListResource.query(params).then(admissionList => this.admissionList = admissionList);
+  // }
 
 
   // special params:
@@ -124,7 +123,10 @@ export class ApprovedListComponent extends BaseComponent implements OnInit {
     paginationLimit: 'Max results',
     paginationRange: 'Result range'
   };
-
+  public getColor(name){
+    // console.log('name' , name);
+    // return name === 'Raman' ? "green" : "red";
+ }
   private clickEventHandler(eventObj: ActionType): void {
     switch (eventObj.mode) {
       case MODE_EDIT:
@@ -170,6 +172,6 @@ export class ApprovedListComponent extends BaseComponent implements OnInit {
 
   }
 
-  
+
 
 }

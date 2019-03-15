@@ -52,7 +52,7 @@ export class HmisAuthService implements OnDestroy {
         userrole = data.result;
         this._roleManager.userRole = userrole;
         this.getloginvalue.emit(userrole);
-        console.log(userrole);
+        // console.log(userrole);
         this.loggedIn.next(true);
         this._router.navigate(['/']);
       }

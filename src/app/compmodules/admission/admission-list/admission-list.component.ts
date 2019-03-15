@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableTranslations, DataTableResource } from 'angular5-data-table';
 import { BaseComponent } from '../../../utils/base.component';
 import { BaseServices } from '../../../utils/base.service';
@@ -8,6 +8,14 @@ import * as _ from 'lodash';
 import { DatePipe } from '@angular/common';
 import { State } from '../../../models/state';
 import { HelperFunction } from '../../../utils/helper-function.service';
+import { NgbModal,ModalDismissReasons, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+
+import {
+  MatSnackBar,
+  MatSnackBarConfig,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material';
 declare var jsPDF: any;
 @Component({
   selector: 'app-admission-list',
@@ -16,7 +24,13 @@ declare var jsPDF: any;
 })
 
 export class AdmissionListComponent extends BaseComponent implements OnInit {
-
+  modalOption: NgbModalOptions;
+  private modalRef: NgbModalRef;
+  closeResult: any;
+  private displaydialog: boolean = false;
+  private clickdialog: boolean = false;
+  private rowdata:any;
+  
   private admissionList = [];
   private admissionListResource = new DataTableResource([]);
   private admissionListCount = 0;
@@ -29,7 +43,8 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
   private hospitaldata;
   private patient_registration_no: string;
 
-  constructor(baseService: BaseServices, public datepipe: DatePipe, private helperFunc: HelperFunction) {
+  constructor(baseService: BaseServices, private modalServices: NgbModal , public datepipe: DatePipe, private helperFunc: HelperFunction,
+    private snackbar: MatSnackBar, ) {
     super(baseService);
     this.hmisApi.getAdmittedPatientList("");
     this.hmisApi.getHospitalSettings("");
@@ -43,6 +58,9 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
       this.admissionListResource.count().then(count => {
         this.admissionListCount = count;
       });
+      const para = { offset: 0, limit: 15 }
+      this.reloadAdmittedPatientsList(para);
+      // }
     }
 
     if (data.resulttype === RESULT_TYPE_DELETE_ADMISSION) {
@@ -54,7 +72,7 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
     }
     if (data.resulttype === RESULT_TYPE_GET_HOSPITAL_DETAIL_LIST) {
       this.hospitaldata = data.result[0];
-      console.log('hospital details', this.hospitaldata);
+      // console.log('hospital details', this.hospitaldata);
     }
   }
 
@@ -88,7 +106,31 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
     paginationRange: 'Result range'
   };
 
+
+
+  ongridclick(e , con){
+if(this.clickdialog === false){
+this.displaydialog = true;
+this.rowdata = e.row.item;
+this.open(con)
+}
+  }
+
+
+  
+  open(content) {
+    this.modalRef =    this.modalServices.open(content , {size:'lg'})
+     }
+     closemodal(reason){
+   this.modalRef.close()
+     }
+
+
   private clickEventHandler(eventObj: ActionType): void {
+    this.clickdialog = true;
+    setInterval(() => {
+    this.clickdialog = false;
+  }, 1);
     switch (eventObj.mode) {
       case MODE_EDIT:
         this.compLoadManager.redirect(RL_ADMISSION);
@@ -103,13 +145,34 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
         break;
 
       case MODE_ADD:
-        this.stateService.stateData = eventObj.data;
-        this.compLoadManager.redirect(RL_DISCHARGE_MODAL);
-        break;
 
+        // console.log('discharge obj', eventObj)
+        if (eventObj.data.Discharged > 0) {
+          this.snackbar.open('Patient discharged', 'Close',
+            {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'right',
+            });
+        } else {
+          this.stateService.stateData = eventObj.data;
+          this.compLoadManager.redirect(RL_DISCHARGE_MODAL);
+        }
+        break;
       case MODE_OT:
-        this.hmisApi.getPatientDetailsForOTOnSearchId(eventObj.data.ID);
-        this.compLoadManager.redirect(RL_OT)
+
+        if (eventObj.data.OpenOT > 0) {
+          this.snackbar.open('Patient has an active OT entry. Please update patient previous OT details.', 'Close',
+            {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'right',
+            });
+        } else {
+          this.hmisApi.getPatientDetailsForOTOnSearchId(eventObj.data.ID);
+          this.compLoadManager.redirect(RL_OT)
+        }
+
         break;
       case MODE_OTHERS:
         // this.comonService.createPdfStructure(eventObj.data, "ADMISSION");
@@ -261,40 +324,40 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
       doc.text("when advised and guided bt the rules and regulations of the Nursing Home.The patient vcan be ", 45, 600, 'left');
       doc.text("reffer to some other Institution for better management, as the patient might require some ", 45, 615, 'left');
       doc.text("specific treatment which we may not have required Amenities ", 45, 630, 'left');
-    
 
 
 
-    // signature
-    doc.setFont("helvetica");
-    doc.setFontType("italic");
-    doc.setTextColor(31, 132, 0);
-    doc.setLineWidth(1.5);
-    doc.setDrawColor(31, 132, 0);
-    doc.line(40, 700, 180, 700);
-    doc.text("Concerned Signature", 50, 715, 'left');
 
-    doc.setFont("helvetica");
-    doc.setFontType("italic");
-    doc.setTextColor(31, 132, 0);
-    doc.setLineWidth(1.5);
-    doc.setDrawColor(31, 132, 0);
-    doc.line(400, 700, 530, 700);
-    doc.text("Patient Signature", 500, 715, 'right');
-    ///////////////////////////////////////////////////////////////////end body////////////////////////////////////////////////////
-    //footer
-    doc.setLineWidth(1.5);
-    doc.setDrawColor(31, 132, 0);
-    doc.line(40, 780, 550, 780);
+      // signature
+      doc.setFont("helvetica");
+      doc.setFontType("italic");
+      doc.setTextColor(31, 132, 0);
+      doc.setLineWidth(1.5);
+      doc.setDrawColor(31, 132, 0);
+      doc.line(40, 700, 180, 700);
+      doc.text("Concerned Signature", 50, 715, 'left');
 
-    doc.setFont("helvetica");
-    doc.setFontType("italic");
-    doc.setTextColor(134, 0, 0);
-    doc.setFontSize(10);
-    doc.text(this.hospitaldata.hospital_name +  " *Phone:"  + this.hospitaldata.phone_number, 290, 795, 'center');
+      doc.setFont("helvetica");
+      doc.setFontType("italic");
+      doc.setTextColor(31, 132, 0);
+      doc.setLineWidth(1.5);
+      doc.setDrawColor(31, 132, 0);
+      doc.line(400, 700, 530, 700);
+      doc.text("Patient Signature", 500, 715, 'right');
+      ///////////////////////////////////////////////////////////////////end body////////////////////////////////////////////////////
+      //footer
+      doc.setLineWidth(1.5);
+      doc.setDrawColor(31, 132, 0);
+      doc.line(40, 780, 550, 780);
 
-    doc.save(data.patient_name + '.pdf');
-  }
+      doc.setFont("helvetica");
+      doc.setFontType("italic");
+      doc.setTextColor(134, 0, 0);
+      doc.setFontSize(10);
+      doc.text(this.hospitaldata.hospital_name + " *Phone:" + this.hospitaldata.phone_number, 290, 795, 'center');
+
+      doc.save(data.patient_name + '.pdf');
+    }
 
   }
 

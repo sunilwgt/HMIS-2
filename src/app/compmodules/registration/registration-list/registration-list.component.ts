@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, Inject, NgZone } from '@angular/core';
 import { DataTable, DataTableTranslations, DataTableResource, DataTablePagination } from 'angular5-data-table';
 import { Registration } from '../../../models/registration';
 import { HelperFunction } from '../../../utils/helper-function.service';
@@ -9,6 +9,17 @@ import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import * as _ from 'lodash';
 import { DatePipe } from '@angular/common';
 import { UserDetail } from '../../../models/userole';
+
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
+import {
+  MatSnackBar,
+  MatSnackBarConfig,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material';
+import { ModalDismissReasons, } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 declare var jsPDF: any;
 
@@ -23,6 +34,13 @@ declare var jsPDF: any;
 })
 export class RegistrationListComponent extends BaseComponent implements OnInit {
 
+  modalOption: NgbModalOptions;
+  private modalRef: NgbModalRef;
+
+  closeResult: any;
+  private displaydialog: boolean = false;
+  private clickdialog: boolean = false;
+
   private patientsResource = new DataTableResource([]);
   private patients = [];
   private patientCount = 0;
@@ -35,14 +53,59 @@ export class RegistrationListComponent extends BaseComponent implements OnInit {
   private DoctorInfo: any;
   private pdfData: any;
   private hospitaldata;
-
+  admissionstatus: boolean;
+   private rowdata:any;
   @ViewChild(DataTable) patientsTable;
   @Inject('Window') private window: Window;
-
-  constructor(baseService: BaseServices, private helperFunc: HelperFunction, public datepipe: DatePipe) {
+  constructor(baseService: BaseServices, private helperFunc: HelperFunction, private modalServices: NgbModal,
+    public datepipe: DatePipe, private snackbar: MatSnackBar, private zone: NgZone ,public modal: NgbActiveModal) {
     super(baseService);
     this.hmisApi.patientSearch("");
     this.hmisApi.getHospitalSettings('');
+  }
+
+
+  ongridclick(e , con){
+if(this.clickdialog === false){
+this.displaydialog = true;
+this.rowdata = e.row.item;
+this.open(con)
+
+
+}
+  }
+
+
+  open(content) {
+ this.modalRef =    this.modalServices.open(content , {size:'lg'})
+  }
+  closemodal(reason){
+this.modalRef.close()
+  }
+  
+
+  // private getDismissReason(reason: any): string {
+  //   if (reason === ModalDismissReasons.ESC) {
+  //     return 'by pressing ESC';
+  //   } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+  //     return 'by clicking on a backdrop';
+  //   } else {
+  //     return `with: ${reason}`;
+  //   }
+  // }
+
+
+
+  public openSnackBar(errorText: string): void {
+    this.zone.run(() => {
+      const snackBar = this.snackbar.open(errorText, 'OK', {
+        verticalPosition: 'bottom',
+        horizontalPosition: 'center',
+      });
+      snackBar.onAction().subscribe(() => {
+        snackBar.dismiss();
+      })
+    });
   }
 
   hmisApiSubscribe(data: any): void {
@@ -56,13 +119,15 @@ export class RegistrationListComponent extends BaseComponent implements OnInit {
       this.patientsResource.count().then(count => {
         this.patientCount = count;
       });
+      const para = { offset: 0, limit: 15 }
+      this.reloadPatients(para);
     }
 
     if (data.resulttype === RESULT_TYPE_DELETE_PATIENT) {
       this.hmisApi.patientSearch("");
     }
 
-    if (data.resulttype === RESULT_TYPE_GET_PATIENT_AS_PER_ID_FOR_EXT) {  
+    if (data.resulttype === RESULT_TYPE_GET_PATIENT_AS_PER_ID_FOR_EXT) {
       this.state.stateData = data.result;
       for (let key in data.result.hmis_patient_ext) {
         if (data.result.hmis_patient_ext[key]['attribute_name'] == "patient_profession") {
@@ -104,17 +169,28 @@ export class RegistrationListComponent extends BaseComponent implements OnInit {
     paginationRange: 'Result range'
   };
 
+  //   getme(v){
+  // console.log('item is' , v)
+  // if(v.patient_first_name === 's'){
+  // return true
+  // }else {
+  //   return false;
+  // }
+  //   }
 
   private clickEventHandler(eventObj: ActionType): void {
+    this.clickdialog = true;
+    setInterval(() => {
+    this.clickdialog = false;
+  }, 1);
     switch (eventObj.mode) {
       case MODE_EDIT:
-      this.compLoadManager.redirect(RL_REGISTRATION);
+        this.compLoadManager.redirect(RL_REGISTRATION);
         // this.hmisApi.getPatientAsPerIdFromEXT(eventObj.data.ID);
-
         break;
 
       case MODE_VIEW:
-      this.compLoadManager.redirect(RL_REGISTRATION);
+        this.compLoadManager.redirect(RL_REGISTRATION);
         // this.hmisApi.getPatientAsPerIdFromEXT(eventObj.data.ID);
         break;
 
@@ -127,10 +203,23 @@ export class RegistrationListComponent extends BaseComponent implements OnInit {
         this.pdfData = eventObj;
         break;
       case MODE_ADMISSION:
-        this.hmisApi.getRegisteredPatientById(eventObj.data.ID);
-        this.compLoadManager.redirect(RL_ADMISSION);
-        break;
 
+        if (eventObj.data.OpenAdmission > 0) {
+          // this.openSnackBar('Patient Already Admitted !')
+          this.snackbar.open('Patient has already an open admission. Please update / discharge open admision if any', 'Close',
+            {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'right',
+            });
+        } else {
+      this.displaydialog = false;
+
+          this.hmisApi.getRegisteredPatientById(eventObj.data.ID);
+          this.compLoadManager.redirect(RL_ADMISSION);
+        }
+
+        break;
       default:
         if (eventObj.atypeId === RL_ADMISSION) {
           this.compLoadManager.redirect(RL_ADMISSION);
@@ -192,7 +281,7 @@ export class RegistrationListComponent extends BaseComponent implements OnInit {
     // doc.text("Phone: (03482) 224510/224511), 9434229741, 9333311277", 290, 105, 'center');
     doc.text("Phone:" + this.hospitaldata.phone_number, 290, 105, 'center');
 
-    
+
 
     doc.setFont("helvetica");
     doc.setFontType("italic");
@@ -263,7 +352,7 @@ export class RegistrationListComponent extends BaseComponent implements OnInit {
     doc.setTextColor(134, 0, 0);
     doc.setFontSize(10);
     // doc.text("Jeevandeep Nursing Home * Phone: (03482) 224510/224511), 9434229741, 9333311277", 290, 795, 'center');
-    doc.text( this.hospitaldata.hospital_name +  " *Phone:"  + this.hospitaldata.phone_number, 290, 795, 'center');
+    doc.text(this.hospitaldata.hospital_name + " *Phone:" + this.hospitaldata.phone_number, 290, 795, 'center');
     doc.save(fileName);
 
   }

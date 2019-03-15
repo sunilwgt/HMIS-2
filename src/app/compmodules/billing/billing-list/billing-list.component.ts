@@ -8,6 +8,7 @@ import { BaseComponent } from '../../../utils/base.component';
 import { BaseServices } from '../../../utils/base.service';
 import { DatePipe } from '@angular/common';
 import { Billing } from '../../../models/opd';
+import { NgbModalOptions, NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-billing-list',
@@ -15,6 +16,14 @@ import { Billing } from '../../../models/opd';
   styleUrls: ['./billing-list.component.scss']
 })
 export class BillingListComponent extends BaseComponent implements OnInit, OnDestroy {
+
+
+  modalOption: NgbModalOptions;
+  private modalRef: NgbModalRef;
+  closeResult: any;
+  private displaydialog: boolean = false;
+  private clickdialog: boolean = false;
+  private rowdata: any;
 
   private billing = [];
   private billingResource = new DataTableResource([]);
@@ -26,15 +35,15 @@ export class BillingListComponent extends BaseComponent implements OnInit, OnDes
   private eventData: any;
   private patientData: any = new Billing();
 
-  constructor(baseService: BaseServices, private helperFunc: HelperFunction, public datepipe: DatePipe) {
+  constructor(baseService: BaseServices, private modalServices: NgbModal, private helperFunc: HelperFunction, public datepipe: DatePipe) {
     super(baseService);
     this.hmisApi.getBillingSearch("");
   }
 
   hmisApiSubscribe(data: any): void {
     if (data.resulttype === RESULT_TYPE_GET_BILLING_LIST) {
-      console.clear();
-      console.log(data.result);
+      // console.clear();
+      // console.log(data.result);
       this.billing = data.result;
       this.billingResource = new DataTableResource(this.billing);
       this.billingResource.count().then(count => {
@@ -87,7 +96,27 @@ export class BillingListComponent extends BaseComponent implements OnInit, OnDes
   //   console.log("dddddddddddddddddddddddd",data)
 
   // }
+
+  ongridclick(e, con) {
+    if (this.clickdialog === false) {
+      this.displaydialog = true;
+      this.rowdata = e.row.item;
+      this.open(con)
+    }
+  }
+
+  open(content) {
+    this.modalRef = this.modalServices.open(content, { size: 'lg' })
+  }
+  closemodal(reason) {
+    this.modalRef.close()
+  }
+
   private clickEventHandler(eventObj: ActionType): void {
+    this.clickdialog = true;
+    setInterval(() => {
+    this.clickdialog = false;
+  }, 1);  
     switch (eventObj.mode) {
       case MODE_EDIT:
         this.compLoadManager.redirect(RL_BILLING);

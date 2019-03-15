@@ -58,7 +58,7 @@ import {
   RL_PRESCRIPTION_LIST, RL_PRESCRIPTION, RL_WARD_TYPE_MODAL, RL_FORGET_PASSWORD_MODAL, RL_OT, RL_OT_LIST,
   RL_DISCHARGE_CERTIFICATE, RL_DISCHARGE_CERTIFICATE_LIST, RL_SAVE_MESSAGE_MODAL, RL_HOSPITAL_DETAILS_LIST,
   RL_DOCTOR_LIST, RL_WARD_LIST, RL_WARD, RL_BED_LIST, RL_OT_TYPE_LIST, RL_BED, RL_OT_TYPE, RL_NEW_BORN_LIST,
-  RL_NEW_BORN, RL_ADMISSION_CONFIRMATION_MODAL, RL_PRICE, RL_PRICE_LIST, RL_DELETE_CONFIRMATION_MODAL, RL_DISCHARGE_MODAL, RL_BILLING_PREVIEW, RL_APPROVER, RL_APPROVER_LIST, RL_APPROVAL, RL_APPROVAL_LIST, RL_APPROVAL_DASHBOARD, RL_APPROVAL_DASHBOARD_LIST, RL_APPROVED_LIST
+  RL_NEW_BORN, RL_ADMISSION_CONFIRMATION_MODAL, RL_PRICE, RL_PRICE_LIST, RL_DELETE_CONFIRMATION_MODAL, RL_DISCHARGE_MODAL, RL_BILLING_PREVIEW, RL_APPROVER, RL_APPROVER_LIST, RL_APPROVAL, RL_APPROVAL_LIST, RL_APPROVAL_DASHBOARD, RL_APPROVAL_DASHBOARD_LIST, RL_APPROVED_LIST, RL_REJECTED_LIST
 
 } from '../models/common';
 import { ConfirmationModal } from '../compmodules/registration/confirmation-modal.component';
@@ -99,6 +99,7 @@ import { ApprovedComponent } from '../compmodules/Approved/approved.component';
 import { ApprovedListComponent } from '../compmodules/Approved/approved-list/approved-list.component';
 import { ApprovalDashboardListComponent } from '../compmodules/ApprovalDashboard/approvaldashboard-list/approvaldashboard-list.component';
 import { ApprovalDashboardComponent } from '../compmodules/ApprovalDashboard/approvaldashboard.component';
+import { RejectedListComponent } from '../compmodules/rejected/rejected-list/rejected-list.component';
 // import { ApprovalDashboardComponent } from '../compmodules/Approval-dashboard/approval-dashboard.component';
 
 @Injectable()
@@ -512,10 +513,13 @@ export class MenuService implements OnInit {
           name: "Approval Dashboard", menuid: 10, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "in-patient", submenus: [
         
             {
-              name: "Approved", menuid: 10.1, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovedListModule), routeLink: RL_APPROVED_LIST
+              name: "Approved Approvals", menuid: 10.1, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovedListModule), routeLink: RL_APPROVED_LIST
             },
             {
-              name: "Approval Dashboard List", menuid: 10.2, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovalDashboardListModule), routeLink: RL_APPROVAL_DASHBOARD_LIST
+              name: "Pending Approvals", menuid: 10.2, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovalDashboardListModule), routeLink: RL_APPROVAL_DASHBOARD_LIST
+            },
+            {
+              name: "rejected Approvals", menuid: 10.3, compInfo: this.getCompInfoAsPerId(ComponentModule.RejectedModule), routeLink: RL_REJECTED_LIST
             },
           ]
         },
@@ -529,8 +533,6 @@ export class MenuService implements OnInit {
           name: "Dashboard", menuid: 1, hasPermission: true,
           hasSubmenu: false, hasSubmenuPermission: true, iconClass: "dashboard", compInfo: this.getCompInfoAsPerId(ComponentModule.DashboardComponent)
         },
-
-
         {
           name: "Frontdesk", menuid: 2, hasPermission: true,
           hasSubmenu: true, hasSubmenuPermission: true, iconClass: "frontdesk", submenus: [
@@ -638,10 +640,13 @@ export class MenuService implements OnInit {
           name: "Approval Dashboard", menuid: 10, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "in-patient", submenus: [
         
             {
-              name: "Approved", menuid: 10.1, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovedListModule), routeLink: RL_APPROVED_LIST
+              name: "Approved Approvals", menuid: 10.1, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovedListModule), routeLink: RL_APPROVED_LIST
             },
             {
-              name: "Approval Dashboard List", menuid: 10.2, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovalDashboardListModule), routeLink: RL_APPROVAL_DASHBOARD_LIST
+              name: "Pending Approvals", menuid: 10.2, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovalDashboardListModule), routeLink: RL_APPROVAL_DASHBOARD_LIST
+            },
+            {
+              name: "Rejected Approvals", menuid: 10.3, compInfo: this.getCompInfoAsPerId(ComponentModule.RejectedListModule), routeLink: RL_REJECTED_LIST
             },
           ]
         },
@@ -652,8 +657,6 @@ export class MenuService implements OnInit {
 
   private getCompInfoAsPerId(compRefId: number): ComponentInfo {
     let tempcinfo: ComponentInfo;
-        console.log('compRefId' , compRefId );
-
     for (let v of this.getCompList()) {
 
       if (v.compId === compRefId) {
@@ -955,6 +958,13 @@ export class MenuService implements OnInit {
         headerTitle: "Approval dashboard List"
       },
 
+
+      {
+        compName: ComponentModule[ComponentModule.RejectedListModule],
+        compId: ComponentModule.RejectedListModule,
+        comp: new ComponentRef(RejectedListComponent),
+        headerTitle: "Rejected List"
+      },
     ]
   }
 

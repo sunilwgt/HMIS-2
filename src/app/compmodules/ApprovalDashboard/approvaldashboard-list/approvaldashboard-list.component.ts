@@ -16,10 +16,6 @@ declare var jsPDF: any;
 })
 
 export class ApprovalDashboardListComponent extends BaseComponent implements OnInit {
-
-
-
-
   private approvalListResource = new DataTableResource([]);
   private approvalListCount = 0;
   private _subscription: Subscription;
@@ -48,23 +44,23 @@ export class ApprovalDashboardListComponent extends BaseComponent implements OnI
         this.approvalListCount = count;
       });
     }
-    
 
     if (data.resulttype === RESULT_TYPE_GET_PENDING_DASHBOARD_LIST) {
+      // console.log('pending data ' , data.result);
       this.approvaldashboiardlistdata = [];
       this.approvaldashboiardlistdata = data.result;
       this.approvalListResource = new DataTableResource(this.approvaldashboiardlistdata);
       this.approvalListResource.count().then(count => {
         this.approvalListCount = count;
       });
+      const para = { offset: 0, limit: 15 }
+      this.reloadapprovaldashboiardlist(para);
     }
 
     if (data.resulttype === RESULT_TYPE_DELETE_APPROVAL_DASHBOARD_LIST) {
     }
     
   }
-
-
   reloadapprovaldashboiardlist(params) {
     this.approvalListResource.query(params).then(approvaldashboiardlistdata => this.approvaldashboiardlistdata = approvaldashboiardlistdata);
   }
@@ -90,7 +86,6 @@ export class ApprovalDashboardListComponent extends BaseComponent implements OnI
         break;
 
       case MODE_DELETE:
-      console.log( 'eventObj' , eventObj)
         this.hmisApi.deleteApproverDashboardList(eventObj.data.ID);
         break;
 
@@ -98,12 +93,8 @@ export class ApprovalDashboardListComponent extends BaseComponent implements OnI
         this.stateService.stateData = eventObj.data;
         this.compLoadManager.redirect(RL_APPROVAL_DASHBOARD);
         break;
-
     }
-
   }
-
-
 
   ngOnInit() {
     this._updateStateObj = this.stateService.createState(UPDATE_FIELD_STATE);

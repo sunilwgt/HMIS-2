@@ -12,7 +12,7 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 
 import { DataTableModule } from 'angular5-data-table';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { HmisAuthService } from './services/hmis-auth.service';
 import { HmisAuthGuard } from './services/hmis-auth-guard.service';
@@ -37,6 +37,14 @@ import { TooltipModule } from 'ng2-tooltip-directive';
 import { HmisExternalApisService } from './services/hmis-external-apis.service';
 
 import {OnlyNumber} from './directives/onlynumber.directive';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
+import {
+  MatSnackBarModule, MatFormFieldModule, MatSelectModule,
+  MatCheckboxModule, MatInputModule,
+} from '@angular/material';
+import {DialogModule} from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -54,10 +62,16 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NgbModule.forRoot(),
     PerfectScrollbarModule,
     TooltipModule,
+    MatSnackBarModule,
+    BrowserAnimationsModule,
+    DialogModule,
+    ButtonModule
+
+
     
   ],
   entryComponents: ENTRY_COMPONENTS,
-  providers: [HmisAuthService, HmisAuthGuard, MenuService, CompLoadManagerService, CommonService, HmisApisService, HelperFunction, StateService, LoaderService, ErrorService, RoleManagerService, BaseServices, HmisExternalApisService,
+  providers: [   NgbActiveModal,HmisAuthService, HmisAuthGuard, MenuService, CompLoadManagerService, CommonService, HmisApisService, HelperFunction, StateService, LoaderService, ErrorService, RoleManagerService, BaseServices, HmisExternalApisService,
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG

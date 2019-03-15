@@ -229,6 +229,7 @@ export class Billing {
     isAdjust?: boolean;
     approvalStatusId: string;
     ApproverId:string;
+    approval_note:string;
 }
 
 
@@ -243,6 +244,9 @@ export class PatientApproval{
     modified_by?:string;
     notification_sent?:boolean;
     approval_note?:string;
+    ID?:string;
+    Dueamount?:Number;
+    TotalAmount?:Number;
     
     
 }

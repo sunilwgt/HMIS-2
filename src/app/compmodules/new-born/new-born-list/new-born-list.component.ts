@@ -5,6 +5,7 @@ import { NewBorn } from '../../../models/opd';
 import { BaseServices } from '../../../utils/base.service';
 import { ActionType, MODE_EDIT, MODE_VIEW, MODE_DELETE, RL_NEW_BORN, RESULT_TYPE_GET_NEW_BORN_LIST, MODE_ADD, RESULT_TYPE_DELETE_NEW_BORN } from '../../../models/common';
 import { DatePipe } from '@angular/common';
+import { NgbModalOptions, NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -20,7 +21,14 @@ export class NewBornListComponent extends BaseComponent implements OnInit {
   private newBornCount = 0;
 
 
-  constructor(baseService: BaseServices, public datepipe: DatePipe) {
+modalOption: NgbModalOptions;
+private modalRef: NgbModalRef;
+closeResult: any;
+private displaydialog: boolean = false;
+private clickdialog: boolean = false;
+private rowdata:any;
+
+  constructor(baseService: BaseServices, public datepipe: DatePipe ,  private modalServices: NgbModal) {
     super(baseService);
     this.hmisApi.getNewBornSearch("");
   }
@@ -64,7 +72,27 @@ export class NewBornListComponent extends BaseComponent implements OnInit {
     paginationRange: 'Result range'
   };
 
+  ongridclick(e , con){
+    if(this.clickdialog === false){
+    this.displaydialog = true;
+    this.rowdata = e.row.item;
+    this.open(con)
+    }
+      }
+
+      open(content) {
+        this.modalRef =    this.modalServices.open(content , {size:'lg'})
+         }
+         closemodal(reason){
+       this.modalRef.close()
+         }
+    
+
   private clickEventHandler(eventObj: ActionType): void {
+    this.clickdialog = true;
+    setInterval(() => {
+    this.clickdialog = false;
+  }, 1);
     switch (eventObj.mode) {
       case MODE_EDIT:
          this.compLoadManager.redirect(RL_NEW_BORN);

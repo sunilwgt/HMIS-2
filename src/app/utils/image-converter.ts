@@ -29,7 +29,7 @@ export class ImageConverter {
   dataURItoBlob() {
     let mimeString = this.getMimeString();
     let intArray = this.convertToTypedArray();
-    console.log(mimeString);
+    // console.log(mimeString);
     return new Blob([intArray], {type: mimeString});
   }
 }

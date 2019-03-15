@@ -112,6 +112,8 @@ import { ApprovedListComponent } from "./compmodules/Approved/approved-list/appr
 import { ApprovalDashboardListComponent } from "./compmodules/ApprovalDashboard/approvaldashboard-list/approvaldashboard-list.component";
 import { ApprovalDashboardComponent } from "./compmodules/ApprovalDashboard/approvaldashboard.component";
 import { ApprovalChartComponent } from "./compmodules/dashboard/approval-chart/approval-chart.component";
+import { RejectedComponent } from "./compmodules/rejected/rejected.component";
+import { RejectedListComponent } from "./compmodules/rejected/rejected-list/rejected-list.component";
 
 export const DECLARATION_COMPONENTS = [
   ApproverListComponent,
@@ -232,7 +234,9 @@ export const DECLARATION_COMPONENTS = [
   DischargeModalComponent,
   HeaderButtonPrescriptionComponent,
   hospitaltitleComponent,
-  ApprovalDashboardListComponent
+  ApprovalDashboardListComponent,
+  RejectedComponent,
+  RejectedListComponent
 ]
 export const ENTRY_COMPONENTS: Array<any> = [
   ApproverListComponent,
@@ -312,6 +316,8 @@ export const ENTRY_COMPONENTS: Array<any> = [
   DischargeModalComponent,
   HeaderButtonPrescriptionComponent,
   ApprovedListComponent,
-  ApprovalDashboardListComponent
+  ApprovalDashboardListComponent,
+  RejectedComponent,
+  RejectedListComponent
 
 ]

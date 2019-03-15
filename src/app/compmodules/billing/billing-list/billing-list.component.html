@@ -12,7 +12,7 @@
     <div style="margin: auto; margin-top:10px">
         <data-table id="patients-grid" headerTitle="Billing list" [items]="billing" [itemCount]="billingCount" (reload)="reloadBilling($event)"
             [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false" [expandableRows]="false"
-            [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
+            [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true" (rowClick)="ongridclick($event , content)">
 
             <data-table-column [property]="'invoice_number'" [header]="'Invoice No'" [sortable]="true" [width]="150">
             </data-table-column>
@@ -31,7 +31,128 @@
             </data-table-column>
         </data-table>
     </div>
-
-
-
 </div>
+
+
+
+
+
+
+
+<ng-template #content let-modal>
+        <div class="modal-header" style="background-color: rgba(26, 82, 146, 0.856)">
+            <h4 class="modal-title" id="modal-basic-title" style="color:rgb(4, 4, 26)">Billing Information</h4>
+            <button type="button" class="close" aria-label="Close" (click)="closemodal('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form>
+    
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="regid">Registeration Id</label>
+                            <div class="input-group">
+                                <input class="form-control" name="id" readonly value="{{rowdata?.patient_registration_no}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="adid">Admission Id </label>
+                            <div class="input-group">
+                                <input class="form-control" readonly name="adid" value="{{rowdata?.admission_sequenceadmission_sequence}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="invoiceid ">Invoice Number </label>
+                                <div class="input-group">
+                                    <input class="form-control" readonly value="{{rowdata?.invoice_number}}">
+                                </div>
+                            </div>
+                        </div>
+        
+                </div>
+    
+
+                <div class="row">
+                       
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="pname">Patient Name</label>
+                                <div class="input-group">
+                                    <input class="form-control" readonly name="pname" value="{{rowdata?.patient_name}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="pphone">Patient Phone</label>
+                                    <div class="input-group">
+                                        <input class="form-control" readonly name="pphone" value="{{rowdata?.patient_phone}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="pphone">Admission date</label>
+                                        <div class="input-group">
+                                            <input class="form-control" readonly name="pphone" value="{{rowdata?.date_of_admission}}">
+                                        </div>
+                                    </div>
+                                </div>
+                    </div>
+    
+
+                    
+    
+                <div class="row">
+                        <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="totalamount">Total Amount </label>
+                                    <div class="input-group">
+                                        <input class="form-control" readonly value="{{rowdata?.total_amount}}">
+                                    </div>
+                                </div>
+                            </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="advanceamount">Advance Amount </label>
+                            <div class="input-group">
+                                <input class="form-control" readonly value="{{rowdata?.advance_amount}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="dueamount"> Due Amount</label>
+                            <div class="input-group">
+                                <input class="form-control" readonly name="dueamount " value="{{rowdata?.due_amount}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="incompanyname">Insurance Company Name</label>
+                            <div class="input-group">
+                                <input class="form-control" readonly value="{{rowdata?.insurance_companies_name}}">
+                            </div>
+                        </div>
+                    </div></div>
+            </form>
+    
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="closemodal('Save click')">Close</button>
+        </div>
+    </ng-template>
+
+
+

@@ -372,7 +372,7 @@ export class AdmissionComponent extends BaseComponent implements OnInit {
 
   private updateAllFields() {
     for (const key in this.compData) {
-      console.clear();
+      // console.clear();
       if (this.compData.hasOwnProperty(key)) {
         this._updateStateObj.currentstate = key;
         this._updateStateObj.stateData = this.compData;

@@ -19,6 +19,7 @@ import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 export class GenericActionComponent extends BaseComponent implements OnInit {
   @Input() actiontypeId: string | number;
   @Input() itemdata: any;
+  @Input() deleteDisable: boolean = true;
   @Input() printDisable: boolean = true;
   @Input() dischargeDisable: boolean = true;
   @Input() oTDisable: boolean = true;

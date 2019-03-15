@@ -9,6 +9,7 @@ import { ISelectOption } from '../../../interfaces/ISelectOption';
 import { DatePipe } from '@angular/common';
 import { HelperFunction } from '../../../utils/helper-function.service';
 import { OtCreate } from '../../../models/patient';
+import { NgbModalOptions, NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-ot-list',
@@ -17,13 +18,21 @@ import { OtCreate } from '../../../models/patient';
 })
 export class OtListComponent extends BaseComponent implements OnInit, OnDestroy {
 
+  modalOption: NgbModalOptions;
+  private modalRef: NgbModalRef;
+  private rowdata: any;
+  closeResult: any;
+  private displaydialog: boolean = false;
+  private clickdialog: boolean = false;
+
+
   private OTList = [];
   private OTResource = new DataTableResource([]);
   private OTCount = 0;
   private OTModel: OtCreate = new OtCreate();
   private isReleasedToBed: string;
 
-  constructor(baseService: BaseServices, public datepipe: DatePipe, private helperFunc: HelperFunction) {
+  constructor(baseService: BaseServices, private modalServices: NgbModal, public datepipe: DatePipe, private helperFunc: HelperFunction) {
     super(baseService);
     this.hmisApi.getOperationTheatreListing("");
   }
@@ -77,8 +86,28 @@ export class OtListComponent extends BaseComponent implements OnInit, OnDestroy 
     paginationLimit: 'Max results',
     paginationRange: 'Result range'
   };
+  ongridclick(e, con) {
+    console.log('rowdata' , e);
+    if (this.clickdialog === false) {
+      this.displaydialog = true;
+      this.rowdata = e.row.item;
+      this.open(con)
+    }
+  }
+
+  open(content) {
+    this.modalRef = this.modalServices.open(content, { size: 'lg' })
+  }
+
+  closemodal(reason) {
+    this.modalRef.close()
+  }
 
   private clickEventHandler(eventObj: ActionType): void {
+    this.clickdialog = true;
+    setInterval(() => {
+      this.clickdialog = false;
+    }, 1);
     switch (eventObj.mode) {
       case MODE_EDIT:
         this.compLoadManager.redirect(RL_OT);

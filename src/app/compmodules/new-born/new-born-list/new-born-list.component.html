@@ -4,18 +4,19 @@
     <div class="row">
         <div class="col-md-12">
             <div class="pull-right add_print">
-                <button type="button" class="btn btn-primary btn-flat btn-lg pull-right" (click)="addNewBorn()">Add New Born</button>
+                <button type="button" class="btn btn-primary btn-flat btn-lg pull-right" (click)="addNewBorn()">Add New
+                    Born</button>
             </div>
         </div>
     </div>
 
     <div class="clearfix"></div>
     <div style="margin: auto; margin-top:10px">
-        <data-table id="patients-grid" headerTitle="New Born list" [items]="newBorn" [itemCount]="newBornCount" (reload)="reloadNewBorn($event)"
-            [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false" [expandableRows]="false"
-            [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
-            <data-table-column [property]="'father_name'" [header]="'Father name'" [sortable]="true" [width]="160"
-            >
+        <data-table id="patients-grid" headerTitle="New Born list" [items]="newBorn" [itemCount]="newBornCount"
+            (reload)="reloadNewBorn($event)" [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false"
+            [substituteRows]="false" [expandableRows]="false" [translations]="translations" [indexColumn]="false"
+            [selectOnRowClick]="true" (rowClick)="ongridclick($event , content)">
+            <data-table-column [property]="'father_name'" [header]="'Father name'" [sortable]="true" [width]="160">
             </data-table-column>
             <data-table-column [property]="'mother_name'" [header]="'Mother name'" [sortable]="true" [width]="160">
             </data-table-column>
@@ -32,3 +33,178 @@
             </data-table-column>
         </data-table>
     </div>
+
+
+    <ng-template #content let-modal>
+        <div class="modal-header" style="background-color: rgba(26, 82, 146, 0.856)">
+            <h4 class="modal-title" id="modal-basic-title" style="color:rgb(4, 4, 26)">New Born
+                Information</h4>
+            <button type="button" class="close" aria-label="Close" (click)="closemodal('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="babyname">Baby Name</label>
+                            <div class="input-group">
+                                <input class="form-control" name="babyname" readonly value="{{rowdata?.baby_alias_name}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="mothername">Mother Name</label>
+                            <div class="input-group">
+                                <input class="form-control" readonly name="mothername" value="{{rowdata?.mother_name}} {{rowdata?.patient_first_name}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="fathername">Father Name</label>
+                            <div class="input-group">
+                                <input class="form-control" readonly name="fathername" value="{{rowdata?.father_name}} {{rowdata?.patient_first_name}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="gender">Baby Gender</label>
+                            <div class="input-group">
+                                <input class="form-control" readonly value="{{rowdata?.sex}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="dob">Dob </label>
+                            <div class="input-group">
+                                <input class="form-control" readonly name="isbplholder" value="{{rowdata?.dob}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="babyheight">Baby Height</label>
+                            <div class="input-group">
+                                <input class="form-control" readonly value="{{rowdata?.baby_height}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="babyweight"> Baby Weight</label>
+                            <div class="input-group">
+                                <input class="form-control" readonly name="babyweight" value="{{rowdata?.baby_weight}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="delieverytype">Delievery Type</label>
+                            <div class="input-group">
+                                <input class="form-control" readonly value="{{rowdata?.delivery_type}}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="delieverynote">Delievery Note</label>
+                            <div class="input-group">
+                                <input class="form-control" readonly name="delieverynote" value="{{rowdata?.delivery_note}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="malnutrition">Malnutrition</label>
+                                <div class="input-group">
+                                    <input class="form-control" readonly value="{{rowdata?.is_malnutrition}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="twin">Twin</label>
+                                <div class="input-group">
+                                    <input class="form-control" readonly name="twin" value="{{rowdata?.is_twin}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="cillness">Critical Illness</label>
+                                <div class="input-group">
+                                    <input class="form-control" readonly value="{{rowdata?.is_born_critical_illness}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="cnote">Critical Note</label>
+                                <div class="input-group">
+                                    <input class="form-control" readonly name="cnote" value="{{rowdata?.critical_illness_notevv}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="foccupation"> Father Occupation </label>
+                            <div class="input-group">
+                                <input class="form-control" readonly value="{{rowdata?.father_occupation}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="moccupation">Mother Occupation</label>
+                            <div class="input-group">
+                                <input class="form-control" readonly name="moccupation" value="{{rowdata?.mother_occupation}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="address">Address </label>
+                            <div class="input-group">
+                                <input class="form-control" readonly value="{{rowdata?.address}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="closemodal('Save click')">Close</button>
+        </div>
+    </ng-template>

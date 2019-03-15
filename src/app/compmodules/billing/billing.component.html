@@ -323,18 +323,33 @@
                                 <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compcheckbox]" (change)="getSelectedIsAdjustValue($event)"
                                     class="adjust_check"></hmis-vertical-label-type>
                                 <br>
-                                <hmis-vertical-label-type [selectOptions]="approvalOption" [templateid]="gencomp[gencomp.Compselect]"
-                                [labelname]="'Approval status'" class="col-lg-4 col-sm-6 required" [propName]="'approval_id'"
-                                (compValueChange)="valueChangeHandler($event)" *ngIf="IsAdjust"></hmis-vertical-label-type>
-
-
-                                    <hmis-vertical-label-type [selectOptions]="approverOption" [templateid]="gencomp[gencomp.Compselect]"
-                                    [labelname]="'Assign To'" class="col-lg-4 col-sm-6 required" [propName]="'approver_id'"
-                                    (compValueChange)="valueChangeHandler($event)" *ngIf="IsAdjust"></hmis-vertical-label-type>
 
                             </div>
                         </div>
 
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <hmis-vertical-label-type [selectOptions]="reqoption" [templateid]="gencomp[gencomp.Compselect]"
+                                [labelname]="'Approval status'" class="col-lg-4 col-sm-6 required" [propName]="'approval_id'"
+                                (compValueChange)="valueChangeHandler($event)" *ngIf="IsAdjust"></hmis-vertical-label-type>
+
+                        </div>
+                        <div class="col-md-4">
+                            <hmis-vertical-label-type [selectOptions]="approverOption" [templateid]="gencomp[gencomp.Compselect]"
+                                [labelname]="'Assign To'" class="col-lg-4 col-sm-6 required" [propName]="'approver_id'"
+                                (compValueChange)="valueChangeHandler($event)" *ngIf="IsAdjust"></hmis-vertical-label-type>
+
+                        </div>
+                        <div class="col-md-4">
+                            <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Approval Note'"
+                                class="col-12 col-sm-4 col-md-8 col-lg-8 col-xl-3" [propName]="'approvalnote'"
+                                (compValueChange)="valueChangeHandler($event)" *ngIf="IsAdjust"></hmis-vertical-label-type>
+
+                        </div>
                     </div>
 
                 </form>

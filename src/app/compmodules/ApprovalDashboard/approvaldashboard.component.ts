@@ -140,18 +140,40 @@ export class ApprovalDashboardComponent extends BaseComponent implements OnInit 
 
   }
 
-  submitClickHandler(){
-this.Patientapproval.admission_id = this.compData.admission_id;
-this.Patientapproval.approval_note = this.compData.approval_note;
-this.Patientapproval.approval_status_id = this.compData.approval_status_id;
-this.Patientapproval.assigned_to = this.compData.assigned_to;
-this.Patientapproval.created_by = this.compData.created_by;
-this.Patientapproval.modified_by = this.compData.modified_by;
-this.Patientapproval.notification_sent = true;
-this.Patientapproval.patient_id = this.compData.patient_id;
-this.Patientapproval.transaction_id = this.compData.transaction_id;
-this.Patientapproval.transaction_type = this.compData.transaction_type;
-this.hmisApi.setPatientApproval(this.Patientapproval);
+  submitClickHandler() {
+    console.log('compdata', this.compData);
+    if(this.compData.approval_status_id === '1c279e88-d394-421a-a8aa-a57684b9ff3a'){
+      // console.log('compdata', this.compData);
+      this.Patientapproval.ID = this.compData.ID;
+      this.Patientapproval.admission_id = this.compData.admission_id;
+      this.Patientapproval.approval_note = this.compData.approval_note;
+      this.Patientapproval.approval_status_id = this.compData.approval_status_id;
+      this.Patientapproval.assigned_to = this.compData.assigned_to;
+      this.Patientapproval.created_by = this.compData.created_by;
+      this.Patientapproval.modified_by = this.compData.modified_by;
+      this.Patientapproval.notification_sent = false;
+      this.Patientapproval.patient_id = this.compData.patient_id;
+      this.Patientapproval.transaction_id = this.compData.transaction_id;
+      this.Patientapproval.transaction_type = this.compData.transaction_type;
+      // console.log('Patientapproval', this.Patientapproval);
+      this.hmisApi.setPatientApproval(this.Patientapproval);
+    }else {
+      // console.log('compdata', this.compData);
+      this.Patientapproval.ID = this.compData.ID;
+      this.Patientapproval.admission_id = this.compData.admission_id;
+      this.Patientapproval.approval_note = this.compData.approval_note;
+      this.Patientapproval.approval_status_id = this.compData.approval_status_id;
+      this.Patientapproval.assigned_to = this.compData.assigned_to;
+      this.Patientapproval.created_by = this.compData.created_by;
+      this.Patientapproval.modified_by = this.compData.modified_by;
+      this.Patientapproval.notification_sent = true;
+      this.Patientapproval.patient_id = this.compData.patient_id;
+      this.Patientapproval.transaction_id = this.compData.transaction_id;
+      this.Patientapproval.transaction_type = this.compData.transaction_type;
+      // console.log('Patientapproval', this.Patientapproval);
+      this.hmisApi.setPatientApproval(this.Patientapproval);
+    }
+
   }
 
   Onregister() {
@@ -169,10 +191,12 @@ this.hmisApi.setPatientApproval(this.Patientapproval);
     // this.stateService.updateState(ADD);
   }
   hmisApiSubscribe(data: any): void {
-if(data.resulttype === RESULT_TYPE_SET_PATIENTAPPROVAL){
-this.hmisApi.getApproverDashboardList("");
-this.compLoadManager.closePopup();
-}
+    if (data.resulttype === RESULT_TYPE_SET_PATIENTAPPROVAL) {
+      // console.log('set data', data);
+      // this.hmisApi.getApproverDashboardList("");
+      this.hmisApi.getPendingDashboardList(" ");
+      this.compLoadManager.closePopup();
+    }
     if (data.resulttype === RESULT_TYPE_GET_APPROVAl_LIST) {
       this.approvalOption = this.comonService.approvalOption(data.result);
     }
@@ -399,7 +423,7 @@ this.compLoadManager.closePopup();
 
   private updateAllFields() {
     for (const key in this.compData) {
-      console.clear();
+      // console.clear();
       if (this.compData.hasOwnProperty(key)) {
         this._updateStateObj.currentstate = key;
         this._updateStateObj.stateData = this.compData;

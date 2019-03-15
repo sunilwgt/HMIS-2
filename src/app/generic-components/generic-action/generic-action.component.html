@@ -11,7 +11,7 @@
     <!-- <strong>Edit</strong> -->
   </span>
 </a>
-<a href="#" class="btn btn-danger" (click)="clickDeleteHandler()" tooltip="Delete" placement="top" show-delay="300">
+<a  *ngIf="deleteDisable" href="#" class="btn btn-danger" (click)="clickDeleteHandler()" tooltip="Delete" placement="top" show-delay="300">
   <i class="fa fa-trash-o"></i>
   <span>
     <!-- <strong>Delete</strong> -->

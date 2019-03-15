@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, Renderer2, ElementRef } from '@angular/core';
-import { GenericPopupOption, MODAL_ITEM_CLICKED_STATE, RESULT_TYPE_GET_PACKAGE, RESULT_TYPE_GET_ADMISSION_TYPE, RESULT_TYPE_GET_WARD_TYPE, RESULT_TYPE_GET_FLOOR, MODE_ADD, RESULT_TYPE_ADD_ADMISSION, RESULT_TYPE_GET_DOCTOR_AS_PER_ID, RESULT_TYPE_AUTO_COMPLETE_DOCTOR_SEARCH, DoctorListOption, RL_ADMISSION_LIST, RESULT_TYPE_EDIT_ADMISSION, RL_ADMISSION_CONFIRMATION_MODAL, PATIENT_ADMISSION_ID_STATE, ADMISSION_MODAL_ID_STATE, RESULT_TYPE_GET_PACKAGE_LIST, RL_BILLING, RESULT_TYPE_GET_ADMISSION_LIST, RESULT_TYPE_GET_ALL_ADMISSION_LIST, RESULT_TYPE_GET_ALL_DISCHARGE_TYPE_LIST, RESULT_TYPE_GET_BUILDING_DROPDOWN, RESULT_TYPE_GET_FLOOR_DROPDOWN, MODE_VIEW, RESULT_TYPE_GET_REGISTERED_REG_NO, RESULT_TYPE_GET_SELECTED_PATIENT_BY_ID, RL_REGISTRATION, ADD, MODE_ADMISSION, RL_ADMISSION } from '../../models/common';
+import { GenericPopupOption, MODAL_ITEM_CLICKED_STATE, RESULT_TYPE_GET_PACKAGE, RESULT_TYPE_GET_ADMISSION_TYPE, RESULT_TYPE_GET_WARD_TYPE, RESULT_TYPE_GET_FLOOR, MODE_ADD, RESULT_TYPE_ADD_ADMISSION, RESULT_TYPE_GET_DOCTOR_AS_PER_ID, RESULT_TYPE_AUTO_COMPLETE_DOCTOR_SEARCH, DoctorListOption, RL_ADMISSION_LIST, RESULT_TYPE_EDIT_ADMISSION, RL_ADMISSION_CONFIRMATION_MODAL, PATIENT_ADMISSION_ID_STATE, ADMISSION_MODAL_ID_STATE, RESULT_TYPE_GET_PACKAGE_LIST, RL_BILLING, RESULT_TYPE_GET_ADMISSION_LIST, RESULT_TYPE_GET_ALL_ADMISSION_LIST, RESULT_TYPE_GET_ALL_DISCHARGE_TYPE_LIST, RESULT_TYPE_GET_BUILDING_DROPDOWN, RESULT_TYPE_GET_FLOOR_DROPDOWN, MODE_VIEW, RESULT_TYPE_GET_REGISTERED_REG_NO, RESULT_TYPE_GET_SELECTED_PATIENT_BY_ID, RL_REGISTRATION, ADD, MODE_ADMISSION, RL_ADMISSION, RESULT_TYPE_GET_APPROVAl_LIST, RESULT_TYPE_SET_PATIENTAPPROVAL } from '../../models/common';
 import { GenericCompType } from '../../enums/generic-comp-type.enum';
 import { Registration, DOB, CompDataInfo } from '../../models/registration';
 import { CommonService } from '../../services/common.service';
@@ -11,10 +11,9 @@ import { Patient } from '../../models/patient';
 import { State } from '../../models/state';
 import { patientListOption } from '../../models/patient';
 import { HelperFunction } from '../../utils/helper-function.service';
-import { DoctorOptions, DischargeTypeOption } from '../../models/opd';
+import { DoctorOptions, DischargeTypeOption, PatientApproval } from '../../models/opd';
 import { DatePipe } from '@angular/common';
 import { StateListOption, PackageListOption, AdmissionModel, AdmissionMainModel, AdmissionModelExtData, billingModel } from '../../models/admission';
-
 import { ComponentModule } from '../../enums/component-module.enum';
 import * as _ from 'lodash';
 
@@ -25,12 +24,12 @@ import { register } from 'ts-node';
 declare var jsPDF: any;
 
 @Component({
-  selector: 'hmis-approved',
-  templateUrl: './approved.component.html',
-  styleUrls: ['./approved.component.scss'],
+  selector: 'hmis-Rejected',
+  templateUrl: './rejected.component.html',
+  styleUrls: ['./rejected.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ApprovedComponent extends BaseComponent implements OnInit {
+export class RejectedComponent extends BaseComponent implements OnInit {
 
   @ViewChild(GenericPopup)
   private genericPopup: GenericPopup;
@@ -79,16 +78,21 @@ export class ApprovedComponent extends BaseComponent implements OnInit {
   private dischargeTypeOption: Array<DischargeTypeOption> = [];
 
   private showsearch: boolean = false;
+
+  private approvalOption = [];
+  private Patientapproval: PatientApproval = new PatientApproval();
+
+
   constructor(baseservice: BaseServices, private helperFunc: HelperFunction, private renderer: Renderer2, public datepipe: DatePipe) {
     super(baseservice)
     this.showNav[0] = true;
-    this.hmisApi.getDoctor();
-    this.hmisApi.getStateList();
-    this.hmisApi.getWardType();
-    this.hmisApi.getAdmissionTypeList();
-    this.hmisApi.getBuildingDropdown();
-    this.hmisApi.getDischargeTypeList();
-
+    // this.hmisApi.getDoctor();
+    // this.hmisApi.getStateList();
+    // this.hmisApi.getWardType();
+    // this.hmisApi.getAdmissionTypeList();
+    // this.hmisApi.getBuildingDropdown();
+    // this.hmisApi.getDischargeTypeList();
+    this.hmisApi.getApprovalSearch("");
     this.defaultvalidation = true;
     this.stateService.stateObserver.subscribe(data => {
       if (data && data.stateID === ADMISSION_MODAL_ID_STATE) {
@@ -134,6 +138,23 @@ export class ApprovedComponent extends BaseComponent implements OnInit {
 
   }
 
+  submitClickHandler() {
+    console.log('compdata', this.compData);
+    this.Patientapproval.ID = this.compData.ID;
+    this.Patientapproval.admission_id = this.compData.admission_id;
+    this.Patientapproval.approval_note = this.compData.approval_note;
+    this.Patientapproval.approval_status_id = this.compData.approval_status_id;
+    this.Patientapproval.assigned_to = this.compData.assigned_to;
+    this.Patientapproval.created_by = this.compData.created_by;
+    this.Patientapproval.modified_by = this.compData.modified_by;
+    this.Patientapproval.notification_sent = true;
+    this.Patientapproval.patient_id = this.compData.patient_id;
+    this.Patientapproval.transaction_id = this.compData.transaction_id;
+    this.Patientapproval.transaction_type = this.compData.transaction_type;
+    // console.log('Patientapproval', this.Patientapproval);
+    this.hmisApi.setPatientApproval(this.Patientapproval);
+  }
+
   Onregister() {
     // this.state.currentstate = RL_ADMISSION;
     this.compLoadManager.closePopup();
@@ -149,6 +170,15 @@ export class ApprovedComponent extends BaseComponent implements OnInit {
     // this.stateService.updateState(ADD);
   }
   hmisApiSubscribe(data: any): void {
+    if (data.resulttype === RESULT_TYPE_SET_PATIENTAPPROVAL) {
+      // console.log('set data', data);
+      // this.hmisApi.getApproverDashboardList("");
+      this.hmisApi.getPendingDashboardList(" ");
+      this.compLoadManager.closePopup();
+    }
+    if (data.resulttype === RESULT_TYPE_GET_APPROVAl_LIST) {
+      this.approvalOption = this.comonService.approvalOption(data.result);
+    }
     if (data.resulttype === RESULT_TYPE_GET_REGISTERED_REG_NO) {
       var patientRegistarionData = data.result;
       this.createPatientlist(data.result);

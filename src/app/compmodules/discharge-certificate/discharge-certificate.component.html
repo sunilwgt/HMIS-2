@@ -4,7 +4,7 @@
     <form name="building_form" novalidate="novalidate">
       <div class="row">
         <hmis-keyup-search [data]="patientList" [labelname]="'Patient Admission No'" class="col-lg-4 col-sm-4" [propName]="'value'" (onKeyUp)="onKeyUpPatientRegNo($event)"
-          (getSelectedItem)="getSelectedHandlerForPatient($event)" *ngIf="!isNotEditable">
+          (getSelectedItem)="getSelectedHandlerForPatient($event)" *ngIf="isNotEditable">
         </hmis-keyup-search>
         <div class="row patient-info" *ngIf="isVisible">
             <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">

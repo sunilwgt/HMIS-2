@@ -23,18 +23,18 @@ export class CompLoadManagerService {
 
   public loadComponent(mitem:MenuItem):void{
     if(mitem.isPopup){
-      console.log('ispopup');
+      // console.log('ispopup');
       this.publishEvt({type:POPUP, value:mitem});
       return;
     }
     if(mitem.compInfo){
-      console.log('container');
+      // console.log('container');
       this.publishEvt({type:CONTAINER, value:mitem.compInfo});
     }
   }
 
   public redirect(routestring:string, returnCompInfoOnly:boolean = false):ComponentInfo{
-    console.log('routestring' , routestring);
+    // console.log('routestring' , routestring);
     let {isExists, menuitem} = this.isItPopupOnlyMenuItem(routestring);
     if(isExists){
       if(!returnCompInfoOnly){

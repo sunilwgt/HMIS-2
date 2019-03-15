@@ -31,7 +31,7 @@ export class BillingComponent extends BaseComponent implements OnInit {
   private patientList = [];
   private patientData: any;
   private IsAdjust: boolean = false;
-  private IsAdjustStatus:boolean=null;
+  private IsAdjustStatus: boolean = null;
   private _updateStateObj: State;
   private packageSearchList: Array<ISelectOption> = [];
   private priceList: Array<ISelectOption> = [];
@@ -68,7 +68,7 @@ export class BillingComponent extends BaseComponent implements OnInit {
   private hospitaldata;
   private approverOption = [];
   private approvalOption = [];
-
+  private reqoption = [];
 
   constructor(baseService: BaseServices, private helperFunc: HelperFunction, public datepipe: DatePipe) {
     super(baseService);
@@ -86,10 +86,29 @@ export class BillingComponent extends BaseComponent implements OnInit {
       this.approverOption = this.comonService.approveOption(data.result);
     }
     if (data.resulttype === RESULT_TYPE_GET_APPROVAl_LIST) {
-      console.log('patinet approval list', data);
-      this.approvalOption = this.comonService.approvalOption(data.result);
-      console.log('approval option ', this.approvalOption)
+      // console.log('patinet approval list', data);
+      // this.approvalOption = this.comonService.approvalOption(data.result);
+      // console.log('approval option ', this.approvalOption)
+
+
+      this.reqoption = [];
+      const option = this.comonService.approvalOption(data.result);
+      // console.log('approval option ', option);
+
+      for (let req of option) {
+        if (req.label === 'Requested') {
+          this.reqoption.push(req);
+          // console.log('approval option ', this.reqoption)
+        }
+
+      }
     }
+
+
+
+
+
+
 
     if (data.resulttype === RESULT_TYPE_GET_DISCHARGED_PATIENT_LIST) {
       if (data.result != null) {
@@ -134,7 +153,7 @@ export class BillingComponent extends BaseComponent implements OnInit {
     }
 
     if (data.resulttype === RESULT_TYPE_GET_ADVANCE_BILLING) {
-      console.log('advance billing data', data);
+      // console.log('advance billing data', data);
       this.item = data.result;
       this.totalAdvance = 0;
       if (this.billSummery != undefined) { this.billSummery.AdvanceBilling = data.result; }
@@ -150,8 +169,8 @@ export class BillingComponent extends BaseComponent implements OnInit {
       }
       this.finalAmount = this.finalAmount + ((this.compData === undefined ? 0 : (this.compData.package_amount === undefined ? 0 : this.compData.package_amount)) - this.totalAdvance);
       this.amountInWords = this.comonService.convertNumberToWords(this.finalAmount < 0 ? (-(this.finalAmount)) : this.finalAmount);
-      console.log('amount in words', this.amountInWords);
-      console.log('final amount ', this.finalAmount);
+      // console.log('amount in words', this.amountInWords);
+      // console.log('final amount ', this.finalAmount);
       this.updateCharges(0);
       if (this.finalAmount < 0) {
         this.amountInWords = "( - )      " + this.amountInWords;
@@ -180,7 +199,7 @@ export class BillingComponent extends BaseComponent implements OnInit {
       }
       this.finalAmount = this.totalDistributionBillingAmount - this.totalAdvance;
       this.amountInWords = this.comonService.convertNumberToWords(this.finalAmount);
-      console.log(this.amountInWords);
+      // console.log(this.amountInWords);
     }
     if (data.resulttype === RESULT_TYPE_EDIT_EXTERNAL_BILLING) {
       if (data.result) {
@@ -190,7 +209,7 @@ export class BillingComponent extends BaseComponent implements OnInit {
     }
     if (data.resulttype === RESULT_TYPE_GET_HOSPITAL_DETAIL_LIST) {
       this.hospitaldata = data.result[0];
-      console.log('hospital details', this.hospitaldata);
+      // console.log('hospital details', this.hospitaldata);
     }
   }
 
@@ -255,7 +274,7 @@ export class BillingComponent extends BaseComponent implements OnInit {
       amount: Number(this.compData.package_amount == undefined ? 0 : this.compData.package_amount)
     }
     this.amountInWords = this.comonService.convertNumberToWords(this.finalAmount);
-    console.log('line 225', this.amountInWords);
+    // console.log('line 225', this.amountInWords);
     this.total_bill;
     this.individualChargesEditable = false;
     this.billSummery.packageBilling = evntObj.data;
@@ -265,10 +284,10 @@ export class BillingComponent extends BaseComponent implements OnInit {
     this.IsAdjust = evnt.target.checked;
     // this.compData.IsAdjust = this.IsAdjust;
 
-    console.log('evnt.target.checked', evnt.target.checked);
-    console.log('compdata', this.compData);
+    // console.log('evnt.target.checked', evnt.target.checked);
+    // console.log('compdata', this.compData);
     const createdby = this.compData.created_by == undefined ? this.hmisApi.userDetail.created_by : this.compData.created_by;
-    console.log('created by', createdby);
+    // console.log('created by', createdby);
   }
 
   private onKeyUpSearchForPatient(evntObj: any): void {
@@ -340,7 +359,7 @@ export class BillingComponent extends BaseComponent implements OnInit {
       this.isEnabled = true;
       this.patientInformation = this.state.stateData;
       this.compData = this.state.stateData;
-console.log('view or delete compdata' , this.compData);
+      // console.log('view or delete compdata', this.compData);
       // this.compData.patient_address = this.patientInformation.patient_address;
       // this.compData.patient_age = this.patientInformation.patient_age
       // this.compData.patient_sex = this.patientInformation.patient_sex
@@ -363,7 +382,8 @@ console.log('view or delete compdata' , this.compData);
   }
 
   valueChangeHandler(event) {
-
+    // console.log('event' , event);
+    // console.log('compdata' , this.compData);
     this.newval = event.newval;
     if (event.propname === 'description' && this.newval.length > 3) {
       this.hmisApi.getPackageSearch(event.newval);
@@ -384,13 +404,14 @@ console.log('view or delete compdata' , this.compData);
   }
 
   protected submitClickHandler() {
-    if(this.IsAdjust){
+    if (this.IsAdjust) {
       this.BillingModel.isAdjust = false;
-    }else{
+    } else {
       this.BillingModel.isAdjust = null;
     }
     // this.BillingModel.isAdjust = this.IsAdjust;
     if (this.IsAdjust) {
+      this.BillingModel.approval_note = this.compData.approvalnote;
       this.BillingModel.approvalStatusId = this.compData.approval_id;
       this.BillingModel.ApproverId = this.compData.approver_id;
     }
@@ -427,7 +448,6 @@ console.log('view or delete compdata' , this.compData);
       this.billSummery.distributionBilling = this.IndividualPrices;
       this.billSummery.individualCharges = this.individualCharges;
       this.state.stateData = this.billSummery;
-      console.log('billing model' , this.BillingModel);
       this.compLoadManager.closePopup();
       this.compLoadManager.redirect(RL_BILLING_PREVIEW);
     }
@@ -436,7 +456,6 @@ console.log('view or delete compdata' , this.compData);
 
   updateCharges(evnt) {
 
-    console.log('enters update charge', evnt.price);
     if (evnt.label != undefined && evnt.price != undefined) {
       let priceModel = {
         label: evnt.label,
@@ -458,9 +477,9 @@ console.log('view or delete compdata' , this.compData);
 
     this.amountInWords = this.comonService.convertNumberToWords(this.finalAmount);
     this.total_bill;
-    console.log('pre final amount ', this.finalAmount);
+    // console.log('pre final amount ', this.finalAmount);
     this.finalAmount = this.total_bill - this.totalAdvance;
-    console.log('post final amount ', this.finalAmount);
+    // console.log('post final amount ', this.finalAmount);
 
 
   }

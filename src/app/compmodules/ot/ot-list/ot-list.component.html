@@ -14,7 +14,7 @@
     <div style="margin: auto; margin-top:10px">
         <data-table id="patients-grid" headerTitle="OT List" [items]="OTList" [itemCount]="OTCount" (reload)="reloadOT($event)" [limit]="15"
             [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false" [expandableRows]="false"
-            [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
+            [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true"  (rowClick)="ongridclick($event , content)">
 
             <data-table-column [property]="'patient_registration_no'" [header]="'Reg No'" [sortable]="true" [resizable]=true [width]="150">
             </data-table-column>
