@@ -6,6 +6,7 @@ import { State } from '../../../models/state';
 import { BaseComponent } from '../../../utils/base.component';
 import { BaseServices } from '../../../utils/base.service';
 import { DischargeCertificateOption } from '../../../models/department';
+import { NgbModalOptions, NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -15,6 +16,12 @@ import { DischargeCertificateOption } from '../../../models/department';
 
 })
 export class DischargeCertificateListComponent extends BaseComponent implements OnInit {
+  modalOption: NgbModalOptions;
+  private modalRef: NgbModalRef;
+  closeResult: any;
+  private displaydialog: boolean = false;
+  private clickdialog: boolean = false;
+  private rowdata:any;
 
   private dischargeCertificates = [];
   private dischargeCertificateOption: Array<DischargeCertificateOption> = [];
@@ -23,7 +30,7 @@ export class DischargeCertificateListComponent extends BaseComponent implements 
  
 
 
-  constructor(baseService: BaseServices) {
+  constructor(baseService: BaseServices , private modalServices: NgbModal) {
     super(baseService);
     this.hmisApi.getDischargeCertificateList("");
   }
@@ -68,7 +75,27 @@ export class DischargeCertificateListComponent extends BaseComponent implements 
     paginationRange: 'Result range'
   };
 
+  ongridclick(e , con){
+    if(this.clickdialog === false){
+    this.displaydialog = true;
+    this.rowdata = e.row.item;
+    this.open(con)
+    }
+      }
+    
+      open(content) {
+     this.modalRef =    this.modalServices.open(content , {size:'lg'})
+      }
+      closemodal(reason){
+    this.modalRef.close()
+      }
+      
+
   private clickEventHandler(eventObj: ActionType): void {
+    this.clickdialog = true;
+    setInterval(() => {
+    this.clickdialog = false;
+  }, 1);
     switch (eventObj.mode) {
       case MODE_EDIT:
         //this.createDischargeCertificate(eventObj.data);

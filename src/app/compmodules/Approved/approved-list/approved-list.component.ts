@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 import { DatePipe } from '@angular/common';
 import { State } from '../../../models/state';
 import { HelperFunction } from '../../../utils/helper-function.service';
+import { NgbModalOptions, NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 declare var jsPDF: any;
 @Component({
   selector: 'app-approved-list',
@@ -16,6 +17,15 @@ declare var jsPDF: any;
 })
 
 export class ApprovedListComponent extends BaseComponent implements OnInit {
+
+
+
+  modalOption: NgbModalOptions;
+  private modalRef: NgbModalRef;
+  closeResult: any;
+  private displaydialog: boolean = false;
+  private clickdialog: boolean = false;
+  private rowdata: any;
 
   private admissionList = [];
   private admissionListResource = new DataTableResource([]);
@@ -38,7 +48,7 @@ export class ApprovedListComponent extends BaseComponent implements OnInit {
 
 
 
-  constructor(baseService: BaseServices, public datepipe: DatePipe, private helperFunc: HelperFunction) {
+  constructor(baseService: BaseServices, private modalServices: NgbModal, public datepipe: DatePipe, private helperFunc: HelperFunction) {
     super(baseService);
     // this.hmisApi.getAdmittedPatientList("");
     // this.hmisApi.getHospitalSettings("");
@@ -123,11 +133,35 @@ export class ApprovedListComponent extends BaseComponent implements OnInit {
     paginationLimit: 'Max results',
     paginationRange: 'Result range'
   };
-  public getColor(name){
+  public getColor(name) {
     // console.log('name' , name);
     // return name === 'Raman' ? "green" : "red";
- }
+  }
+
+
+  ongridclick(e, con) {
+    if (this.clickdialog === false) {
+      this.displaydialog = true;
+      this.rowdata = e.row.item;
+      this.open(con)
+    }
+  }
+
+  open(content) {
+    this.modalRef = this.modalServices.open(content, { size: 'lg' })
+  }
+  closemodal(reason) {
+    this.modalRef.close()
+  }
+
+
+
+
   private clickEventHandler(eventObj: ActionType): void {
+    this.clickdialog = true;
+    setInterval(() => {
+      this.clickdialog = false;
+    }, 1);
     switch (eventObj.mode) {
       case MODE_EDIT:
         this.compLoadManager.redirect(RL_ADMISSION);

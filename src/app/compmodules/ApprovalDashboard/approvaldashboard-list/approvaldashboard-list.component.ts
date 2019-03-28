@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 import { DatePipe } from '@angular/common';
 import { State } from '../../../models/state';
 import { HelperFunction } from '../../../utils/helper-function.service';
+import { NgbModalOptions, NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 declare var jsPDF: any;
 @Component({
   selector: 'app-approvaldashboard-list',
@@ -16,6 +17,15 @@ declare var jsPDF: any;
 })
 
 export class ApprovalDashboardListComponent extends BaseComponent implements OnInit {
+
+
+  modalOption: NgbModalOptions;
+  private modalRef: NgbModalRef;
+  closeResult: any;
+  private displaydialog: boolean = false;
+  private clickdialog: boolean = false;
+  private rowdata:any;
+  
   private approvalListResource = new DataTableResource([]);
   private approvalListCount = 0;
   private _subscription: Subscription;
@@ -23,7 +33,7 @@ export class ApprovalDashboardListComponent extends BaseComponent implements OnI
   private approveddata = [];
   private notapproveddata = [];
   private approvaldashboiardlistdata = [];
-  constructor(baseService: BaseServices, public datepipe: DatePipe, private helperFunc: HelperFunction) {
+  constructor(baseService: BaseServices, private modalServices: NgbModal,public datepipe: DatePipe, private helperFunc: HelperFunction) {
     super(baseService);
     // this.hmisApi.getAdmittedPatientList("");
     // this.hmisApi.getHospitalSettings("");
@@ -74,8 +84,28 @@ export class ApprovalDashboardListComponent extends BaseComponent implements OnI
     paginationLimit: 'Max results',
     paginationRange: 'Result range'
   };
+  ongridclick(e , con){
+    if(this.clickdialog === false){
+    this.displaydialog = true;
+    this.rowdata = e.row.item;
+    this.open(con)
+    }
+      }
+    
+      open(content) {
+     this.modalRef =    this.modalServices.open(content , {size:'lg'})
+      }
+      closemodal(reason){
+    this.modalRef.close()
+      }
+      
 
+  
   private clickEventHandler(eventObj: ActionType): void {
+    this.clickdialog = true;
+    setInterval(() => {
+    this.clickdialog = false;
+  }, 1);
     switch (eventObj.mode) {
       case MODE_EDIT:
         this.compLoadManager.redirect(RL_APPROVAL_DASHBOARD);

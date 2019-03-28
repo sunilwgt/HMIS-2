@@ -65,6 +65,8 @@ export class HmisAuthService implements OnDestroy {
     })
   }
 
+
+  
   login(user: User) {
     this._currentUser = user;
 

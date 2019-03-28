@@ -87,7 +87,6 @@ export class OtListComponent extends BaseComponent implements OnInit, OnDestroy 
     paginationRange: 'Result range'
   };
   ongridclick(e, con) {
-    console.log('rowdata' , e);
     if (this.clickdialog === false) {
       this.displaydialog = true;
       this.rowdata = e.row.item;

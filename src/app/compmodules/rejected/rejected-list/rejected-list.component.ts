@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 import { DatePipe } from '@angular/common';
 import { State } from '../../../models/state';
 import { HelperFunction } from '../../../utils/helper-function.service';
+import { NgbModalRef, NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 declare var jsPDF: any;
 @Component({
   selector: 'app-Rejected-list',
@@ -23,7 +24,16 @@ export class RejectedListComponent extends BaseComponent implements OnInit {
   private approveddata = [];
   private notapproveddata = [];
   private rejectedlistdata = [];
-  constructor(baseService: BaseServices, public datepipe: DatePipe, private helperFunc: HelperFunction) {
+
+  
+  modalOption: NgbModalOptions;
+  private modalRef: NgbModalRef;
+  closeResult: any;
+  private displaydialog: boolean = false;
+  private clickdialog: boolean = false;
+  private rowdata: any;
+
+  constructor(baseService: BaseServices,   private modalServices: NgbModal,public datepipe: DatePipe, private helperFunc: HelperFunction) {
     super(baseService);
     // this.hmisApi.getAdmittedPatientList("");
     // this.hmisApi.getHospitalSettings("");
@@ -63,7 +73,33 @@ export class RejectedListComponent extends BaseComponent implements OnInit {
     paginationRange: 'Result range'
   };
 
+
+  ongridclick(e, con) {
+    if (this.clickdialog === false) {
+      this.displaydialog = true;
+      this.rowdata = e.row.item;
+      this.open(con)
+    }
+  }
+
+  open(content) {
+    this.modalRef = this.modalServices.open(content, { size: 'lg' })
+  }
+  closemodal(reason) {
+    this.modalRef.close()
+  }
+
+
+
+
+ 
   private clickEventHandler(eventObj: ActionType): void {
+
+    this.clickdialog = true;
+    setInterval(() => {
+      this.clickdialog = false;
+    }, 1);
+
     switch (eventObj.mode) {
       case MODE_EDIT:
         this.compLoadManager.redirect(RL_APPROVAL_DASHBOARD);

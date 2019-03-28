@@ -12,28 +12,253 @@
 
     <div class="clearfix"></div>
     <div style="margin: auto; margin-top:10px">
-        <data-table id="patients-grid" headerTitle="OT List" [items]="OTList" [itemCount]="OTCount" (reload)="reloadOT($event)" [limit]="15"
-            [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false" [expandableRows]="false"
-            [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true"  (rowClick)="ongridclick($event , content)">
+        <data-table id="patients-grid" headerTitle="OT List" [items]="OTList" [itemCount]="OTCount" (reload)="reloadOT($event)"
+            [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false"
+            [expandableRows]="false" [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true"
+            (rowClick)="ongridclick($event , content)">
 
-            <data-table-column [property]="'patient_registration_no'" [header]="'Reg No'" [sortable]="true" [resizable]=true [width]="150">
+            <data-table-column [property]="'patient_registration_no'" [header]="'Reg No'" [sortable]="true" [resizable]=true
+                [width]="150">
             </data-table-column>
-            <data-table-column [property]="'admission_sequence'" [header]="'Admission No'" [sortable]="true" [resizable]=true [width]="150">
+            <data-table-column [property]="'admission_sequence'" [header]="'Admission No'" [sortable]="true"
+                [resizable]=true [width]="150">
             </data-table-column>
             <data-table-column [property]="'ot_sequence'" [header]="'OT No'" [sortable]="true" [resizable]=true [width]="150">
             </data-table-column>
-            <data-table-column [property]="'patient_name'" [header]="'Patient name'" [sortable]="true" [resizable]=true [width]="180">
+            <data-table-column [property]="'patient_name'" [header]="'Patient name'" [sortable]="true" [resizable]=true
+                [width]="180">
             </data-table-column>
-            <data-table-column [property]="'operation_date'" [header]="'OT Date'" [sortable]="true" [resizable]=true [width]="120">
+            <data-table-column [property]="'operation_date'" [header]="'OT Date'" [sortable]="true" [resizable]=true
+                [width]="120">
             </data-table-column>
             <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true" [resizable]=true [width]="250">
                 <ng-template #dataTableCell let-item="item">
-                    <hmis-generic-action [DischargeBedDisable]="false" [emergencyDisable]="false" [itemdata]=item (clickHandler)="clickEventHandler($event)"></hmis-generic-action>
+                    <hmis-generic-action [DischargeBedDisable]="false" [emergencyDisable]="false" [itemdata]=item
+                        (clickHandler)="clickEventHandler($event)"></hmis-generic-action>
                 </ng-template>
             </data-table-column>
         </data-table>
     </div>
-
-
-
 </div>
+
+
+
+<ng-template #content let-modal>
+    <div class="modal-header" style="background-color: rgba(26, 82, 146, 0.856)">
+        <h4 class="modal-title" id="modal-basic-title" style="color:rgb(4, 4, 26);">OT Information</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closemodal('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>General Information</h4>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="regid">Registeration Id</label>
+                        <div class="input-group">
+                            <input class="form-control" name="id" readonly value="{{rowdata?.patient_registration_no}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="admid">Admission Id</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="name" value="{{rowdata?.admission_sequence}}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="otnumber">Ot Number</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="otnumber" value="{{rowdata?.ot_sequence}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Operation Information</h4>
+                </div>
+            </div>
+            <hr>
+
+
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="ottypename">Operation Type Name</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.operation_type_name}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="otdate">Operation date</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.operation_date}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="stime">Operation start time</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.patient_operation_start}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="endtime">Operation end time</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.patient_operation_end}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="surgerypusrpose">Purpose Of surgery</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.purpose_of_surgery}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="surgery type">Surgery Type</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="stype" value="{{rowdata?.surgery_type_name}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="sinstruction">special instaructions</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="sinstruction" value="{{rowdata?.special_instruction}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Patient Information</h4>
+                </div>
+            </div>
+            <hr>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="pname">Patient Name</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="pname" value="{{rowdata?.patient_name}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="pphone"> Patient Phone</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.patient_phone}}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="pgender">Patient Gender</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.patient_sex}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="paddress">Patient Address</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="paddress" value="{{rowdata?.patient_address}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="pdob"> Patient Dob </label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.patient_dob}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Doctor Information</h4>
+                </div>
+            </div>
+            <hr>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="dname">Doctor name</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="dname" value="{{rowdata?.doctor_name}}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="dphone"> Doctor Phone </label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.doctor_phone}}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="assistingdoctor">Assisting doctor </label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.assiting_doctor_name}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="closemodal('Save click')">Close</button>
+    </div>
+</ng-template>

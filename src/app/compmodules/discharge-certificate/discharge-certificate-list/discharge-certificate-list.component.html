@@ -13,7 +13,7 @@
     <div style="margin: auto; margin-top:10px">
         <data-table id="patients-grid" headerTitle="Discharge list" [items]="dischargeCertificates" [itemCount]="dischargeCertificateCount" (reload)="reloaddischargeCertificates($event)"
             [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false" [expandableRows]="false"
-            [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
+            [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true"  (rowClick)="ongridclick($event , content)">
 
             <data-table-column [property]="'admission_sequence'" [header]="'Admission Id'" [sortable]="true" [width]="140">
             </data-table-column>
@@ -32,7 +32,176 @@
             </data-table-column>
         </data-table>
     </div>
-
-
-
 </div>
+
+
+
+
+
+<ng-template #content let-modal>
+    <div class="modal-header" style="background-color: rgba(26, 82, 146, 0.856)">
+        <h4 class="modal-title" id="modal-basic-title" style="color:rgb(4, 4, 26);">Discharge Information</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closemodal('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>General Information</h4>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="regid">Registeration Id</label>
+                        <div class="input-group">
+                            <input class="form-control" name="id" readonly value="{{rowdata?.patient_registration_no}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="admid">Admission Id</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="name" value="{{rowdata?.admission_sequence}}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="admissiondate">Admission Date</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="dateofadmission" value="{{rowdata?.date_of_admission}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Discharge  Information</h4>
+                </div>
+            </div>
+            <hr>
+
+
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="ddate">Discharge Date</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.discharge_date}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="dadvice">Advice On Discharge</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.advise_on_discharge}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="dinstructions">Discharge Instructions </label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.discharge_instruction}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="dnote">Discharge Note</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.discharge_note}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="fdiagonysis">Final Diagonysis</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.final_diagonysis}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Patient Information</h4>
+                </div>
+            </div>
+            <hr>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="pname">Patient Name</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="pname" value="{{rowdata?.patient_name}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="pgender"> Patient Gender</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.patient_sex}}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="pdob">Patient Dob</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.patient_dob}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="guardianname">Patient Guardian Name</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="paddress" value="{{rowdata?.name_of_gurdian}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="grelated">Guardian related to patient  </label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.relationship_with_patient}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="closemodal('Save click')">Close</button>
+    </div>
+</ng-template>
