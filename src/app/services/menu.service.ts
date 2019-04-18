@@ -736,7 +736,10 @@ export class MenuService implements OnInit {
         comp: new ComponentRef(RegistrationListComponent),
         headerTitle: "Patient Registration List"
       },
+<<<<<<< HEAD
 
+=======
+>>>>>>> dc41ce8b001674a93f88ae686d0584a7077f708c
       {
         compName: ComponentModule[ComponentModule.DoctorModule],
         compId: ComponentModule.DoctorModule,

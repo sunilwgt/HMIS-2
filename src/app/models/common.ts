@@ -60,7 +60,10 @@ export const RL_APPROVER_LIST: string = "rlApproverList";
 
 export const RL_BUILDING_LIST: string = "rlBuildingList";
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dc41ce8b001674a93f88ae686d0584a7077f708c
 export const RL_DELIVERY_TYPE: string = "rlDeliveryType";
 export const RL_DELIVERY_TYPE_LIST: string = "rlDeliveryTypeList";
 
