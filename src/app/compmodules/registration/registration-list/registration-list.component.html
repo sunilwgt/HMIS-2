@@ -1,0 +1,580 @@
+<app-header-buttons [csvjson]="patients"></app-header-buttons>
+
+<div style="margin: auto; margin-top:10px">
+
+
+
+    <data-table id="patients-grid" headerTitle="" [items]="arrrangedpatientdata" [itemCount]="patientCount" (reload)="reloadPatients($event)"
+        [limit]="15" [sortAsc]="false" [selectColumn]="true" [multiSelect]="true" [substituteRows]="false"
+        [expandableRows]="false" [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
+        <data-table-column [property]="'$id'" [header]="'Seq.'" [resizable]=true [width]="50">
+        </data-table-column>
+        <data-table-column [width]="80">
+            <ng-template #dataTableHeader let-item="item">
+                Reg No.
+            </ng-template>
+            <ng-template #dataTableCell let-item="item">
+                <a href="/" onclick="return false;" (click)="ongridclick($event , item , content)">{{item.patient_registration_no}}</a>
+            </ng-template>
+
+        </data-table-column>
+
+
+        <data-table-column [property]="'patient_first_name'" [header]="'Patient Name'" [sortable]="true" [resizable]=true
+            [width]="120">
+        </data-table-column>
+        <data-table-column [property]="'patient_sex'" [header]="'Gender'" [sortable]="true" [resizable]=true [width]="80">
+        </data-table-column>
+        <data-table-column [property]="'patient_phone'" [header]="'Phone'" [sortable]="true" [resizable]=true [width]="100">
+        </data-table-column>
+
+        <data-table-column [property]="'admitted_on'" [header]="'DOR'" [sortable]="true" [resizable]=true [width]="80">
+        </data-table-column>
+
+        <!-- <data-table-column [property]="'action'" [header]="'Action'" [sortable]="false" [resizable]=true [width]="250">
+            <ng-template #dataTableCell let-item="item">
+                <hmis-generic-action [printDisable]="false" [admissionDisable]="false" [isadmitted]="item.OpenAdmission > 0 ? true:false"
+                    [isadmittedstyle]="item.OpenAdmission > 0 ? true:false" [itemdata]=item (clickHandler)="clickEventHandler($event)"
+                    [actiontypeId]="admissionRL">
+                </hmis-generic-action>
+            </ng-template>
+        </data-table-column> -->
+
+        <data-table-column [property]="'action'" [header]="'Action'" [sortable]="false" [resizable]=true [width]="110">
+            <ng-template #dataTableCell let-item="item">
+
+                <!-- <div  *ngIf="once" >
+
+        <hmis-generic-action  [printDisable]="false" [admissionDisable]="false" [isadmitted]="item.OpenAdmission > 0 ? true:false"
+                [isadmittedstyle]="item.OpenAdmission > 0 ? true:false" [itemdata]=item (clickHandler)="clickEventHandler($event)"
+                [actiontypeId]="admissionRL">
+            </hmis-generic-action>
+           
+</div> -->
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <div class="dropdown">
+                                <div class="test">
+                                    <div class="dropdown-content">
+                                        <a href="#"  (click)="clickEventHandler($event , 'modeView' , item)"><i class="fa fa-eye" ></i>&nbsp;&nbsp;View</a>
+                                        <a href="#"  (click)="clickEventHandler($event ,'modeEdit' , item)"> <i class="fa fa-edit" ></i>&nbsp;&nbsp;Edit </a>
+                                        <a href="#"  (click)="clickEventHandler($event , 'modeDelete' , item)"> <i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</a>
+                                        <a href="#"  (click)="clickEventHandler($event ,'modeAdmission' , item)"><i class="fa fa-h-square"></i>&nbsp;&nbsp;Admission</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
+            </ng-template>
+        </data-table-column>
+    </data-table>
+
+
+</div>
+
+<!-- <div class="panel with-nav-tabs panel-primary">
+    <div class="panel-heading">
+        <ul class="nav nav-tabs">
+            <li [ngClass]="showNav[0] == true ? 'active' : ''">
+                <a (click)="toggleNav(0)" data-toggle="tab">Non Hospitalized Registration </a>
+            </li>
+            <li [ngClass]="showNav[1] == true ? 'active' : ''">
+                <a (click)="toggleNav(1)" [ngClass]="showNav[1] == true ? 'show' : ''" data-toggle="tab"> Hospitalized
+                    Registration
+                    Details</a>
+            </li>
+
+        </ul>
+    </div>
+    <div class="panel-body">
+        <div class="tab-content">
+            <div class="tab-pane fade" [ngClass]="showNav[0] == true ? ' in active' : ''" id="tab1primary">
+                hello
+            </div>
+
+
+            <div class="tab-pane fade" [ngClass]="showNav[1] == true ? ' in active' : ''" id="tab1primary">
+                hello2
+            </div>
+        </div>
+    </div> -->
+
+
+<!-- <div class="panel with-nav-tabs panel-primary">
+    <div class="panel-heading">
+        <ul class="nav nav-tabs">
+            <li [ngClass]="showNav[0] == true ? 'active' : ''">
+                <a (click)="toggleNav(0)" data-toggle="tab">Non Admitted Registeration</a>
+            </li>
+            <li [ngClass]="showNav[1] == true ? 'active' : ''">
+                <a (click)="toggleNav(1)" [ngClass]="showNav[1] == true ? 'show' : ''" data-toggle="tab"> Admitted
+                    Registration
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <div class="tab-content">
+            <div class="tab-pane fade" [ngClass]="showNav[0] == true ? ' in active' : ''" id="tab1primary">
+                <div class="col-md-12">
+                    <app-header-buttons [csvjson]="patients"></app-header-buttons>
+                    <div style="margin: auto; margin-top:10px">
+
+                        <data-table id="patients-grid" headerTitle="" [items]="patients" [itemCount]="patientCount"
+                            (reload)="reloadPatients($event)" [limit]="15" [sortAsc]="false" [selectColumn]="false"
+                            [multiSelect]="false" [substituteRows]="false" [expandableRows]="false" [translations]="translations"
+                            [indexColumn]="false" [selectOnRowClick]="true">
+                            <data-table-column [property]="'$id'" [header]="'Seq.'" [resizable]=true [width]="50">
+                            </data-table-column>
+                            <data-table-column [width]="130">
+                                <ng-template #dataTableHeader let-item="item">
+                                    Reg No.
+                                </ng-template>
+                                <ng-template #dataTableCell let-item="item">
+                                    <a href="/" onclick="return false;" (click)="ongridclick($event , item , content)">{{item.patient_registration_no}}</a>
+                                </ng-template>
+
+                            </data-table-column>
+
+
+                            <data-table-column [property]="'patient_first_name'" [header]="'Patient Name'" [sortable]="true"
+                                [resizable]=true [width]="150">
+                            </data-table-column>
+                            <data-table-column [property]="'patient_sex'" [header]="'Gender'" [sortable]="true"
+                                [resizable]=true [width]="100">
+                            </data-table-column>
+                            <data-table-column [property]="'patient_phone'" [header]="'Phone'" [sortable]="true"
+                                [resizable]=true [width]="110">
+                            </data-table-column>
+                            <data-table-column [property]="'admitted_on'" [header]="'DOR'" [sortable]="true"
+                                [resizable]=true [width]="120">
+                            </data-table-column>
+                            <data-table-column [property]="'action'" [header]="'Action'" [sortable]="false" [resizable]=true
+                                [width]="250">
+                                <ng-template #dataTableCell let-item="item">
+                                    <hmis-generic-action [printDisable]="false" [admissionDisable]="false" [isadmitted]="item.OpenAdmission > 0 ? true:false"
+                                        [isadmittedstyle]="item.OpenAdmission > 0 ? true:false" [itemdata]=item
+                                        (clickHandler)="clickEventHandler($event)" [actiontypeId]="admissionRL">
+                                    </hmis-generic-action>
+                                </ng-template>
+                            </data-table-column>
+                        </data-table>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" [ngClass]="showNav[1] == true ? ' in active' : ''" id="tab1primary">
+                <app-header-buttons [csvjson]="patients"></app-header-buttons>
+                Admitted Registeration list
+            </div>
+        </div>
+    </div>
+ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+<p-dialog header="Patient Registeration" [(visible)]="displaydialog" [modal]="true" [responsive]="true" [style]="{width: '450px', minWidth: '300px'}"
+    [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+
+
+    <div class="row">
+        <div class="row">
+            <div class="col-md-6">
+            
+                 <label for="name" style="color:blue">Patient First Name</label>
+            </div>
+            <div class="col-md-6">
+                {{rowdata?.patient_first_name}}
+            </div>
+        </div>
+   
+    <div class="row">
+            <div class="row">
+                <div class="col-md-6">
+                        <label for="name">Patient Last Name</label>
+                </div>
+                <div class="col-md-6">
+                    {{rowdata?.patient_last_name}}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="name">Patient Registeration Number</label>
+                    </div>
+                    <div class="col-md-6">
+                        {{rowdata?.patient_registration_no}}
+                    </div>
+                </div>
+            </div>
+  <div class="row">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="name">Patient Gender</label>
+            </div>
+            <div class="col-md-6">
+                {{rowdata?.patient_sex}}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="name">Patient Religion</label>
+                </div>
+                <div class="col-md-6">
+                    {{rowdata?.religion}}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="name">Police station</label>
+                    </div>
+                    <div class="col-md-6">
+                        {{rowdata?.police_station}}
+                    </div>
+                </div>
+            </div>  <div class="row">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="name">Patient Age</label>
+                        </div>
+                        <div class="col-md-6">
+                            {{rowdata?.patient_age}}
+                        </div>
+                    </div>
+                </div>  <div class="row">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="name">Patient City</label>
+                            </div>
+                            <div class="col-md-6">
+                                {{rowdata?.patient_city}}
+                            </div>
+                        </div>
+                    </div>  <div class="row">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="name">Patient Address</label>
+                                </div>
+                                <div class="col-md-6">
+                                    {{rowdata?.patient_address}}
+                                </div>
+                            </div>
+                        </div>  <div class="row">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="name">Patient Nationality</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{rowdata?.nationality}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="name">Patient Address</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            {{rowdata?.patient_address}}
+                                        </div>
+                                    </div>
+                                </div><div class="row">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="name">Is Bpl Holder</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {{rowdata?.Is_Bpl_holder}}
+                                            </div>
+                                        </div>
+                                    </div><div class="row">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label for="name">Patient Under doctor</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    {{rowdata?.doctro_under_name}}
+                                                </div>
+                                            </div>
+                                        </div><div class="row">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label for="name">Patient Admitted on</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        {{rowdata?.admitted_on}}
+                                                    </div>
+                                                </div>
+                                            </div>
+    </div> 
+    <p-footer>
+        <button type="button" pButton icon="pi pi-close" (click)="displaydialog=false" label="Close" class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog> -->
+
+<ng-template #content let-modal>
+    <div class="modal-header" style="background-color: rgba(26, 82, 146, 0.856)">
+        <h4 class="modal-title" id="modal-basic-title" style="color:rgb(4, 4, 26)">PATIENT REGISTERATION
+            INFORMATION
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="closemodal('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="regid">Registeration Id</label>
+                        <div class="input-group">
+                            <input class="form-control" name="id" readonly value="{{rowdata?.patient_registration_no}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="regid">Patient Name</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="name" value="{{rowdata?.patient_first_name}} {{rowdata?.patient_first_name}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="regdate">Registeration Date</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.admitted_on}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="doctorunder"> Under Doctor</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="dp" value="{{rowdata?.doctro_under_name}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="phone">Patient Phone</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.patient_phone}}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="age">Patient Age</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="dp" value="{{rowdata?.patient_age}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.patient_sex}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="isbplholder">Bpl Holder </label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="isbplholder" value="{{rowdata?.Is_Bpl_holder}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="city"> Patient City </label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.patient_city}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="address">Patient Address</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="address" value="{{rowdata?.patient_address}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="policestation">Police station </label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.police_station}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="religion">Religion</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="dp" value="{{rowdata?.religion}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.patient_notes}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="nationality">Nationality</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="nationality" value="{{rowdata?.nationality}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="closemodal('Save click')">Close</button>
+    </div>
+</ng-template>

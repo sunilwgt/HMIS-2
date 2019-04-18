@@ -1,0 +1,118 @@
+<!-- <p>
+  <mat-form-field appearance="outline">
+    <mat-label>First Name</mat-label>
+    <input matInput placeholder="First Name">
+    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> 
+    <mat-hint>Hint</mat-hint>
+  </mat-form-field>
+</p> -->
+
+
+
+<div class="panel with-nav-tabs panel-primary">
+  <div class="panel-heading">
+    <ul class="nav nav-tabs">
+      <li [ngClass]="showNav[0] == true ? 'active' : ''">
+        <a (click)="toggleNav(0)" data-toggle="tab">Add Appointment</a>
+      </li>
+      <li [ngClass]="showNav[1] == true ? 'active' : ''">
+        <a (click)="toggleNav(1)" [ngClass]="showNav[1] == true ? 'show' : ''" data-toggle="tab">Doctor Details</a>
+      </li>
+    </ul>
+  </div>
+  <div class="panel-body">
+    <div class="tab-content">
+      <div class="tab-pane fade" [ngClass]="showNav[0] == true ? ' in active' : ''" id="tab1primary">
+
+        <div class="card-title">
+          <h4>Appointment Information</h4>
+        </div>
+
+        <div class="row">
+          <div class="col-md-9 col-sm-12 col-12 col-lg-12 col-xl-9 order-1 order-sm-1 order-md-0 order-lg-1 order-xl-0">
+
+
+            <div class="row" style="margin-left:5px;">
+              <label><b>Date</b></label>&nbsp;&nbsp;
+              <p-calendar [(ngModel)]="dateValuefrom" (change)="changefromdate()" name="dateValuefrom" dateFormat="dd.mm.yy"></p-calendar>
+            </div><br><br>
+            <div class="row">
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Doctor'" class="col-md-6 col-sm-6 col-12 col-lg-6 col-xl-4"
+                [selectOptions]="doctorListOption" [propName]="'Reffered_Doctor'" (compValueChange)="valueChangeHandler($event)"
+                [errorMessage]="'Select Doctor To Refer'" [isrequire]=true></hmis-vertical-label-type>
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Patient Name'" class="col-md-6 col-sm-12 col-12 col-lg-12 col-xl-4"
+                [propName]="'patient_first_name'" (compValueChange)="valueChangeHandler($event)" [errorMessage]="'First Name Required'"
+                [isrequire]=true (errorOccur)="onErrorOccurFirstTab($event)">
+              </hmis-vertical-label-type>
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Phone Number'" class="col-md-6 col-sm-6 col-12 col-lg-6 col-xl-4"
+                [propName]="'patient_phone'" (compValueChange)="valueChangeHandler($event)" [isrequire]=true
+                (customValidation)="customPhoneNoCheck($event)" [showCustomError]="phoneError" [condition]="customCond">
+              </hmis-vertical-label-type>
+            </div>
+            <button class="btn btn-primary" type="button">Create</button>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+      <div class="tab-pane fade" [ngClass]="showNav[1] == true ? ' in active' : ''" id="tab1primary">
+        <div class="card-title">
+          <h4>Doctor details</h4>
+        </div>
+       
+        <div class="row"> 
+            <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Date'" class="col-md-6 col-sm-6 col-12 col-lg-6 col-xl-4"
+              [selectOptions]="doctorListOption" [propName]="'Reffered_Doctor'" (compValueChange)="valueChangeHandler($event)"
+              [errorMessage]="'Select Doctor To Refer'" [isrequire]=true></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Department'" class="col-md-6 col-sm-6 col-12 col-lg-6 col-xl-4"
+              [selectOptions]="doctorListOption" [propName]="'Reffered_Doctor'" (compValueChange)="valueChangeHandler($event)"
+              [errorMessage]="'Select Doctor To Refer'" [isrequire]=true></hmis-vertical-label-type>
+          </div>
+
+
+  <mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="position">
+    <mat-header-cell *matHeaderCellDef> Seq. </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef> Doctor Name </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="weight">
+    <mat-header-cell *matHeaderCellDef> Department </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="symbol">
+    <mat-header-cell *matHeaderCellDef> Timing </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+          
+            <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> -->
+   
+
+      </div>
+    </div>
+  </div>
+</div>
+<generic-popup [modalOption]="modaloption"></generic-popup>

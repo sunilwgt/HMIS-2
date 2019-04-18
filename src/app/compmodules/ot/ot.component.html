@@ -1,0 +1,181 @@
+<div class="panel with-nav-tabs panel-primary">
+  <div class="panel-heading">
+    <ul class="nav nav-tabs">
+      <li [ngClass]="showNav[0] == true ? 'active' : ''">
+        <a (click)="toggleNav(0)" data-toggle="tab">OT Create</a>
+      </li>
+      <li [ngClass]="showNav[1] == true ? 'active' : ''">
+        <a (click)="toggleNav(1)" [ngClass]="showNav[1] == true ? 'show' : ''" data-toggle="tab">OT Note</a>
+      </li>
+    </ul>
+  </div>
+
+
+  <div class="panel-body">
+    <div class="tab-content">
+      <div class="tab-pane fade" [ngClass]="showNav[0] == true ? ' in active' : ''" id="tab1primary">
+        <div class="card-title">
+          <h4>Create OT</h4>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+
+              <hmis-keyup-search [labelname]="'Patient Admission ID*'" [data]="patientList" [propName]="'value'" (onKeyUp)="onKeyUpSearchForPatient($event)"
+                [data]="patientlist" (getSelectedItem)="getSelectedHandlerForPatient($event)" class="hmissearch col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+                *ngIf="showsearch"></hmis-keyup-search>
+
+              <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4" *ngIf="isEnabled">
+                <label>Admission ID :</label>
+                <span>{{compData.admission_sequence}}</span>
+              </div>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'OT ID'" class="col-12 col-sm-4 col-md-6 col-lg-6 col-xl-6"
+                [propName]="'ot_sequence'" (compValueChange)="valueChangeHandler($event)" [isEditable]="false"></hmis-vertical-label-type>
+              <!--hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Admission ID'" class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+                [propName]="'admission_sequence'" (compValueChange)="valueChangeHandler($event)" [isEditable]="false"></hmis-vertical-label-type-->
+
+              <div class="col-12">
+                <div class="row patient-info">
+                  <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                    <label>Registration ID :</label>
+                    <span>{{compData.patient_registration_no}}</span>
+                  </div>
+                  <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+                    <label>Patient Name :</label>
+                    <span>{{compData.patient_name}}</span>
+                  </div>
+
+                  <div class="col-12 col-sm-3 col-md-2 col-lg-2 col-xl-2">
+                    <label>Age :</label>
+                    <span>{{compData.patient_age}}</span>
+                  </div>
+
+                  <div class="col-12 col-sm-9 col-md-2 col-lg-2 col-xl-2">
+                    <label>Sex :</label>
+                    <span>{{compData.patient_sex}}</span>
+                  </div>
+
+                  <div class="col-12 col-sm-9 col-md-6 col-lg-6 col-xl-6">
+                    <label>Doctor Under :</label>
+                    <span>{{compData.doctor_name}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <hr>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="operationTypeListOption" [labelname]="'Operation Type*'" [isrequire]=true
+              [errorMessage]="'Operation type require'"
+                class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6" [propName]="'operation_type_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compdatepast]" [labelname]="'Operation Date*'" [isrequire]=true  [errorMessage]="'Operation  date require'" class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+                [propName]="'operation_datetime'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+                
+
+                <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompTime]" [labelname]="'Opetation Start Time*'"    class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+                [propName]="'patient_operation_start'" (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Operation start date require'"
+                ></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompTime]" [labelname]="'Opetation end time*'"  [isrequire]=true [errorMessage]="'Operation End Time require'" class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+                [propName]="'patient_operation_end'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+
+              <!--hmis-vertical-label-type [templateid]="gencomp[gencomp.CompTime]" [labelname]="'Opetation Start Time'" class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3"
+                [propName]="'operation_time'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type-->
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="surguryTypeListOption" [labelname]="'Surgery Type*'" [isrequire]=true [errorMessage]="'Surgery type require'"
+                class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6" [propName]="'surgery_type_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type  [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="doctorListOption" [labelname]="'Surgeon*'" [isrequire]=true [errorMessage]="'Surgeon require'"
+                class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6" [propName]="'doctor_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]"  [isrequire]=false [selectOptions]="doctorListOption" [labelname]="'Anesthesiologist'"
+                class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6" [propName]="'anesthesiologist_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="doctorListOption" [labelname]="'Assisting Doctor'" [isrequire]=false
+                class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6" [propName]="'assisting_doctor_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]"  [labelname]="'Purpose Of Surgery*'" [isrequire]=true [errorMessage]="'Purpose of surgery  require'"  class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+                [propName]="'purpose_of_surgery'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]"  [isrequire]=false [labelname]="'Special Instructions'" class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+                [propName]="'special_instruction'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+              <!-- <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompTime]" [labelname]="'Opetation Start Time'" class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+                [propName]="'patient_operation_start'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompTime]" [labelname]="'Opetation End Time'" class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+                [propName]="'patient_operation_end'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type> -->
+
+              <!--<hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Operation Duration'" class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+                [propName]="'patient_age'"></hmis-vertical-label-type-->
+
+            </div>
+            <div>
+              <div class="btn-xs-small pull-right">
+                <button *ngIf="showSubmitBtn" class="btn btn-info " (click)="submitClickHandler()">{{submitBtnLabel}}</button>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" [ngClass]="showNav[1] == true ? ' in active' : ''" id="tab1primary">
+        <div class="card-title">
+          <h4>OT Note</h4>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Patient ID'" class="col-lg-4 col-sm-4" [propName]="'building_name'"
+                (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'OT ID'" class="col-lg-4 col-sm-4" [propName]="'building_name'"
+                (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Name Of Patient'" class="col-lg-4 col-sm-4"
+                [propName]="'building_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Name Of Operation'" class="col-lg-4 col-sm-4"
+                [propName]="'building_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Name Of Surgon'" class="col-lg-4 col-sm-4"
+                [propName]="'building_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Procedure'" class="col-lg-4 col-sm-4"
+                [propName]="'building_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Oprative FIndings Template'" class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4"
+                [propName]="'building_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Procedure in Details'" class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4"
+                [propName]="'building_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Post Operative Advice'" class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4"
+                [propName]="'building_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+            </div>
+
+            <div>
+              <div class="btn-xs-small pull-right">
+                <button *ngIf="showSubmitBtn" class="btn btn-info " (click)="submitClickHandler()">{{submitBtnLabel}}</button>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+
+
+
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+</div>

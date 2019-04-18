@@ -1,0 +1,12 @@
+@media screen and (min-width:768px) {
+    .modal-lg {
+        max-width: calc(100% - 30%) !important
+    }
+}
+
+.address {
+    textarea {min-height: 80px;}
+}
+.Final-Diagnosis, .Operation-Treatment, .Advice-on-Discharge {
+    textarea {min-height: 200px;}
+}

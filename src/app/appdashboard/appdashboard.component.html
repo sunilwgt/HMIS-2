@@ -1,0 +1,11 @@
+<hmis-loader></hmis-loader>
+<div>
+  <app-inner-header></app-inner-header>
+  <hmis-leftpanel (mouseenter)="leftpanelenter()" class="left-sidebar" [class.toggletab]="commonService.minisidebar"></hmis-leftpanel>
+  <div (mouseenter)="rightpanelenter()">
+      <hmis-rightpanel class="page-wrapper" [class.rightbarexpend]="commonService.minisidebar"></hmis-rightpanel>
+
+  </div>
+
+  <app-page-not-found *ngIf="false"></app-page-not-found>
+</div>

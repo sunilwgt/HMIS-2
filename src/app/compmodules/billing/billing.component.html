@@ -1,0 +1,364 @@
+<div class="panel with-nav-tabs panel-primary">
+    <div class="panel-heading">
+        <ul class="nav nav-tabs">
+            <li [ngClass]="showNav[0] == true ? 'active' : ''">
+                <a (click)="toggleNav(0)" [ngClass]="showNav[1] == true ? 'show' : ''" data-toggle="tab">Advance Billed</a>
+            </li>
+            <li [ngClass]="showNav[1] == true ? 'active' : ''">
+                <a (click)="toggleNav(1)" data-toggle="tab">Billing</a>
+            </li>
+
+
+
+        </ul>
+    </div>
+    <div class="panel-body">
+        <div class="tab-content">
+
+            <div class="tab-pane fade" [ngClass]="showNav[0] == true ? ' in active' : ''" id="tab1primary">
+
+                <div class="row patient-info">
+                    <hmis-keyup-search [labelname]="'Patient ID'" [data]="patientList" [propName]="'value'"
+                        (getSelectedItem)="getSelectedHandlerForPatient($event)" (onKeyUp)="onKeyUpSearchForPatient($event)"
+                        class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3" *ngIf="!Isdisabled"></hmis-keyup-search>
+                </div>
+                <div class="row patient-info" *ngIf="isEnabled && compData != undefined">
+
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" *ngIf="compData.IsDisabled == true">
+                        <label>Registration No :</label>
+                        <span>{{compData.patient_registration_no}}</span>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <label>Patient Name :</label>
+                        <span>{{compData.patient_name}}</span>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-3">
+                        <label>Age :</label>
+                        <span>{{compData.patient_age}}</span>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-3">
+                        <label>Sex :</label>
+                        <span>{{compData.patient_sex}}</span>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-5">
+                        <label>Bed Number :</label>
+                        <span>{{compData.bed_name}}</span>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compdate]" [labelname]="'Current Date'"
+                        class="col-12 col-sm-3 col-md-4 col-lg-4 col-xl-3" [propName]="'current_date'"
+                        (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+                    <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Paid By'" class="col-12 col-sm-4 col-md-8 col-lg-8 col-xl-3"
+                        [propName]="'advance_paid_by'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+
+                    <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Payment Mode'"
+                        [selectOptions]="paymentMode" [propName]="'advance_payment_mode'" (compValueChange)="valueChangeHandler($event)"
+                        class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2"></hmis-vertical-label-type>
+
+                    <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Deposit Amount'"
+                        class="col-12 col-sm-3 col-md-5 col-lg-5 col-xl-2 d_amt" [propName]="'advance_amount'"
+                        (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+                    <div class="col-12 col-sm-2 col-md-3 col-lg-3 col-xl-2">
+                        <button class="btn btn-primary btn-flat btn-lg pull-right save-btn btn-block" type="button"
+                            (click)="saveAdvanceData()">Save</button>
+                    </div>
+
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="billhead">
+                            <div style="width:10%">Sl. No.</div>
+                            <div style="width:10%">Advance Date</div>
+                            <div style="width:60%">Advance paid by</div>
+                            <div style="width:20%">Advance Amount</div>
+                        </div>
+
+                        <div class="billbody">
+                            <div class="billing-item-row" *ngFor="let items of item">
+                                <div style="width:10%">{{items.$id}}</div>
+                                <div style="width:10%">{{items.advanceDate}}</div>
+                                <div style="width:60%">{{items.advance_paid_by}}</div>
+                                <div style="width:20%; text-align: right; padding-right: 10px;">{{items.advance_amount}}</div>
+                            </div>
+                        </div>
+
+                        <div class="total_row">
+                            <div class="total_row_left">
+                                <div class="bill-footer"></div>
+                                <div class="bill-footer_head">
+                                    <b>Total</b>
+                                    <br>
+                                </div>
+                            </div>
+
+                            <div class="total_row_right">
+                                <div class="bill-footer_amt">
+                                    <b>{{totalAdvance}}</b>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn btn-primary btn-lg pull-right ml-auto" type="button" (click)="createAdvancBillingPdf()">Print</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="tab-pane fade" [ngClass]="showNav[1] == true ? ' in active' : ''" id="tab1primary">
+                <div class="card-title">
+                    <!-- <h4 class="h-name">Jeebandeep Spacial Care & Diagnostic Centre</h4>
+                     -->
+                    <h4 class="h-name">{{hospitaldata?.hospital_name}}</h4>
+
+                </div>
+
+                <div class="row patient-info">
+                    <hmis-keyup-search [labelname]="'Patient ID'" [data]="patientList" [propName]="'value'"
+                        (getSelectedItem)="getSelectedHandlerForPatient($event)" (onKeyUp)="onKeyUpSearchForPatient($event)"
+                        class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 pull-right" *ngIf="compData == undefined">
+                    </hmis-keyup-search>
+                </div>
+
+
+                <div class="row patient-info" *ngIf="isEnabled && compData != undefined">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                        <label>Patient ID :</label>
+                        <span>{{compData.patient_registration_no}}</span>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
+                        <label>Patient Name :</label>
+                        <span>{{compData.patient_name}}</span>
+                    </div>
+                    <div class="col-md-12">
+                        <label>Address :</label>
+                        <span>{{compData.patient_address}}</span>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                        <label>Age :</label>
+                        <span>{{compData.patient_age}}</span>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                        <label>Sex :</label>
+                        <span>{{compData.patient_sex}}</span>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                        <label>Patient Phone No :</label>
+                        <span>{{compData.patient_phone}}</span>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                        <label>Bed Number :</label>
+                        <span>{{compData.bed_name}}</span>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                        <label>Admission Date :</label>
+                        <span>{{compData.admitted_on}}</span>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                        <label>Discharge Date :</label>
+                        <span>{{compData.discharge_date}}</span>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-12">
+                        <label>Doctor Under :</label>
+                        <span>{{compData.doctro_under_name}}</span>
+                    </div>
+                </div>
+                <hr>
+                <form name="building_form" novalidate="novalidate">
+                    <div class="billhead">
+                        <div style="width:10%">No.</div>
+                        <div style="width:70%">PARTICULARS</div>
+                        <div style="width:20%">Amount</div>
+                    </div>
+                    <div class="billbody">
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillselectrow]" [data]="packageSearchList"
+                            [labelname]="'Search Package'" [propName]="'description'" (compValueChange)="valueChangeHandler($event)"
+                            (getSelectedItem)="getSelectedHandlerForPackage($event)" *ngIf="!showPckagedtails"></hmis-vertical-label-type>
+
+                        <div class="billing-item-row" *ngIf="showPckagedtails">
+                            <div style="width:10%">1</div>
+                            <div style="width:70%">{{compData.package_name}} </div>
+                            <div style="width:20%">{{compData.package_amount}}</div>
+
+                        </div>
+                        <!-- <hmis-keyup-search [labelname]="'Search Package'" [data]="packageSearchList" [propName]="'others'" (getSelectedItem)="getSelectedHandlerForPackage($event)"
+                            (onKeyUp)="onKeyUpSearchForPackage($event)"></hmis-keyup-search> -->
+                        <!-- <div class="billbody" *ngFor="let pricet of compData.prices"> -->
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [data]="priceList"
+                            [labelname]='price_title' (onKeyUp)="saverange($event)" (change)="updateCharges($event)"
+                            *ngIf="individualChargesEditable"></hmis-vertical-label-type>
+
+                        <!--  <table>
+                                 <tr *ngFor="let item of priceList">
+                                     <td>{{item.label}}</td>
+                                     <td><input type="number" value="" placeholder="0.00"></td>
+                                 </tr>
+                             </table> -->
+
+                        <!--    <hmis-vertical-label-type *ngFor="item of priceList" (change)="saverange($event)" [labelname]='price_title' >
+
+                            </hmis-vertical-label-type> -->
+
+                        <!--  [propName]="'price'" (compValueChange)="valueChangeHandler($event)"-->
+                        <!--  <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Bed Charge'" [propName]="'bed_charge'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Doctor Visit'" [propName]="'doctor_visit'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Specialist Consultation charge'" [propName]="'Specialist_Consultation_charge'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Surgeon Charge'" [propName]="'description'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Anaesthetist charge'" [propName]="'description'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Assistance charge'" [propName]="'description'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Special Nursing / Aya charge'" [propName]="'description'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Operation theatre charge'" [propName]="'description'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Labour Room charge'" [propName]="'description'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Dressing charge'" [propName]="'description'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Oxygen inhalation charge'" [propName]="'description'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Nebulization charge'" [propName]="'description'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Pulse oxymeter charge'" [propName]="'description'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Phototherapy charge'" [propName]="'description'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Warmer / Warm care charge'" [propName]="'description'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Fluid Surgical goods cost'" [propName]="'description'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Anaesthetic Machine with Gasses charge'"
+                            [propName]="'description'" (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Medicine Cost during operation'" [propName]="'description'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Actual cost of ward Medicine'" [propName]="'description'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Extra Diet'" [propName]="'description'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Investigation charge'" [propName]="'description'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Emergency Management charge'" [propName]="'description'"
+                            (change)="saverange($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compbillrow]" [labelname]="'Misscellaneous charge'" [propName]="'description'"
+
+                            (change)="saverange($event)"></hmis-vertical-label-type> 
+ 
+                                    -->
+                    </div>
+
+                    <div class="total_row">
+                        <div class="total_row_left">
+                            <div class="bill-footer">
+                                <span>Rupees in words :</span> {{ amountInWords }}</div>
+                            <div class="bill-footer_head">
+                                <b>Subtotal</b>
+                                <br>
+                                <b>Advance</b>
+                                <br>
+                                <b>Total</b>
+
+                                <br>
+                                <!-- <b>Due</b>
+                                <br> -->
+
+                                <b>Adjust</b>
+                            </div>
+                        </div>
+
+                        <div class="total_row_right">
+                            <div class="bill-footer_amt">
+                                <b *ngIf="total_bill === 0;">00.00</b>
+                                <b *ngIf="total_bill !== 0;">{{total_bill}}</b>
+                                <br>
+                                <b>{{totalAdvance}}</b>
+                                <br>
+                                <b>
+                                    <b>{{finalAmount}}</b>
+
+                                </b>
+                                <br>
+                                <!-- <b>00.00</b> -->
+                                <!-- <b *ngIf="due === 0;">00.00</b>
+                                <b *ngIf="due !== 0;">{{due}}</b>
+                                <br> -->
+                                <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compcheckbox]" (change)="getSelectedIsAdjustValue($event)"
+                                    class="adjust_check"></hmis-vertical-label-type>
+                                <br>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <hmis-vertical-label-type [selectOptions]="reqoption" [templateid]="gencomp[gencomp.Compselect]"
+                                [labelname]="'Approval status'" class="col-lg-4 col-sm-6 required" [propName]="'approval_id'"
+                                (compValueChange)="valueChangeHandler($event)" *ngIf="IsAdjust"></hmis-vertical-label-type>
+
+                        </div>
+                        <div class="col-md-4">
+                            <hmis-vertical-label-type [selectOptions]="approverOption" [templateid]="gencomp[gencomp.Compselect]"
+                                [labelname]="'Assign To'" class="col-lg-4 col-sm-6 required" [propName]="'approver_id'"
+                                (compValueChange)="valueChangeHandler($event)" *ngIf="IsAdjust"></hmis-vertical-label-type>
+
+                        </div>
+                        <div class="col-md-4">
+                            <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Approval Note'"
+                                class="col-12 col-sm-4 col-md-8 col-lg-8 col-xl-3" [propName]="'approvalnote'"
+                                (compValueChange)="valueChangeHandler($event)" *ngIf="IsAdjust"></hmis-vertical-label-type>
+
+                        </div>
+                    </div>
+
+                </form>
+                <hr>
+                <div class="btn-xs-small pull-right">
+                    <button class="btn btn-info " (click)="submitClickHandler()">SUBMIT</button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

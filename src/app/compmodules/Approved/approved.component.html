@@ -1,0 +1,388 @@
+<generic-popup [modalOption]="modaloption"></generic-popup>
+<div class="panel with-nav-tabs panel-primary">
+  <div class="panel-heading">
+    <ul class="nav nav-tabs">
+      <li [ngClass]="showNav[0] == true ? 'active' : ''">
+        <a (click)="toggleNav(0)" data-toggle="tab">Registration Details</a>
+      </li>
+      <!--li [ngClass]="showNav[1] == true ? 'active' : ''">
+        <a (click)="toggleNav(1)" [ngClass]="showNav[1] == true ? 'show' : ''" data-toggle="tab">Contact Details</a>
+      </li-->
+      <li [ngClass]="showNav[1] == true ? 'active' : ''">
+        <a (click)="toggleNav(1)" [ngClass]="showNav[1] == true ? 'show' : ''" data-toggle="tab">Admission Details</a>
+      </li>
+      <!-- <li [ngClass]="showNav[3] == true ? 'active' : ''">
+        <a (click)="toggleNav(3)" [ngClass]="showNav[3] == true ? 'show' : ''" data-toggle="tab">Medical Questionnaire</a>
+      </li> -->
+      <!--li [ngClass]="showNav[2] == true ? 'active' : ''">
+        <a (click)="toggleNav(2)" [ngClass]="showNav[2] == true ? 'show' : ''" data-toggle="tab">Insurer & Packages</a>
+      </li-->
+      <!-- <li [ngClass]="showNav[3] == true ? 'active' : ''">
+        <a (click)="toggleNav(3)" [ngClass]="showNav[3] == true ? 'show' : ''" data-toggle="tab">Package</a>
+      </li> -->
+
+    </ul>
+  </div>
+  <div class="panel-body">
+    <div class="tab-content">
+      <div class="tab-pane fade" [ngClass]="showNav[0] == true ? ' in active' : ''" id="tab1primary">
+        <!--div class="card-title">
+          <h4>Registration Details</h4>
+        </div-->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+
+              <!-- <div class="col-lg-4 col-sm-4" style="margin-left:5%">
+                <hmis-keyup-search [labelname]="'Patient Registration No.'" [propName]="'value'" [data]="patientList" (onKeyUp)="onKeyUpSearchForPatient($event)"
+                  (getSelectedItem)="getSelectedHandlerForPatient($event)" class="hmissearch"  *ngIf= "!IsEditMode && showsearch"></hmis-keyup-search>
+                  <div *ngIf= "IsEditMode" > -->
+              <!-- <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Patient ID'" 
+                      [propName]="'patient_registration_no'" [isEditable]="false"></hmis-vertical-label-type> -->
+
+
+              <!-- </div>
+                <div class="col-lg-4 col-sm-4">
+                  <button class="btn btn-info" (click)="Onregister()">Register Patient</button>
+              </div>
+                </div> -->
+
+              <div class="row col-md-12">
+                <div class="col-md-4">
+                  <hmis-keyup-search [labelname]="'Patient Registration No.'" [propName]="'value'" [data]="patientList"
+                    (onKeyUp)="onKeyUpSearchForPatient($event)" (getSelectedItem)="getSelectedHandlerForPatient($event)"
+                    class="hmissearch" *ngIf="!IsEditMode && showsearch"></hmis-keyup-search>
+                </div>
+                <div class="col-md-8">
+                  <button class="btn btn-info" (click)="Onregister()" *ngIf="!IsEditMode && showsearch">Register New Patient</button>
+                </div>
+              </div>
+              <div class="row patient-info" *ngIf="isVisible" style="margin-left:5%">
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                  <label>Patient ID :</label>
+                  <span>{{compData.patient_registration_no}}</span>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                  <label>Admission ID :</label>
+                  <span>{{compData.admission_sequence}}</span>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                  <label>Patient Name :</label>
+                  <span>{{compData.patient_name}}</span>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                  <label>Age :</label>
+                  <span>{{compData.patient_age}}</span>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                  <label>Sex :</label>
+                  <span>{{compData.patient_sex}}</span>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                  <label>Nationality :</label>
+                  <span>{{compData.nationality}}</span>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <label>Religion :</label>
+                  <span>{{compData.religion}}</span>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <label>Refered To :</label>
+                  <span>{{compData.referred_doctor_name}}</span>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <label>City :</label>
+                  <span>{{compData.patient_city}}</span>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <label>Police Station :</label>
+                  <span>{{compData.police_station}}</span>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <label>Address :</label>
+                  <span>{{compData.patient_address}}</span>
+                </div>
+              </div>
+
+              <!-- <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Admission Id'" class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+                [propName]="'admission_sequence'" (compValueChange)="valueChangeHandler($event)" [isEditable]="false"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Patient Name.'" class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+                [propName]="'patient_name'" [isEditable]="false"></hmis-vertical-label-type>
+
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compradio]" [labelname]="'Select sex'" [propName]="'patient_sex'"
+                class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4" [radioOptions]="genderOptions" [isEditable]="false"></hmis-vertical-label-type> -->
+
+              <!-- <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compdate]" [labelname]="'Date of birth'" class="col-lg-4 col-sm-4"
+                [propName]="'patient_dob'" [isEditable]="false"></hmis-vertical-label-type> -->
+
+              <!-- <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Age'" class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+                [propName]="'patient_age'" [isEditable]="false"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="nationalityOption" [labelname]="'Nationality'"
+                class="col-lg-4 col-sm-4" [propName]="'nationality'" [isEditable]="false"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="religionOption" [labelname]="'Religion'"
+                class="col-lg-4 col-sm-4" [propName]="'religion'" [isEditable]="false"></hmis-vertical-label-type>
+ -->
+
+              <!--hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="doctorListOption" [labelname]="'Refered To'"
+                class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4" [propName]="'referred_doctor_id'"></hmis-vertical-label-type-->
+              <!-- <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Refered To'" class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+                [propName]="'referred_doctor_name'" [isEditable]="false"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'City'" [propName]="'patient_city'" class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4"
+                [isEditable]="false"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [propName]="'police_station'" [labelname]="'Police Station'"
+                class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4" [isEditable]="false"></hmis-vertical-label-type>
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Address'" class="col-md-12" [propName]="'patient_address'"
+                [isEditable]="false"></hmis-vertical-label-type> -->
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="clearfix"></div>
+                <hmis-vertical-label-type [updateTabIndex]="tabIndex" [templateid]="gencomp[gencomp.NextBtn]"
+                  (clickNext)="clickNextBtnHandler($event)" class="purr-right"></hmis-vertical-label-type>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" [ngClass]="showNav[1] == true ? ' in active' : ''" id="tab1primary">
+        <div class="card-title">
+          <h4>Emergency Contact Details</h4>
+        </div>
+
+        <div class="row">
+
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Name of Father/Husband/Guardian '"
+            class="col-lg-6 col-sm-6" [propName]="'name_of_gurdian'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Father/Husband/Guardian Ph. No.'"
+            class="col-lg-6 col-sm-6" [propName]="'gurdian_ph_number'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [propName]="'emergency_contact_person'"
+            [labelname]="'Contact person in case of emergency'" class="col-md-6" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [propName]="'emergency_contact_person_ph'"
+            [labelname]="'Contact person Phone no'" class="col-md-6" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type (compValueChange)="valueChangeHandler($event)" [templateid]="gencomp[gencomp.Compselect]"
+            [propName]="'relationship_with_patient'" [labelname]="'Relation with patient'" class="col-md-6"
+            [selectOptions]="relationWithOption"></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compdate]" [labelname]="'Patient Date of birth'"
+            class="col-md-6" [propName]="'patient_dob'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Blood Group'" class="col-md-6"
+            [selectOptions]="bloodOptions" (compValueChange)="valueChangeHandler($event)" [propName]="'patient_blood_group'"></hmis-vertical-label-type>
+
+          <!--  <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compdate]" [labelname]="'Discharge Date'" class="col-md-6" [propName]="'discharge_date'"
+            (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="dischargeTypeOption" [labelname]="'Discharge Type'"
+            class="col-md-6" [propName]="'discharge_type'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Discharge Instruction'" class="col-md-12"
+            [propName]="'discharge_instruction'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type> -->
+
+
+        </div>
+        <div class="card-title">
+          <h4>Admission Details</h4>
+        </div>
+        <div class="row">
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="admissionTypeOption"
+            [labelname]="'Select AdmissionType'" class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6" [propName]="'admission_type'"
+            (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+          <hmis-keyup-search [labelname]="'Doctors Under'" (getSelectedItem)="getselectedItemHandler($event)"
+            [propName]="'value'" (onKeyUp)="onKeyUpSearchForDoctor($event)" class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+            [data]="doctorList"></hmis-keyup-search>
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Gov. ID Type'"
+            [selectOptions]="govtIdType" (compValueChange)="valueChangeHandler($event)" class="col-md-3" [propName]="'govt_id_type'"
+            [errorMessage]="govtIDTypeError"></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'ID Number'" class="col-md-3"
+            [propName]="'govt_id_value'" (compValueChange)="valueChangeHandler($event)" [errorMessage]="govtIDNumberError"></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Body Height'" class="col-md-3"
+            [propName]="'body_height'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Body Weight'" class="col-md-3"
+            [propName]="'body_weight'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+
+        </div>
+
+        <div class="row">
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Medical Condition Details'"
+            class="col-md-12" [propName]="'admission_notes'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="buildingListOption"
+            [labelname]="'Building'" class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4" [propName]="'building_id'"
+            (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="floorListOption"
+            [labelname]="'Floor'" class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4" [propName]="'floor_id'"
+            (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type (compValueChange)="valueChangeHandler($event)" [propName]="'ward_name'"
+            [templateid]="gencomp[gencomp.CompText]" [labelname]="'Ward'" class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4"
+            [showInfoIcon]=true [infoIconClass]="'fa fa-bed'" [compInfo]="compLoadManager.getMenuCompInfoAsPerId(compModule.WardTypeModal)"
+            [modalOption]="modaloption" [instanceID]="'admissionWard'"></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type (compValueChange)="valueChangeHandler($event)" [propName]="'bed_number'"
+            [templateid]="gencomp[gencomp.CompText]" [labelname]="'Bed'" class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4"
+            [showInfoIcon]=true [infoIconClass]="'fa fa-bed'" [compInfo]="compLoadManager.getMenuCompInfoAsPerId(compModule.BedModal)"
+            [modalOption]="modaloption" [instanceID]="'admissionBed'"></hmis-vertical-label-type>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="clearfix"></div>
+            <!--hmis-vertical-label-type [updateTabIndex]="tabIndex" [templateid]="gencomp[gencomp.NextBtn]" (clickNext)="clickNextBtnHandler($event)"
+              class="pull-right test"></hmis-vertical-label-type-->
+            <div class="btn-xs-small pull-right mr-3">
+              <button class="btn btn-info " (click)="submitClickHandler()">SUBMIT</button>
+              <!--   <button class="btn btn-info " [disabled]="!IsEnabled" (click)="dischargePatient()">DISCHARGE</button> -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+
+      </div>
+      <!--div class="tab-pane fade" [ngClass]="showNav[2] == true ? ' in active' : ''" id="tab1primary">
+
+
+        <div class="card-title">
+          <div class="row justify-content-md-center">
+
+            <h4 class="col-md-auto s_head">Search Package</h4>
+            <div class="col-md-6">
+              <hmis-keyup-search [data]="packageSearchList" [propName]="'value'" (getSelectedItem)="getselectedItemHandlerForPackage($event)"
+                (onKeyUp)="onEnterClickHandlerForPackage($event)" class="hmissearch"></hmis-keyup-search>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngFor="let package of packageDetails">
+          <strong class="package_name col-md-9">
+            <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compcheckbox]" [labelname]="'Total Coverage'" class="checkbox" [propName]="'package_id'"
+              (compValueChange)="valueChangeHandler($event)" [checkBoxValue]="package.ID"></hmis-vertical-label-type>
+            {{package.package_name}}</strong>
+          <strong class="package_amt col-md-3">
+            <i>₹</i>{{package.package_amount}}
+          </strong>
+          <p class="col-md-12 package_desc">{{package.package_description}}</p>
+        </div>
+
+        <br>
+        <br>
+
+        <div class="card-title">
+          <h4>Insurer</h4>
+        </div>
+
+        <div class="row">
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="insuranceCompanyOption" [labelname]="'Company Name'"
+            class="col-lg-4 col-sm-4" [propName]="'Company_Name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Insurance No.'" class="col-md-4" [propName]="'insurance_number'"
+            (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Total Coverage'" class="col-md-4" [propName]="'insurance_coverage'"
+            (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="clearfix"></div>
+            <br>
+            <div class="btn-xs-small pull-right">
+              <button class="btn btn-info " (click)="updateClickHandler()">UPDATE</button>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+
+      </div-->
+
+
+      <!-- <div class="tab-pane fade" [ngClass]="showNav[3] == true ? ' in active' : ''" id="tab1primary">
+        <div class="card-title">
+          <div class="row justify-content-md-center">
+
+            <h4 class="col-md-auto">Search Package</h4>
+            <div class="col-md-6">
+              <hmis-search [data]="pkgList" (getSelectedItems)="getSeletedClickHandler($event)" class="hmissearch"></hmis-search>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <strong class="package_name col-md-9">
+            <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compcheckbox]" [labelname]="'Total Coverage'" class="checkbox" [propName]="''"
+              (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+            Demo Package Name</strong>
+          <strong class="package_amt col-md-3">
+            <i>₹</i>50,000.00</strong>
+          <p class="col-md-12 package_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+            sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+        </div>
+
+        <div class="row">
+          <strong class="package_name col-md-9">
+            <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compcheckbox]" [labelname]="'Total Coverage'" class="checkbox" [propName]="''"
+              (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+            Demo Package Name</strong>
+          <strong class="package_amt col-md-3">
+            <i>₹</i>50,000.00</strong>
+          <p class="col-md-12 package_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+            sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+        </div>
+
+        <div class="row total_row">
+          <strong class="package_name col-md-9">Total</strong>
+          <strong class="package_amt col-md-3">
+            <i>₹</i>1,00,000.00</strong>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="clearfix"></div>
+            <br>
+            <br>
+            <div class="btn-xs-small pull-right d-flex">
+              <button class="btn btn-info align-self-end" (click)="submitClickHandler()">UPDATE</button>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+
+
+
+      </div> -->
+
+    </div>
+
+  </div>
+</div>

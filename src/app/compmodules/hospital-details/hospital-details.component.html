@@ -1,0 +1,80 @@
+<!-- <generic-popup [modalOption]="modaloption"></generic-popup> -->
+<div class="card crd_frm">
+    <div class="card-body">
+        <div class="basic-form">
+            <div class="row">
+                <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Hospital Reg No.'" class="col-lg-6 col-sm-6 required"
+                    [propName]="'hospital_reg_no'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+                <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Hospital name'" class="col-lg-6 col-sm-6 required"
+                    [propName]="'hospital_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+                <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Phone number'" class="col-lg-6 col-sm-6 required"
+                    [propName]="'phone_number'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+                <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Fax'" class="col-lg-6 col-sm-6 required"
+                    [propName]="'fax'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+                <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compemail]" [labelname]="'Email ID'" class="col-lg-6 col-sm-6 required"
+                    [propName]="'emailid'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+                <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'State'" class="col-lg-6 col-sm-6 required"
+                    [propName]="'state'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+                <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Country'" class="col-lg-6 col-sm-6 required"
+                    [propName]="'country'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+                <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Number of beds'" class="col-lg-6 col-sm-6 required"
+                    [propName]="'number_of_beds'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+                <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Managing director / Owner name'" class="col-lg-6 col-sm-6 required"
+                    [propName]="'owner_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+                <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompTextarea]" [labelname]="'Address'" class="col-lg-12 col-sm-12 required"
+                    [propName]="'address'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+            </div>
+        </div>
+    </div>
+    <!-- <div class="card-title">
+        <h4>Contact person details</h4>
+    </div> -->
+    <!-- <div class="card-body">
+        <div class="basic-form">
+            <div class="row">
+
+                <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Contact person'" class="col-lg-6 col-sm-6 required"
+                    [propName]="'contact_person'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+                <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Phone Number'" class="col-lg-6 col-sm-6 required"
+                    [propName]="'contact_person_phone_no'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+                <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Alt phone number'" class="col-lg-6 col-sm-6 required"
+                    [propName]="'alt_phone_no'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+            </div>
+        </div>
+    </div> -->
+    <!-- <div class="card-title">
+        <h4>Integration</h4>
+    </div> -->
+    <!-- <div class="card-body tdl-holder">
+        <div class="basic-form tdl-content">
+            <label>
+                <input name="bill" type="checkbox">
+                <i class="bg-primary"></i>
+                <span>Billing to finance</span>
+            </label>
+            <label>
+                <input name="bill" type="checkbox">
+                <i class="bg-primary"></i>
+                <span>To pharmacy invoice</span>
+            </label>
+        </div>
+    </div> -->
+
+    <div>
+        <button *ngIf="showSubmitBtn" class="btn btn-default btn-info" (click)="submitClickHandler()">{{submitBtnLabel}}</button>
+        <!--button type="reset" class="btn btn-default btn-warning">Reset</button-->
+    </div>
+</div>

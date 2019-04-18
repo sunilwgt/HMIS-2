@@ -1,0 +1,347 @@
+<div class="col-md-12">
+
+    <!-- <app-header-buttons></app-header-buttons> -->
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="pull-left search_form">
+                <div class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" [(ngModel)]="searchStr">
+                        <div class="dropdown">
+                            <button class="dropbtn">options</button>
+                            <div class="dropdown-content">
+                                <a href="#">Adm no.</a>
+                                <a href="#">Reg no.</a>
+                                <a href="#">ot no.</a>
+                            </div>
+                        </div>
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary" (click)="searchAdmittedPatient()">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>&nbsp;
+                        <p-calendar [(ngModel)]="dateValuefrom" name="dateValuefrom"></p-calendar>
+                        <p-calendar [(ngModel)]="dateValueto" name="dateValueto"></p-calendar>
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary" (click)="searchPatient()">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>&nbsp;
+
+            <div class="pull-right add_print">
+                <button type="button" class="btn btn-primary btn-flat btn-lg" (click)="addot()">
+                    <!-- <i class="fa fa-plus-square" aria-hidden="true"></i> -->
+                    Add Ot
+                </button>
+                <button (click)="exportToCSV()" class="btn btn-primary btn-flat btn-lg pull-right ">
+                    <i class="fa fa-file"></i>
+                    Export
+                </button>
+            </div>
+        </div>
+    </div><br>
+
+
+
+
+
+
+
+
+    <!-- <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right add_print">
+                <button type="button" class="btn btn-primary btn-flat btn-lg pull-right" (click)="addot()">Create OT</button>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="clearfix"></div>
+    <div style="margin: auto; margin-top:10px">
+        <data-table id="patients-grid" headerTitle="OT List" [items]="OTList" [itemCount]="OTCount" (reload)="reloadOT($event)"
+            [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false"
+            [expandableRows]="false" [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
+
+            <!-- <data-table-column [property]="'patient_registration_no'" [header]="'Reg No'" [sortable]="true" [resizable]=true
+                [width]="150">
+            </data-table-column> -->
+
+
+            <data-table-column [width]="150" [sortable]="true" [resizable]=true>
+                <ng-template #dataTableHeader let-item="item" >
+                    Reg No.
+                </ng-template>
+                <ng-template #dataTableCell let-item="item">
+                    <a href="/" onclick="return false;"
+                        (click)="ongridclick1($event , item , content1)">{{item.patient_registration_no}}</a>
+                </ng-template>
+
+            </data-table-column>
+
+            <data-table-column [width]="150" [sortable]="true" [resizable]=true>
+                <ng-template #dataTableHeader let-item="item" >
+                   Admission No.
+                </ng-template>
+                <ng-template #dataTableCell let-item="item">
+                    <a href="/" onclick="return false;"
+                        (click)="ongridclick1($event , item , content1)">{{item.admission_sequence}}</a>
+                </ng-template>
+
+            </data-table-column>
+             <data-table-column [width]="150" [sortable]="true" [resizable]=true>
+                <ng-template #dataTableHeader let-item="item" >
+                    OT No.
+                </ng-template>
+                <ng-template #dataTableCell let-item="item">
+                    <a href="/" onclick="return false;"
+                        (click)="ongridclick1($event , item , content1)">{{item.patient_registration_no}}</a>
+                </ng-template>
+
+            </data-table-column>
+
+            <data-table-column [property]="'patient_name'" [header]="'Patient name'" [sortable]="true" [resizable]=true
+                [width]="180">
+            </data-table-column>
+            <data-table-column [property]="'operation_date'" [header]="'OT Date'" [sortable]="true" [resizable]=true
+                [width]="120">
+            </data-table-column>
+            <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true" [resizable]=true [width]="250">
+                <ng-template #dataTableCell let-item="item">
+                    <hmis-generic-action [DischargeBedDisable]="false" [emergencyDisable]="false" [itemdata]=item
+                        (clickHandler)="clickEventHandler($event)"></hmis-generic-action>
+                </ng-template>
+            </data-table-column>
+        </data-table>
+    </div>
+</div>
+
+
+
+<ng-template #content1 let-modal>
+    <div class="modal-header" style="background-color: rgba(26, 82, 146, 0.856)">
+        <h4 class="modal-title" id="modal-basic-title" style="color:rgb(4, 4, 26);">OT INFORMATION</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closemodal('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="row">
+                <div class="col-md-12">
+                    <H6><B>GENERAL INFORMATION</B></H6>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="regid">Registeration Id</label>
+                        <div class="input-group">
+                            <input class="form-control" name="id" readonly value="{{rowdata?.patient_registration_no}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="admid">Admission Id</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="name" value="{{rowdata?.admission_sequence}}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="otnumber">Ot Number</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="otnumber" value="{{rowdata?.ot_sequence}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <H6><B>OPERATION INFORMATION</B></H6>
+
+                </div>
+            </div>
+            <hr>
+
+
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="ottypename">Operation Type Name</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.operation_type_name}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="otdate">Operation date</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.operation_date}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="stime">Operation start time</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.patient_operation_start}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="endtime">Operation end time</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.patient_operation_end}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="surgerypusrpose">Purpose Of surgery</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.purpose_of_surgery}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="surgery type">Surgery Type</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="stype" value="{{rowdata?.surgery_type_name}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="sinstruction">special instaructions</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="sinstruction" value="{{rowdata?.special_instruction}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <H6><B>PATIENT INFORMATION</B></H6>
+
+                </div>
+            </div>
+            <hr>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="pname">Patient Name</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="pname" value="{{rowdata?.patient_name}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="pphone"> Patient Phone</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.patient_phone}}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="pgender">Patient Gender</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.patient_sex}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="paddress">Patient Address</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="paddress" value="{{rowdata?.patient_address}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="pdob"> Patient Dob </label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.patient_dob}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <H6><B>DOCTOR INFORMATION</B></H6>
+                </div>
+            </div>
+            <hr>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="dname">Doctor name</label>
+                        <div class="input-group">
+                            <input class="form-control" readonly name="dname" value="{{rowdata?.doctor_name}}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="dphone"> Doctor Phone </label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.doctor_phone}}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="assistingdoctor">Assisting doctor </label>
+                        <div class="input-group">
+                            <input class="form-control" readonly value="{{rowdata?.assiting_doctor_name}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="closemodal('Save click')">Close</button>
+    </div>
+</ng-template>

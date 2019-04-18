@@ -1,0 +1,63 @@
+<div class="card crd_frm">
+  <div class="card-body" style="margin-bottom: 0 ">
+    <div class="basic-form">
+      <form name="building_form" novalidate="novalidate">
+        <div class="row">
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Price Code'" class="col-lg-6 col-sm-6" [propName]="'price_code'"
+            (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Price Title'" class="col-lg-6 col-sm-6"
+            [propName]="'price_title'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Description'" class="col-lg-6 col-sm-6"
+            [propName]="'price_description'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Price'" class="col-lg-6 col-sm-6"
+            [propName]="'price'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type> 
+        <!--   <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Actual cost ward medicine'" class="col-lg-6 col-sm-6"
+            [propName]="'actual_cost_ward_medicine'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>   
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Anaesthetic machine charge'" class="col-lg-6 col-sm-6"
+            [propName]="'anaesthetic_machine_charge'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>     
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Anaesthetist charge'" class="col-lg-6 col-sm-6"
+            [propName]="'anaesthetist_charge'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Assistance charge'" class="col-lg-6 col-sm-6"
+            [propName]="'assistance_charge'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Bed charge'" class="col-lg-6 col-sm-6"
+            [propName]="'bed_charge'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Doctor visit'" class="col-lg-6 col-sm-6"
+            [propName]="'doctor_visit'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Dressing charge'" class="col-lg-6 col-sm-6"
+            [propName]="'dressing_charge'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>        
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Emergency management charge'" class="col-lg-6 col-sm-6"
+            [propName]="'emergency_management_charge'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Extra diet'" class="col-lg-6 col-sm-6"
+            [propName]="'extra_diet'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Fluid surgical goods cost'" class="col-lg-6 col-sm-6"
+            [propName]="'fluid_surgical_goods_cost'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Investigation charge'" class="col-lg-6 col-sm-6"
+            [propName]="'investigation_charge'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Labour room charge'" class="col-lg-6 col-sm-6"
+            [propName]="'labour_room_charge'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Medicine cost operation charge'" class="col-lg-6 col-sm-6"
+            [propName]="'medicine_cost_operation_charge'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>     
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Misscellaneous chare'" class="col-lg-6 col-sm-6"
+            [propName]="'misscellaneous_chare'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Nebulization charge'" class="col-lg-6 col-sm-6"
+            [propName]="'nebulization_charge'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Operation theatre charge'" class="col-lg-6 col-sm-6"
+            [propName]="'operation_theatre_charge'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Oxygen inhalation charge'" class="col-lg-6 col-sm-6"
+            [propName]="'oxygen_inhalation_charge'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Phototherapy charge'" class="col-lg-6 col-sm-6"
+            [propName]="'phototherapy_charge'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Pulse oxymeter charge'" class="col-lg-6 col-sm-6"
+            [propName]="'pulse_oxymeter_charge'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Special nursing'" class="col-lg-6 col-sm-6"
+            [propName]="'special_nursing'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Specialist consultation charge'" class="col-lg-6 col-sm-6"
+            [propName]="'specialist_consultation_charge'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type> -->
+            <div  class="add_department">
+            <button *ngIf="showSubmitBtn" type="submit" class="btn btn-default btn-info" (click)="submitClickHandler()">{{submitBtnLabel}}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

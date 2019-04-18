@@ -1,0 +1,24 @@
+<div class="form-group">
+  <label>{{labelname}}</label>
+  <div class="navbar-form" role="search">
+    <div class="input-group">
+      <!--input class="form-control" placeholder="Search" type="text" [(ngModel)]="searchstr" (keyup.enter)="emitEnterFunc()"-->
+      <input class="form-control" placeholder="Search" type="text" [(ngModel)]="searchstr" (keyup)="emitEnterFunc()">
+      <div class="search_list_dropdown" [ngClass]="{'active': (data).length > 0}">
+        <hmis-selected class="listing" *ngFor="let item of data" [itemdata]="item" (itemSelected)="selectedItemClick($event)"></hmis-selected>
+        <!-- <label *ngFor="let item of data | package:searchstr">{{ .label}}</label> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--div class="billing-item-row">
+  <div style="width:10%">1</div>
+  <div style="width:70%">{{labelname}}
+    <input class="form-control" placeholder="Search" type="text" [(ngModel)]="searchstr" (keyup.enter)="emitEnterFunc()">
+  </div>
+  <div style="width:20%">
+    <input class="form-control" placeholder="00.00" type="number">
+  </div>
+</div>-->

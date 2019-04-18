@@ -1,0 +1,26 @@
+.page-titles {
+    background: #f8f8f8;
+    // background: #696565;
+
+    margin: 0 0 10px;
+    padding: 15px 10px;
+    position: relative;
+    z-index: 10;
+    border-bottom: 1px solid rgba(0, 0, 0, .0625);
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.container-fluid {
+    padding: 0 30px 25px;
+    .block_min_height {
+        .card {
+            min-height: 250px;
+            background: #ffffff none repeat scroll 0 0;
+            margin: 15px 0;
+            padding: 20px;  
+            box-shadow: none;
+            border-radius: 0;
+        }
+    }
+}

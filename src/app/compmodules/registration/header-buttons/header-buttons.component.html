@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="pull-left search_form">
+      <div class="navbar-form" role="search">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search for a Patient" name="q" [(ngModel)]="searchStr">
+          <div class="input-group-btn">
+            <button class="btn btn-primary" (click)="searchPatientstring()">
+              <i class="fa fa-search"></i>
+            </button>
+            <div class="dropdown">
+              <button class="dropbtn" >options</button>
+              <div class="dropdown-content">
+                <a href="#">Reg No.</a>
+                <a href="#">Name</a>
+                <a href="#">Phone</a>
+              </div>
+            </div>
+          </div>&nbsp;
+          <div class="from">From</div>
+          <p-calendar [(ngModel)]="dateValuefrom" name="dateValuefrom"></p-calendar>&nbsp;
+          <div class="to">To</div>
+          <p-calendar [(ngModel)]="dateValueto" name="dateValueto"></p-calendar>
+          <div class="input-group-btn">
+            <button class="btn btn-primary" (click)="searchPatient()">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>&nbsp;
+    <!-- <div>
+      <p-calendar [(ngModel)]="dateValuefrom" name="dateValuefrom"></p-calendar>
+      <p-calendar [(ngModel)]="dateValueto" name="dateValueto" ></p-calendar>
+      <button class="btn btn-primary" (click)="searchPatient()">
+        <i class="fa fa-search"></i>
+      </button>
+    </div> -->
+    <div class="pull-right add_print">
+      <button type="button" class="btn btn-primary btn-flat btn-lg" (click)="addNewPatient()">
+        <i class="fa fa-plus-square" aria-hidden="true"></i>
+        Add New Patient
+      </button>
+      <button (click)="exportToCSV()" class="btn btn-primary btn-flat btn-lg pull-right ">
+        <i class="fa fa-file"></i>
+        Export
+      </button>
+    </div>
+  </div>
+</div>

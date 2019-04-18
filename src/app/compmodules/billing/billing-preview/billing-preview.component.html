@@ -1,0 +1,168 @@
+<div class="panel with-nav-tabs panel-primary">
+  <!-- <span>Do You want to Procceed ?</span> -->
+  <div class="p_details">
+  <div class="row patient-info"  *ngIf="patientDetails != undefined">
+        <div class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-3">
+            <label>Patient ID :</label>
+            <span>{{patientDetails.patient_registration_no}}</span>
+        </div>
+        <div class="col-12 col-sm-8 col-md-9 col-lg-9 col-xl-9">
+            <label>Patient Name :</label>
+            <span>{{patientDetails.patient_name}}</span>
+        </div>
+        <div class="col-12 col-sm-8 col-md-9 col-lg-9 col-xl-9">
+            <label>Address :</label>
+            <span>{{patientDetails.patient_address}}</span>
+        </div>
+        <div class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+            <label>Age :</label>
+            <span>{{patientDetails.patient_age}}</span>
+        </div>
+        <div class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+            <label>Sex :</label>
+            <span>{{patientDetails.patient_sex}}</span>
+        </div>
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <label>Patient Phone No :</label>
+            <span>{{patientDetails.patient_phone}}</span>
+        </div>
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <label>Bed Number :</label>
+            <span>{{patientDetails.bed_name}}</span>
+        </div>
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-5">
+            <label>Admission Date :</label>
+            <span>{{patientDetails.admitted_on}}</span>
+        </div>
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-5">
+            <label>Discharge Date :</label>
+            <span>{{patientDetails.discharge_date}}</span>
+        </div>
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-12">
+            <label>Doctor Under :</label>
+            <span>{{patientDetails.doctro_under_name}}</span>
+        </div>
+    </div>
+  </div>  
+  
+
+  <div class="row" *ngIf="advanceBilling.length>0">
+      <div class="col-md-12">
+          <table class="advance_payment_table" cellpadding="5" width="100%">
+              <thead>
+                  <tr>
+                      <th width="70">Sl. No.</th>
+                      <th width="152">Advance Date</th>
+                      <th width="455">Advance paid by</th>
+                      <th width="180">Advance Amount</th>
+                  </tr>
+              </thead>
+              <tbody>
+                    <tr *ngFor="let items of advanceBilling">
+                            <td>{{items.$id}}</td>
+                            <td>{{items.advanceDate}}</td>
+                            <td>{{items.advance_paid_by}}</td>
+                            <td>{{items.advance_amount}}.00</td>
+                        </tr>
+                 
+          </table>
+          
+      </div>
+  </div>
+  
+ 
+  <div class="row" *ngIf="packageDetails != undefined" >
+        <div class="col-md-12">
+            <table class="advance_payment_table" cellpadding="5" width="100%">
+                <thead>
+                    <tr>
+                        <th width="70">Sl. No.</th>
+                        <th width="152"></th>
+                        <th width="455">Package Name</th>
+                        <th width="180">Package Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                      <tr>
+                              <td>1</td>
+                              <td></td>
+                              <td>{{packageDetails.label}}</td>
+                              <td>{{packageDetails.others}}.00</td>
+                          </tr>
+                   
+            </table>
+            
+        </div>
+    </div>
+    
+  <div class="row" *ngIf="distributionBillings.length>0">
+        <div class="col-md-12">
+            <table class="advance_payment_table" cellpadding="5" width="100%">
+                <thead>
+                    <tr>
+                        <th width="70">Sl. No.</th>
+                        <th width="152"></th>
+                        <th width="455">Name</th>
+                        <th width="180">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                      <tr *ngFor="let items of distributionBillings">
+                              <td>{{items.id}}</td>
+                              <td></td>
+                              <td>{{items.label}}</td>
+                              <td>{{items.value}}.00</td>
+                          </tr>
+                   
+            </table>
+            
+        </div>
+    </div>
+  <hr>
+  <div class="total_row">
+      <div class="total_row_left">
+          <div class="bill-footer">
+              <span>Rupees in words :</span> test</div>
+          <div class="bill-footer_head">
+              <b>Subtotal</b>
+              <br>
+              <b>Advance</b>
+              <br>
+              <b>Adjust</b>
+              <br>
+              <b>Due</b>
+              <br>
+              <b>Total</b>
+              <br>
+          </div>
+      </div>
+
+      <div class="total_row_right">
+          <div class="bill-footer_amt" *ngIf="billingModel != undefined">
+             
+              <!-- <b>{{billingModel.total}}</b> -->
+              <b>{{billingModel.total_amount}}</b>
+
+              <br>
+              <b>{{billingModel.advance_amount}}</b>
+              <br>
+              <!-- <b>
+                 <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compcheckbox]" (change)="getSelectedIsAdjustValue($event)" class="adjust_check"></hmis-vertical-label-type> 
+              </b> -->
+              <br>
+              <b>00.00</b>
+              <br>
+              <!-- <b>{{billingModel.total_amount}}</b> -->
+              <b>{{billingModel.total}}</b>
+
+              <br>
+          </div>
+      </div>
+
+  </div>
+  <hr>
+  <div class="btn-xs-small pull-right">
+    <button class="btn btn-info " (click)="exitToBillingList()">Cancel</button>
+    <button class="btn btn-info " (click)="saveAndDischargeCertificate()">Confirm</button>
+</div>
+</div>

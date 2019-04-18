@@ -1,0 +1,81 @@
+<div class="header">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <!-- Logo -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html">
+                <img src="app/images/hmis_logo.png" class="img-fluid">
+            </a>
+        </div>
+        <!-- End Logo -->
+        <div class="navbar-collapse">
+            <!-- toggle and nav items -->
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <!-- This is  -->
+                <li class="nav-item">
+                    <a class="nav-link nav-toggler hidden-md-up text-muted  " href="javascript:void(0)">
+                        <i class="mdi mdi-menu"></i>
+                    </a>
+                </li>
+                <li class="nav-item m-l-10" (click)="minisidebar()">
+                    <a class="nav-link cstm sidebartoggler hidden-sm-down text-muted  " href="javascript:void(0)">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- FOR HOSPITAL DETAILS -->
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li class="nav-item m-l-10">
+                    <img alt="logo" src="app/images/c1.jpg" class="headerimage">
+                </li>&nbsp;
+                <li class="">
+                    <h2 style="color: rgb(9, 9, 155)">{{hospitalname}}</h2>
+                </li>
+            </ul>
+            <!-- User profile and search -->
+            <ul class="navbar-nav my-lg-0">
+                <!-- <li class="nav-item hidden-sm-down search-box"> <a class="nav-link hidden-sm-down text-muted  " href="javascript:void(0)"><i class="ti-search"></i></a>
+                  <form class="app-search">
+                      <input class="form-control" placeholder="Search here" type="text"> <a class="srh-btn"><i class="ti-close"></i></a> </form>
+              </li> -->
+                <!-- Profile -->
+                <li class="nav-item dropdown" (click)="proclick()" [class.show]="togmenu">
+                    <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        <img src="assets/images/users/5.jpg" alt="user" class="profile-pic" />
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right animated zoomIn" [class.show]="togmenu">
+                        <ul class="dropdown-user">
+                            <li>
+                                <a href="#">
+                                    <i class="ti-user"></i> Profile</a>
+                            </li>
+                            <!-- <li>
+                                <a href="#">
+                                    <i class="ti-wallet"></i> Balance</a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="ti-email"></i> Inbox</a>
+                            </li> -->
+                            <li>
+                                <a href="setting.html">
+                                    <i class="ti-settings"></i> Setting</a>
+                            </li>
+                            <li>
+                                <a (click)="resetPassword()">
+                                    <i class="fa fa-refresh"></i> Reset Password</a>
+                            </li>
+                            <li>
+                                <a (click)="logoutClickHandler()">
+                                    <i class="fa fa-power-off"></i> Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>

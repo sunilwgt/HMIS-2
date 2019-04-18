@@ -1,0 +1,253 @@
+<div class="col-md-12">
+
+    <!-- <app-header-buttons></app-header-buttons> -->
+
+    <div class="row">
+            <div class="col-md-12">
+                
+                <div class="pull-left search_form">
+                    <div class="navbar-form" role="search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search" name="q" [(ngModel)]="searchStr">
+                            <div class="dropdown">
+                                <button class="dropbtn">options</button>
+                                <div class="dropdown-content">
+                                    <a href="#">Alias name</a>
+                                    <a href="#">Father Name.</a>
+                                    <a href="#">Mother Name</a>
+                                </div>
+                            </div>
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary" (click)="searchAdmittedPatient()">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>&nbsp;
+                            <p-calendar [(ngModel)]="dateValuefrom" name="dateValuefrom"></p-calendar>
+                            <p-calendar [(ngModel)]="dateValueto" name="dateValueto"></p-calendar>
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary" (click)="searchPatient()">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>&nbsp;
+        
+                <div class="pull-right add_print">
+                    <button type="button" class="btn btn-primary btn-flat btn-lg" (click)="addNewBorn()">
+                        <!-- <i class="fa fa-plus-square" aria-hidden="true"></i> -->
+                        Add New born
+                    </button>
+                    <button (click)="exportToCSV()" class="btn btn-primary btn-flat btn-lg pull-right ">
+                        <i class="fa fa-file"></i>
+                        Export
+                    </button>
+                </div>
+            </div>
+        </div><br>
+        
+
+
+
+
+
+
+
+    <div class="clearfix"></div>
+    <div style="margin: auto; margin-top:10px">
+        <data-table id="patients-grid" headerTitle="New Born list" [items]="newBorn" [itemCount]="newBornCount"
+            (reload)="reloadNewBorn($event)" [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false"
+            [substituteRows]="false" [expandableRows]="false" [translations]="translations" [indexColumn]="false"
+            [selectOnRowClick]="true" (rowClick)="ongridclick($event , content)">
+            <data-table-column [property]="'father_name'" [header]="'Father name'" [sortable]="true" [width]="160">
+            </data-table-column>
+            <data-table-column [property]="'mother_name'" [header]="'Mother name'" [sortable]="true" [width]="160">
+            </data-table-column>
+            <data-table-column [property]="'baby_alias_name'" [header]="'Alias name'" [sortable]="true" [width]="160">
+            </data-table-column>
+            <data-table-column [property]="'baby_dob'" [header]="'DOB'" [sortable]="true" [width]="160">
+            </data-table-column>
+            <data-table-column [property]="'sex'" [header]="'Sex'" [sortable]="true" [width]="160">
+            </data-table-column>
+            <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true" [width]="140">
+                <ng-template #dataTableCell let-item="item">
+                    <hmis-generic-action [itemdata]=item (clickHandler)="clickEventHandler($event)"></hmis-generic-action>
+                </ng-template>
+            </data-table-column>
+        </data-table>
+    </div>
+
+
+    <ng-template #content let-modal>
+        <div class="modal-header" style="background-color: rgba(26, 82, 146, 0.856)">
+            <h4 class="modal-title" id="modal-basic-title" style="color:rgb(4, 4, 26)">New Born
+                Information</h4>
+            <button type="button" class="close" aria-label="Close" (click)="closemodal('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="babyname">Baby Name</label>
+                            <div class="input-group">
+                                <input class="form-control" name="babyname" readonly value="{{rowdata?.baby_alias_name}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="mothername">Mother Name</label>
+                            <div class="input-group">
+                                <input class="form-control" readonly name="mothername" value="{{rowdata?.mother_name}} {{rowdata?.patient_first_name}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="fathername">Father Name</label>
+                            <div class="input-group">
+                                <input class="form-control" readonly name="fathername" value="{{rowdata?.father_name}} {{rowdata?.patient_first_name}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="gender">Baby Gender</label>
+                            <div class="input-group">
+                                <input class="form-control" readonly value="{{rowdata?.sex}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="dob">Dob </label>
+                            <div class="input-group">
+                                <input class="form-control" readonly name="isbplholder" value="{{rowdata?.dob}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="babyheight">Baby Height</label>
+                            <div class="input-group">
+                                <input class="form-control" readonly value="{{rowdata?.baby_height}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="babyweight"> Baby Weight</label>
+                            <div class="input-group">
+                                <input class="form-control" readonly name="babyweight" value="{{rowdata?.baby_weight}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="delieverytype">Delievery Type</label>
+                            <div class="input-group">
+                                <input class="form-control" readonly value="{{rowdata?.delivery_type}}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="delieverynote">Delievery Note</label>
+                            <div class="input-group">
+                                <input class="form-control" readonly name="delieverynote" value="{{rowdata?.delivery_note}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="malnutrition">Malnutrition</label>
+                                <div class="input-group">
+                                    <input class="form-control" readonly value="{{rowdata?.is_malnutrition}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="twin">Twin</label>
+                                <div class="input-group">
+                                    <input class="form-control" readonly name="twin" value="{{rowdata?.is_twin}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="cillness">Critical Illness</label>
+                                <div class="input-group">
+                                    <input class="form-control" readonly value="{{rowdata?.is_born_critical_illness}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="cnote">Critical Note</label>
+                                <div class="input-group">
+                                    <input class="form-control" readonly name="cnote" value="{{rowdata?.critical_illness_notevv}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="foccupation"> Father Occupation </label>
+                            <div class="input-group">
+                                <input class="form-control" readonly value="{{rowdata?.father_occupation}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="moccupation">Mother Occupation</label>
+                            <div class="input-group">
+                                <input class="form-control" readonly name="moccupation" value="{{rowdata?.mother_occupation}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="address">Address </label>
+                            <div class="input-group">
+                                <input class="form-control" readonly value="{{rowdata?.address}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="closemodal('Save click')">Close</button>
+        </div>
+    </ng-template>

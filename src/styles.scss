@@ -1,0 +1,231 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import 'icons/font-awesome/css/font-awesome.min.css';
+@import 'icons/themify-icons/themify-icons.css';
+// @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@media screen and(max-width:1023px) {
+    .page-wrapper {
+        margin-left: 60px;
+        -webkit-transition: 0.2s ease-in;
+        -o-transition: 0.2s ease-in;
+        transition: 0.2s ease-in;
+    }
+}
+
+@media (min-width: 768px) {
+    .navbar-header {
+        width: 240px;
+        -webkit-flex-shrink: 0;
+        -ms-flex-negative: 0;
+        flex-shrink: 0;
+    }
+    .navbar-header .navbar-brand {
+        padding-top: 0;
+    }
+    .page-titles .breadcrumb {
+        float: right;
+    }
+    .card-group .card:first-child {
+        border-right: 1px solid rgba(0, 0, 0, 0.03);
+    }
+    .card-group .card:not(:first-child):not(:last-child) {
+        border-right: 1px solid rgba(0, 0, 0, 0.03);
+    }
+    .material-icon-list-demo .icons div {
+        width: 33%;
+        padding: 15px;
+        display: inline-block;
+        line-height: 40px;
+    }
+    .mini-sidebar .page-wrapper {
+        margin-left: 60px;
+    }
+    .mini-sidebar .footer {
+        left: 60px;
+    }
+    .flex-wrap {
+        -ms-flex-wrap: nowrap !important;
+        flex-wrap: nowrap !important;
+        -webkit-flex-wrap: nowrap !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .header {
+        position: fixed;
+        width: 100%;
+    }
+    .header .top-navbar {
+        padding-right: 15px;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-flex-wrap: nowrap;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        -webkit-align-items: center;
+    }
+    .header .top-navbar .navbar-collapse {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        width: 100%;
+    }
+    .header .top-navbar .navbar-nav {
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+    }
+    .header .top-navbar .navbar-nav>.nav-item.show {
+        position: static;
+    }
+    .header .top-navbar .navbar-nav>.nav-item.show .dropdown-menu {
+        width: 100%;
+        margin-top: 0;
+    }
+    .header .top-navbar .navbar-nav>.nav-item>.nav-link {
+        padding-left: 0.50rem;
+        padding-right: 0.50rem;
+    }
+    .header .top-navbar .navbar-nav .dropdown-menu {
+        position: absolute;
+    }
+    .mega-dropdown .dropdown-menu {
+        height: 480px;
+        overflow: auto;
+    }
+    .mini-sidebar .page-wrapper {
+        margin-left: 0;
+        padding-top: 60px;
+    }
+    .page-wrapper {
+        margin-left: 0;
+        padding-top: 60px;
+    }
+}
+
+.modal-footer {
+    .btn-outline-dark {
+        background: #08a1ff;
+        border: 1px solid #1a8fd7;
+        &:hover {
+            background: #1a8fd7;
+        }
+    }
+}
+
+.data-table {
+    box-shadow: 0 0 15px rgb(183, 218, 255) !important;
+}
+
+.column-selector-button,
+.refresh-button,
+.input-group-text,
+.pagination-firstpage,
+.pagination-prevpage,
+.pagination-nextpage,
+.pagination-lastpage {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #ffffff;
+    line-height: 1.2 !important;
+}
+
+select.form-control:not([size]):not([multiple]) {
+    height: calc(2rem + 2px);
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.input-group-prepend {
+    .input-group-text {
+        line-height: 1.2
+    }
+}
+
+.pagination-page {
+    .input-group {
+        .form-control {
+            padding-top: 0;
+            padding-bottom: 0;
+            line-height: 1.2;
+        }
+        .input-group-append {
+            span {
+                line-height: 1.2
+            }
+        }
+    }
+}
+
+.pagination-controllers {
+    margin-top: 15px;
+}
+
+.search_form {
+    .navbar-form {
+        .input-group {
+            input[type="text"] {
+                line-height: 19px;
+                border-radius: 10px 10px 10px 10px;
+            }
+        }
+        .input-group-btn {
+            margin-left: 5px;
+            .btn-primary {
+                line-height: 1.2;
+                padding-left: 15px;
+                padding-right: 15px;
+                border-radius: 10px 10px 10px 10px;
+            }
+        }
+    }
+}
+
+input,
+select,
+textarea {
+    font-size: .9rem !important;
+}
+
+.modal-sm {
+    max-width: 500px;
+    .modal-content {
+        border: none;
+        box-shadow: 0 0 29px 4px #000;
+        background: transparent;
+        .modal-header {
+            background: #1976d2;
+            color: #fff;
+            border: none;
+        }
+        .modal-body {
+            background: #fff;
+            border-bottom-left-radius: .3rem;
+            border-bottom-right-radius: .3rem;
+        }
+    }
+}
+
+.modal-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.modal {
+    overflow: auto !important;
+}
+
+
+.data-table-wrapper { overflow-y: scroll;}
+
+#patients-grid td {
+    overflow: visible !important;
+}

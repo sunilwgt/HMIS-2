@@ -1,0 +1,4 @@
+<div class="bed_list">
+  <bed-item *ngFor="let item of beds" [data]="item" (onItemClick)="onItemClickHandler($event)"></bed-item>
+  <p *ngIf="IsAvailable">No data available</p>
+</div>

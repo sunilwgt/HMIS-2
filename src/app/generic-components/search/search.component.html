@@ -1,0 +1,12 @@
+<div class="form-group">
+  <label>{{labelname}}</label>
+  <div class="navbar-form" role="search">
+    <div class="input-group">
+      <input class="form-control" placeholder="Search" type="text" [(ngModel)]="searchstr" (keyup.enter)="emitEnterFunc()">
+    </div>
+  </div>
+  <div class="search_list_dropdown" [ngClass]="{'active': (data | package:searchstr).length > 0}">
+    <hmis-selected class="listing" *ngFor="let item of data | package:searchstr" [itemdata]="item" (itemSelected)="selectedItemClick($event)"></hmis-selected>
+    <!-- <label *ngFor="let item of data | package:searchstr">{{item.label}}</label> -->
+  </div>
+</div>

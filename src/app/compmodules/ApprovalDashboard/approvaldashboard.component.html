@@ -1,0 +1,25 @@
+<div class="panel with-nav-tabs panel-primary">
+    <div class="card-body" style="margin-bottom: 0 ">
+        <div class="basic-form">
+            <form name="building_form" novalidate="novalidate">
+                <div class="row">
+
+
+                        <hmis-vertical-label-type [selectOptions]="approvalOption" [templateid]="gencomp[gencomp.Compselect]"
+                        [labelname]="'Approval status'" class="col-lg-4 col-sm-6 required" [propName]="'approval_status_id'"
+                        (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+                        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Approval Note'"
+                        class="col-12 col-sm-4 col-md-8 col-lg-8 col-xl-3" [propName]="'approval_note'"
+                        (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+                    <div class="col-lg-12  col-sm-12 ">
+                        <div class="add_department">
+                            <button *ngIf="showSubmitBtn" type="submit" class="btn btn-default btn-info" (click)="submitClickHandler()">{{submitBtnLabel}}</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

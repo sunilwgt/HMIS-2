@@ -1,0 +1,33 @@
+<div class="col-md-12">
+
+  <!-- <app-header-buttons></app-header-buttons> -->
+  <button type="button" class="btn btn-primary btn-flat btn-lg pull-right" (click)="addlicence()">Add Licence</button>
+  <div class="clearfix"></div>
+  <div style="margin: auto; margin-top:50px">
+      <data-table id="patients-grid" headerTitle="Licence list" [items]="departments" [itemCount]="departmentCount" (reload)="reloadDepartments($event)"
+          [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false" [expandableRows]="false"
+          [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
+
+          <data-table-column [property]="'$id'" [header]="'No.'" [sortable]="true">
+          </data-table-column>
+          <data-table-column [property]="'Reminder Name'" [header]="'Name'" [sortable]="true">
+          </data-table-column>
+          <data-table-column [property]="'Date'" [header]="'Department description'" [sortable]="true">
+          </data-table-column>
+          <data-table-column [property]="'Date'" [header]="'Due Date'" [sortable]="true">
+          </data-table-column>
+          <data-table-column [property]="'Date'" [header]="'File'" [sortable]="true">
+          </data-table-column>
+          <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true">
+          </data-table-column>
+      </data-table>
+      <div style="margin-top: 10px">
+          <b>Selected:</b>
+          <!-- <span *ngIf="patientsTable.selectedRow == null"><i>No item selected</i></span>
+        <span [textContent]="patientsTable.selectedRow && patientsTable.selectedRow.item.title"></span> -->
+      </div>
+  </div>
+
+
+
+</div>

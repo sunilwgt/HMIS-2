@@ -1,0 +1,27 @@
+<div class="col-md-12">
+
+    <!-- <app-header-buttons></app-header-buttons> -->
+    <button type="button" class="btn btn-primary btn-flat btn-lg pull-right" (click)="addDepartment()">Add Department</button>
+    <div class="clearfix"></div>
+    <div style="margin: auto; margin-top:50px">
+        <data-table id="patients-grid" headerTitle="Department list" [items]="departments" [itemCount]="departmentCount" (reload)="reloadDepartments($event)"
+            [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false" [expandableRows]="false"
+            [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
+
+            <data-table-column [property]="'$id'" [header]="'Sl. No.'" [sortable]="true">
+            </data-table-column>
+            <data-table-column [property]="'department_name'" [header]="'Name'" [sortable]="true">
+            </data-table-column>
+            <data-table-column [property]="'department_description'" [header]="'Department description'" [sortable]="true">
+            </data-table-column>
+            <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true">
+                <ng-template #dataTableCell let-item="item">
+                    <hmis-generic-action [itemdata]=item (clickHandler)="clickEventHandler($event)"></hmis-generic-action>
+                </ng-template>
+            </data-table-column>
+        </data-table>
+    </div>
+
+
+
+</div>
