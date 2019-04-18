@@ -5,10 +5,7 @@ import { BaseServices } from '../../utils/base.service';
 import { MODE_ADD } from '../../models/common';
 import { Subscription } from 'rxjs/Subscription';
 import { HmisExternalApisService } from '../../services/hmis-external-apis.service';
-<<<<<<< HEAD
 import { fileupload } from '../../models/opd';
-=======
->>>>>>> dc41ce8b001674a93f88ae686d0584a7077f708c
 
 @Component({
   selector: 'app-docrepo',

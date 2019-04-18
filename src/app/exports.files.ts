@@ -134,10 +134,6 @@ export const DECLARATION_COMPONENTS = [
   RegistrationListComponent,
   AdmissionListComponent,
   ApprovedListComponent,
-<<<<<<< HEAD
-=======
-
->>>>>>> dc41ce8b001674a93f88ae686d0584a7077f708c
   CompMapDirective,
   TemplateMapDirective,
   InnerHeaderComponent,
@@ -204,20 +200,12 @@ export const DECLARATION_COMPONENTS = [
   WardTypeModalItem,
   BedModal,
   BedModalItem,
-<<<<<<< HEAD
-=======
-
->>>>>>> dc41ce8b001674a93f88ae686d0584a7077f708c
   BillingListComponent,
   ApprovalListComponent,
   BillingComponent,
   ApprovalComponent,
   PrescriptionComponent,
   PrescriptionListComponent,
-<<<<<<< HEAD
-=======
-
->>>>>>> dc41ce8b001674a93f88ae686d0584a7077f708c
   OtComponent,
   OtListComponent,
   ForgetPasswordModal,
