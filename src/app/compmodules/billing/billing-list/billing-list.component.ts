@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output ,EventEmitter} from '@angular/core';
 import { DataTableTranslations, DataTableResource } from 'angular5-data-table';
 import { Subscription } from 'rxjs/Subscription';
 import { RL_DEPARTMENT, RESULT_TYPE_GET_DEPARTMENT, RL_BUILDING, RESULT_TYPE_GET_BUILDING, ActionType, MODE_EDIT, MODE_VIEW, MODE_DELETE, ADD, RL_BILLING, RESULT_TYPE_GET_BILLING_LIST, RL_DELETE_CONFIRMATION_MODAL, RESULT_TYPE_GET_ADMITTED_PATIENT_LIST, RESULT_TYPE_GET_ADVANCE_BILLING, MODE_OTHERS, RESULT_TYPE_GET_SELECTED_PATIENT_BY_ID, RESULT_TYPE_GET_PATIENT_DETAILS_FOR_OT, RESULT_TYPE_GET_DISCHARGED_PATIENT_LIST, RESULT_TYPE_GET_EXTERNAL_BILLING, MODE_ADD } from '../../../models/common';
@@ -9,6 +9,7 @@ import { BaseServices } from '../../../utils/base.service';
 import { DatePipe } from '@angular/common';
 import { Billing } from '../../../models/opd';
 import { NgbModalOptions, NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-billing-list',
@@ -16,8 +17,9 @@ import { NgbModalOptions, NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstr
   styleUrls: ['./billing-list.component.scss']
 })
 export class BillingListComponent extends BaseComponent implements OnInit, OnDestroy {
+  @Output() clickHandler: EventEmitter <any> = new EventEmitter();
 
-
+private isreadonly = true;
   modalOption: NgbModalOptions;
   private modalRef: NgbModalRef;
   closeResult: any;
@@ -35,7 +37,8 @@ export class BillingListComponent extends BaseComponent implements OnInit, OnDes
   private eventData: any;
   private patientData: any = new Billing();
 
-  constructor(baseService: BaseServices, private modalServices: NgbModal, private helperFunc: HelperFunction, public datepipe: DatePipe) {
+  constructor(baseService: BaseServices, private snackbar:MatSnackBar,
+    private modalServices: NgbModal, private helperFunc: HelperFunction, public datepipe: DatePipe) {
     super(baseService);
     this.hmisApi.getBillingSearch("");
   }
@@ -116,18 +119,24 @@ export class BillingListComponent extends BaseComponent implements OnInit, OnDes
     this.modalRef.close()
   }
 
-  private clickEventHandler(eventObj: ActionType): void {
+  private ClickEventHandler(eventObj: ActionType, mode, item): void {
     this.clickdialog = true;
     setInterval(() => {
     this.clickdialog = false;
   }, 1);  
-    switch (eventObj.mode) {
+    switch (mode) {
       case MODE_EDIT:
         this.compLoadManager.redirect(RL_BILLING);
+        this.state.currentstate = MODE_EDIT;
+        this.state.stateData = item;
+        this.clickHandler.emit(<ActionType>{ data: item, mode: MODE_EDIT });
         break;
       case MODE_VIEW:
         //this.hmisApi.getDischargePatientList(eventObj.data.admission_sequence);
         this.compLoadManager.redirect(RL_BILLING);
+        this.state.currentstate = MODE_VIEW;
+        this.state.stateData = item;
+        this.clickHandler.emit(<ActionType>{ data: item, mode: MODE_VIEW });
         break;
       case MODE_DELETE:
         //console.log('execute delete api');
@@ -141,11 +150,29 @@ export class BillingListComponent extends BaseComponent implements OnInit, OnDes
 
 
   private addbilling(): void {
-    this.openCompInAddMode(RL_BILLING);
+
+    const a = this.comonService.getpermissionrole();
+    if(a=== 'readonly'){
+      this.snackbar.open('Not Allowed', 'Close',
+      {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right',
+      });
+    }else{
+      this.openCompInAddMode(RL_BILLING);
+    }
 
   }
 
   ngOnInit() {
+    const a = this.comonService.getpermissionrole();
+    if(a === 'readonly'){
+this.isreadonly = true;
+    }else{
+      this.isreadonly = false;
+
+    }
     //console.log(films);
   }
 

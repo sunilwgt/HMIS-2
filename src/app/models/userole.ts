@@ -12,7 +12,7 @@ export class UserRP {
   UserId: string;
   UserName: string;
   Roles: Array<Role>;
-  Permissions: Array<Permission>;
+  // Permissions: Array<Permission>;
 
   constructor() {
   }

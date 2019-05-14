@@ -6,8 +6,9 @@ import { BaseServices } from '../../../utils/base.service';
 import { State } from '../../../models/state';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import * as _ from 'lodash';
-import {CalendarModule} from 'primeng/calendar';
+import { CalendarModule } from 'primeng/calendar';
 import { TouchSequence } from 'selenium-webdriver';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-header-buttons',
@@ -27,57 +28,70 @@ export class HeaderButtonsComponent implements OnInit {
   private convertedfromdate;
   private convertedtodate;
   @Input() csvjson: any;
-  constructor(private baseservice: BaseServices) { }
+  constructor(private baseservice: BaseServices , private snackbar:MatSnackBar) { }
 
   ngOnInit() {
     this._state = this.baseservice.stateService.createState(MODE_STATE);
     this._sObj = this.baseservice.stateService.createState(ACTION_BUTTON_STATE);
     this.getdate();
-  this.baseservice.hmisApi.patientSearch(this.convertedfromdate, this.convertedtodate, '');
+    this.baseservice.hmisApi.patientSearch(this.convertedfromdate, this.convertedtodate, '');
 
     // this.searchdropdown()
   }
-//   searchdropdown(){
-// document.getElementById('searchdropdown').selectedIndex = -1;
-//   }
+  //   searchdropdown(){
+  // document.getElementById('searchdropdown').selectedIndex = -1;
+  //   }
 
 
-searchPatient() {
-  console.log('enter')
-  this.convertdate();
-  this.baseservice.hmisApi.patientSearch(this.convertedfromdate, this.convertedtodate, '');
+  searchPatient() {
+    console.log('enter')
+    this.convertdate();
+    this.baseservice.hmisApi.patientSearch(this.convertedfromdate, this.convertedtodate, '');
 
-}
+  }
 
-getdate() {
-  const data = new Date();
-  this.dateValuefrom = data;
-  this.dateValueto = data;
-  this.convertdate();
-}
+  getdate() {
+    const data = new Date();
+    this.dateValuefrom = data;
+    this.dateValueto = data;
+    this.convertdate();
+  }
 
 
 
-convertdate() {
- const a = this.baseservice.comonService.convertdate(this.dateValuefrom , this.dateValueto)
- this.convertedfromdate = a.from;
-// this.convertedfromdate = "01-Jan-2019";
- this.convertedtodate = a.to;
- this.setdate(this.convertedfromdate , this.convertedtodate);
+  convertdate() {
+    const a = this.baseservice.comonService.convertdate(this.dateValuefrom, this.dateValueto)
+    this.convertedfromdate = a.from;
+    // this.convertedfromdate = "01-Jan-2019";
+    this.convertedtodate = a.to;
+    this.setdate(this.convertedfromdate, this.convertedtodate);
 
-}
+  }
 
-setdate(f, t) {
-  this.baseservice.comonService.setdateforregsearch(f,t)
-    }
+  setdate(f, t) {
+    this.baseservice.comonService.setdateforregsearch(f, t)
+  }
 
   private addNewPatient(): void {
-    this._state.currentstate = MODE_ADD;
-    this._state.stateData = null;
-    this.baseservice.compLoadManager.redirect(RL_REGISTRATION)
 
-    this._sObj.currentstate = ADD;
-    this.baseservice.stateService.updateState(this._sObj);
+    const a = this.baseservice.comonService.getpermissionrole();
+    if (a === 'readonly') {
+      // alert('not allowed')
+      this.snackbar.open('Not Allowed', 'Close',
+      {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right',
+      });
+    } else {
+      this._state.currentstate = MODE_ADD;
+      this._state.stateData = null;
+      this.baseservice.compLoadManager.redirect(RL_REGISTRATION)
+
+      this._sObj.currentstate = ADD;
+      this.baseservice.stateService.updateState(this._sObj);
+    }
+
   }
 
   private searchPatientstring(): void {

@@ -1,0 +1,66 @@
+<div class="card crd_frm">
+  <div class="card-body" style="margin-bottom: 0 ">
+    <div class="basic-form">
+      <form name="department_form" novalidate="novalidate">
+        <div class="row">
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'First Name'" class="col-lg-6 col-sm-6"
+            [propName]="'first_name'" (compValueChange)="valueChangeHandler($event)" [isrequire]=false></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Last Name'" class="col-lg-6 col-sm-6"
+            [propName]="'last_name'" (compValueChange)="valueChangeHandler($event)" [isrequire]=false></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Email'" class="col-lg-6 col-sm-6"
+            [propName]="'user_name'" (compValueChange)="valueChangeHandler($event)" [isrequire]=false></hmis-vertical-label-type>
+
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Password'" class="col-lg-6 col-sm-6"
+            [propName]="'password'" (compValueChange)="valueChangeHandler($event)" [isrequire]=false></hmis-vertical-label-type>
+        </div>
+        &nbsp;
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <form>
+
+    <div class="row" *ngIf="!isaddmode">
+      <div class="col">
+        <h4>Select roles to assign</h4>
+      </div>
+
+        <div class="col" >
+            <div class="permissiondropdownn">
+              <div *ngFor="let role of roledropdownList">
+                <input type="checkbox" [checked]="role.selected" (change)="onchangerole($event,role.value , role)">{{role?.label}}
+              </div>
+            </div>
+          </div>
+
+      <!-- <div class="col">
+        <div class="roledropdown">
+          <ng-multiselect-dropdown style="border-color: blue" name="roleoptions" [placeholder]="'Select Roles'" [data]="roledropdownList"
+            [(ngModel)]="selectedroleItems" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+            (onSelectAll)="onSelectAll($event)">
+          </ng-multiselect-dropdown>
+        </div>
+      </div> -->
+      <!-- <div class="col">
+        <div class="permissiondropdownn">
+          <ng-multiselect-dropdown style="border: blue" name="permissionoptions" [placeholder]="'Select Permission'" [data]="permissiondropdownList"
+            [(ngModel)]="selectedpermissionItems" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+            (onSelectAll)="onSelectAll($event)">
+          </ng-multiselect-dropdown>
+        </div>
+      </div> -->
+    </div><br><br>
+
+    <div class="row">
+      <div class="col-4">
+        <button *ngIf="showSubmitBtn" type="submit" class="btn btn-default btn-info" (click)="SubmitClickHandler()">{{submitBtnLabel}}</button>
+
+      </div>
+    </div>
+  </form>
+
+</div>

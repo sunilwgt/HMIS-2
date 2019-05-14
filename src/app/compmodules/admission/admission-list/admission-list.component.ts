@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { DataTableTranslations, DataTableResource } from 'angular5-data-table';
 import { BaseComponent } from '../../../utils/base.component';
 import { BaseServices } from '../../../utils/base.service';
@@ -24,6 +24,8 @@ declare var jsPDF: any;
 })
 
 export class AdmissionListComponent extends BaseComponent implements OnInit {
+  @Output() clickHandler: EventEmitter<any> = new EventEmitter();
+  private isreadonly = true;
   modalOption: NgbModalOptions;
   private modalRef: NgbModalRef;
   closeResult: any;
@@ -46,7 +48,7 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
   private dateValuefrom: Date; ''
   private convertedfromdate;
   private convertedtodate;
-  constructor(baseService: BaseServices, private modalServices: NgbModal, public datepipe: DatePipe, private helperFunc: HelperFunction,
+  constructor(private baseService: BaseServices, private modalServices: NgbModal, public datepipe: DatePipe, private helperFunc: HelperFunction,
     private snackbar: MatSnackBar, ) {
     super(baseService);
     // this.hmisApi.getAdmittedPatientList("");
@@ -75,7 +77,6 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
     }
     if (data.resulttype === RESULT_TYPE_GET_HOSPITAL_DETAIL_LIST) {
       this.hospitaldata = data.result[0];
-      // console.log('hospital details', this.hospitaldata);
     }
   }
 
@@ -109,8 +110,20 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
     paginationRange: 'Result range'
   };
 
-
-
+  setdischargestyle(n) {
+    if (n > 0) {
+      return { color: 'red' }
+    } else {
+      return { color: 'green' }
+    }
+  }
+  setotstyle(n) {
+    if (n > 0) {
+      return { color: 'red' }
+    } else {
+      return { color: 'green' }
+    }
+  }
   ongridclick(e, item, con) {
     if (this.clickdialog === false) {
       this.displaydialog = true;
@@ -132,29 +145,34 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
   closemodal(reason) {
     this.modalRef.close()
   }
-  private clickEventHandler(eventObj: ActionType): void {
-    console.log('event' , eventObj);
+  private ClickEventHandler(eventObj: ActionType, mode, item): void {
     // this.clickdialog = true;
     // setInterval(() => {
     //   this.clickdialog = false;
     // }, 1);
-    switch (eventObj.mode) {
+    switch (mode) {
       case MODE_EDIT:
         this.compLoadManager.redirect(RL_ADMISSION);
+        this.state.currentstate = MODE_EDIT;
+        this.state.stateData = item;
+        this.clickHandler.emit(<ActionType>{ data: item, mode: MODE_EDIT });
         break;
 
       case MODE_VIEW:
         this.compLoadManager.redirect(RL_ADMISSION);
+        this.state.currentstate = MODE_VIEW;
+        this.state.stateData = item;
+        this.clickHandler.emit(<ActionType>{ data: item, mode: MODE_VIEW });
         break;
 
       case MODE_DELETE:
-        this.hmisApi.deleteAdmittedPatient(eventObj.data.ID);
+        this.hmisApi.deleteAdmittedPatient(item.ID);
         break;
 
       case MODE_ADD:
 
         // console.log('discharge obj', eventObj)
-        if (eventObj.data.Discharged > 0) {
+        if (item.Discharged > 0) {
           this.snackbar.open('Patient discharged', 'Close',
             {
               duration: 3000,
@@ -167,8 +185,7 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
         }
         break;
       case MODE_OT:
-
-        if (eventObj.data.OpenOT > 0) {
+        if (item.OpenOT > 0) {
           this.snackbar.open('Patient has an active OT entry. Please update patient previous OT details.', 'Close',
             {
               duration: 3000,
@@ -176,14 +193,14 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
               horizontalPosition: 'right',
             });
         } else {
-          this.hmisApi.getPatientDetailsForOTOnSearchId(eventObj.data.ID);
+          this.hmisApi.getPatientDetailsForOTOnSearchId(item.ID);
           this.compLoadManager.redirect(RL_OT)
         }
 
         break;
       case MODE_OTHERS:
         // this.comonService.createPdfStructure(eventObj.data, "ADMISSION");
-        this.createPdfStructureofadmission(eventObj.data, "ADMISSION");
+        this.createPdfStructureofadmission(item, "ADMISSION");
 
         break;
 
@@ -193,11 +210,29 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
 
 
   private addAdmission(): void {
-    this.state.currentstate = MODE_ADD;
-    this.compLoadManager.redirect(RL_ADMISSION);
+    const a = this.baseService.comonService.getpermissionrole();
+    if (a === 'readonly') {
+      // alert('not allowed')
+      this.snackbar.open('Not Allowed', 'Close',
+      {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right',
+      });
+    } else {
+      this.state.currentstate = MODE_ADD;
+      this.compLoadManager.redirect(RL_ADMISSION);
+    }
+
   }
 
   ngOnInit() {
+    const a = this.comonService.getpermissionrole();
+    if (a === 'readonly') {
+      this.isreadonly = true;
+    } else {
+      this.isreadonly = false;
+    }
     this._updateStateObj = this.stateService.createState(UPDATE_FIELD_STATE);
     this.getdate();
     this.hmisApi.getAdmittedPatientList(this.convertedfromdate, this.convertedtodate, '');
@@ -219,14 +254,14 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
     const a = this.comonService.convertdate(this.dateValuefrom, this.dateValueto)
     this.convertedfromdate = a.from;
     this.convertedtodate = a.to;
-    this.setdate(this.convertedfromdate , this.convertedtodate)
+    this.setdate(this.convertedfromdate, this.convertedtodate)
 
   }
 
   setdate(f, t) {
-this.comonService.setdateforadmissionsearch(f,t)
+    this.comonService.setdateforadmissionsearch(f, t)
   }
-  
+
   searchAdmittedPatient() {
     this.hmisApi.getAdmittedPatientList(this.convertedfromdate, this.convertedtodate, this.searchStr);
   }

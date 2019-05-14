@@ -5,6 +5,7 @@ import { BaseServices } from '../../../utils/base.service';
 import { BaseComponent } from '../../../utils/base.component';
 import { ISelectOption } from '../../../interfaces/ISelectOption';
 import { patientListOption } from '../../../models/patient';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-header-button-prescription',
@@ -16,7 +17,7 @@ export class HeaderButtonPrescriptionComponent extends BaseComponent implements 
   private sObj: State;
   private searchStr: string;
   private patientList = [];
-  constructor(baseservice: BaseServices) {
+  constructor(baseservice: BaseServices , private snackbar:MatSnackBar) {
     super(baseservice);
   }
 
@@ -49,12 +50,23 @@ export class HeaderButtonPrescriptionComponent extends BaseComponent implements 
 
   private addprescription(): void {
     // this.openCompInAddMode(RL_PRESCRIPTION);
-    this._state.currentstate = MODE_ADD;
-    this._state.stateData = null;
-    this.compLoadManager.redirect(RL_PRESCRIPTION);
+    const a = this.comonService.getpermissionrole();
+    if (a === 'readonly') {
+      // alert('not allowed')
+      this.snackbar.open('Not Allowed', 'Close',
+      {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right',
+      });
+    } else {
+      this._state.currentstate = MODE_ADD;
+      this._state.stateData = null;
+      this.compLoadManager.redirect(RL_PRESCRIPTION);
+      this.sObj.currentstate = ADD;
+      this.stateService.updateState(this.sObj);
+    }
 
-    this.sObj.currentstate = ADD;
-    this.stateService.updateState(this.sObj);
   }
 
   // private searchIndividualPatient(): void {

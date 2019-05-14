@@ -4,7 +4,6 @@ export class MessageType {
   data?: any;
   id?: string | number;
   option?: string;
-
   constructor() { }
 }
 

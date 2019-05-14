@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { DataTableTranslations, DataTableResource } from 'angular5-data-table';
 import { Subscription } from 'rxjs/Subscription';
 import { RL_DEPARTMENT, RESULT_TYPE_GET_DEPARTMENT, RL_BUILDING, RESULT_TYPE_GET_BUILDING, ActionType, MODE_EDIT, MODE_VIEW, MODE_DELETE, ADD, RL_BILLING, RL_PACKAGES_TYPE, RL_DISCHARGE_CERTIFICATE, RESULT_TYPE_GET_DISCHARGE_CERTIFICATE_LIST, RESULT_TYPE_GET_SELECTED_DISCHARGE_CERTIFICATE } from '../../../models/common';
@@ -7,6 +7,7 @@ import { BaseComponent } from '../../../utils/base.component';
 import { BaseServices } from '../../../utils/base.service';
 import { DischargeCertificateOption } from '../../../models/department';
 import { NgbModalOptions, NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MatSnackBar } from '@angular/material';
 
 
 @Component({
@@ -16,6 +17,9 @@ import { NgbModalOptions, NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstr
 
 })
 export class DischargeCertificateListComponent extends BaseComponent implements OnInit {
+  private isreadonly = true;
+  @Output() clickHandler: EventEmitter<any> = new EventEmitter();
+
   modalOption: NgbModalOptions;
   private modalRef: NgbModalRef;
   closeResult: any;
@@ -31,7 +35,7 @@ export class DischargeCertificateListComponent extends BaseComponent implements 
  
 
 
-  constructor(baseService: BaseServices , private modalServices: NgbModal) {
+  constructor(baseService: BaseServices , private modalServices: NgbModal , private snackbar:MatSnackBar) {
     super(baseService);
     this.hmisApi.getDischargeCertificateList("");
   }
@@ -92,20 +96,26 @@ export class DischargeCertificateListComponent extends BaseComponent implements 
       }
       
 
-  private clickEventHandler(eventObj: ActionType): void {
+  private ClickEventHandler(eventObj: ActionType, mode, item): void {
     this.clickdialog = true;
     setInterval(() => {
     this.clickdialog = false;
   }, 1);
-    switch (eventObj.mode) {
+    switch (mode) {
       case MODE_EDIT:
         //this.createDischargeCertificate(eventObj.data);
         //this.hmisApi.getDischargeCertficateAsPerAdmissionIdRegNO(eventObj.data.admission_id,eventObj.data.patient_id);
         this.compLoadManager.redirect(RL_DISCHARGE_CERTIFICATE);
+        this.state.currentstate = MODE_EDIT;
+        this.state.stateData = item;
+        this.clickHandler.emit(<ActionType>{ data: item, mode: MODE_EDIT });
         break;
 
       case MODE_VIEW:
         this.compLoadManager.redirect(RL_DISCHARGE_CERTIFICATE);
+        this.state.currentstate = MODE_VIEW;
+        this.state.stateData = item;
+        this.clickHandler.emit(<ActionType>{ data: item, mode: MODE_VIEW });
         break;
 
       case MODE_DELETE:
@@ -116,10 +126,28 @@ export class DischargeCertificateListComponent extends BaseComponent implements 
 
 
   private addDischrageCertificate(): void {
-    this.openCompInAddMode(RL_DISCHARGE_CERTIFICATE);
+    const a = this.comonService.getpermissionrole();
+    if(a=== 'readonly'){
+      this.snackbar.open('Not Allowed', 'Close',
+      {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right',
+      });
+    }else{
+      this.openCompInAddMode(RL_DISCHARGE_CERTIFICATE);
+
+    }
   }
 
   ngOnInit() {
+    const a = this.comonService.getpermissionrole();
+    if(a === 'readonly'){
+this.isreadonly = true;
+    }else{
+      this.isreadonly = false;
+
+    }
     //console.log(films);
     this.getdate();
   }

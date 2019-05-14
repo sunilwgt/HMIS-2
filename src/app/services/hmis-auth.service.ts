@@ -49,6 +49,7 @@ export class HmisAuthService implements OnDestroy {
 
     this._subscription = this._hmisApi.apiResults.subscribe(data => {
       if (data.resulttype === RESULT_TYPE_USER_ROLE) {
+        console.log('userrole data' , data);
         let userrole: UserRP = data.result;
         userrole = data.result;
         this._roleManager.userRole = userrole;
@@ -87,7 +88,7 @@ export class HmisAuthService implements OnDestroy {
       this._hmisHttp.post(LOGIN_URL, null, httpOptions).subscribe(
         
         data => {
-          // console.log('subscribed data' , data);
+          console.log('logged in data' , data);
           this._loader.showLoader = false;
           let d: any = data;
           // console.log('subscribed data' , data);
@@ -95,9 +96,11 @@ export class HmisAuthService implements OnDestroy {
           //this._hmisApi.hmistoken = "869d5a33-265e-4e5a-a039-d445582a0732";
           //console.log(this._hmisApi.hmistoken);
           let userDetail: UserDetail = new UserDetail();
-          userDetail.uid = d.userData.id;
+          userDetail.uid = d.UserId;
           userDetail.username = "admin";
-          this._hmisApi.getUserRole(userDetail);
+          this.getloginvalue.emit(data);
+          
+          // this._hmisApi.getUserRole(userDetail);
           userDetail.created_by = d.access_token.UserId;
           userDetail.modified_by = d.access_token.UserId;
           this._hmisApi.userDetail = userDetail;

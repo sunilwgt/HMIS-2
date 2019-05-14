@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Option, RadioData, ApproveOption, ApprovalOption } from '../models/common';
+import { Option, RadioData, ApproveOption, ApprovalOption, userOption, userpermissionOption } from '../models/common';
 import { Subject } from 'rxjs/Subject';
 import { Department, DepartmentType, DepartmentOption, DepartmentTypeOption} from '../models/department';
 import { Floor, FloorOptions, Ward, Doctor, DoctorOptions, WardOptions, SurguryTypeOptions, OperationTypeOptions, BedOptions, wardTypeOptions, Billing, DischargeType, DischargeTypeOption, Building, BuildingOptions, DeliveryType, deliveryTypeOptions, DischargeModal, BillingDistribution } from '../models/opd';
@@ -20,6 +20,8 @@ export class CommonService {
   Department: any;
   Approve:any;
   Approval:any;
+  User:any;
+  Userpermission:any;
   Building: any;
   Floor: any;
   patients: any;
@@ -31,8 +33,17 @@ export class CommonService {
   deliveryList: any;
   patientData: any;
   //deleteHandler: EventEmitter<any> = new EventEmitter();
+  permittedrole:any;
 
   constructor(private helperFunc: HelperFunction, public datepipe: DatePipe) { }
+
+  setpermissionrole(pname){
+    this.permittedrole = pname;
+      }
+      
+      getpermissionrole(){
+        return this.permittedrole;
+      }
 
   get bloodOptions(): Array<Option> {
     return [
@@ -242,6 +253,30 @@ export class CommonService {
       approvalArray.push(d);
     }
     return approvalArray;
+  }
+
+  public usersOption(data): Array<userOption> {
+    let usersArray: Array<userOption> = [];
+    this.User = data;
+    for (let val of this.User) {
+      let d : userOption = new userOption();
+      d.label = val.Name;
+      d.value = val.ID;
+      usersArray.push(d);
+    }
+    return usersArray;
+  }
+
+  public userspermissionOption(data): Array<userpermissionOption> {
+    let usersArray: Array<userpermissionOption> = [];
+    this.Userpermission = data;
+    for (let val of this.Userpermission) {
+      let d : userpermissionOption = new userpermissionOption();
+      d.label = val.Name;
+      d.value = val.ID;
+      usersArray.push(d);
+    }
+    return usersArray;
   }
 
   public buildingOption(data: Building): Array<BuildingOptions> {

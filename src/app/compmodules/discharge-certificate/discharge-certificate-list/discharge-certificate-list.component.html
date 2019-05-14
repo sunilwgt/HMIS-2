@@ -80,9 +80,32 @@
             </data-table-column>
             <data-table-column [property]="'discharge_date'" [header]="'Discharged On'" [sortable]="true" [width]="160">
             </data-table-column>
-            <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true" [width]="150">
+
+            <!-- <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true" [width]="150">
                 <ng-template #dataTableCell let-item="item">
                     <hmis-generic-action [itemdata]=item (clickHandler)="clickEventHandler($event)"></hmis-generic-action>
+                </ng-template>
+            </data-table-column> -->
+
+            <data-table-column *ngIf="!isreadonly" [property]="'action'" [header]="'Action'" [sortable]="false" [resizable]=true [width]="120">
+                <ng-template #dataTableCell let-item="item">
+    
+                    <nav class="navbar navbar-default">     
+                        <div class="container-fluid">
+                            <div class="navbar-header">
+                                <div class="dropdown">
+                                    <div class="test">
+                                        <div class="dropdown-content">
+                                            <a href="#"  (click)="ClickEventHandler($event , 'modeView' , item)"><i class="fa fa-eye" ></i>&nbsp;&nbsp;View</a>
+                                            <a href="#"  (click)="ClickEventHandler($event ,'modeEdit' , item)"> <i class="fa fa-edit" ></i>&nbsp;&nbsp;Edit </a>
+                                            <a href="#"  (click)="ClickEventHandler($event , 'modeDelete' , item)"> <i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+    
                 </ng-template>
             </data-table-column>
         </data-table>

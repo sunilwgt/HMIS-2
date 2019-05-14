@@ -97,6 +97,8 @@
   </div>
 </ng-template>
 
+
+
 <ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compselectselected]">
     <div class="form-group">
       <generic-popup></generic-popup>
@@ -114,6 +116,25 @@
       <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
     </div>
   </ng-template>
+
+  <ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compselectmultiple]">
+      <div class="form-group">
+        <generic-popup></generic-popup>
+        <label>{{labelname}}</label>
+        <div class="select_block">
+          <div class="select_custom">
+            <select class="form-control" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)" [disabled]="!_isEditable">
+              <option [selected]="op.value === compValue.fieldValue" *ngFor="let op of selectOptions" value="{{op.value}}">{{op.label}}</option>
+            </select>
+          </div>
+          <a class="bed_pop" *ngIf="showInfoIcon" (click)="showIconInfoDetails()">
+            <i class="{{infoIconClass}}"></i>
+          </a>
+        </div>
+        <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
+      </div>
+    </ng-template>
+
 
 <ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compradio]">
   <div class="form-group" [ngClass]="{'viewmode':!_isEditable}">

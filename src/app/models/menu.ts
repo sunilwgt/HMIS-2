@@ -1,6 +1,7 @@
 import { ComponentInfo } from "./compinfo";
 
 export class MenuItem{
+  permissionname:string;
   menuid:number;
   name:string;
   hasSubmenu?:boolean = false;

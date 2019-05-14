@@ -1,5 +1,5 @@
 <perfect-scrollbar style="max-width: 600px; max-height: 100%;" [config]="config">
-  <app-leftmenuitem *ngFor="let item of _menuItems" [menuInfo]="item"
-  (menuClick)="menuItemClickHandler($event)"
+  <app-leftmenuitem *ngFor="let item of rolemenuItems" [menuInfo]="item"
+  (menuClick)="menuItemClickHandler($event , item)"
   [closedMenu]="closedMenu"></app-leftmenuitem>
 </perfect-scrollbar>

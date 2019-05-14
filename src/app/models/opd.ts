@@ -2,10 +2,12 @@ import { UserDetail } from "./userole";
 import { Option } from "./common";
 
 export class Doctor extends UserDetail {
-    constructor() {
+        constructor() {
         super();
     }
 }
+
+
 
 export class Approver extends UserDetail {
     constructor() {
@@ -61,6 +63,21 @@ export class Approverr {
 //     modified_by?: string;
 // }
 
+
+
+export class User {
+    first_name: string;
+    last_name: string;
+    user_name?: string;
+    password?:any;
+}
+
+export class UserType {
+    role_name:string;
+    role_description:string;
+    created_by?: string;
+    modified_by?: string;
+}
 
 export class ApprovalModal {
      approval_status_name: string;

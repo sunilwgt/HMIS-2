@@ -29,6 +29,21 @@ export const RESULT_TYPE_GET_FILES: string = "getfile";
 export const RL_SCHEDULING_LIST: string = "rlSchedulingList";
 export const RL_SCHEDULING: string = "rlScheduling";
 
+export const RL_USERTYPE_LIST: string = "rlUserTypeList";
+export const RL_USERTYPE: string = "rlUserType";
+
+export const RL_USER_LIST: string = "rlUserList";
+export const RL_USER: string = "rlUser";
+
+export const RL_PERMISSION: string = "rlPermission";
+export const RL_PERMISSION_LIST: string = "rlPermissionList";
+
+export const RL_ASSIGN_PERMISSION: string = "rlAssignPermission";
+export const RL_ASSIGN_PERMISSION_LIST: string = "rlASSIGNPermissionList";
+
+
+
+
 
 
 
@@ -198,6 +213,29 @@ export const RESULT_TYPE_DELETE_APPROVER_LIST: string = "deleteApproverList";
 export const RESULT_TYPE_SET_APPROVER_AS_ID: string = "setApproverAsId";
 
 
+export const RESULT_TYPE_GET_ALL_APPUSERS: string = "getAllAppUsers";
+export const RESULT_TYPE_ADD_USER: string = "setUser";
+
+
+export const RESULT_TYPE_GET_ALL_USERSTYPE: string = "getAllUsersType";
+export const RESULT_TYPE_GET_ALL_USERSTYPE_VAlUE_PAIR: string = "getAllUsersTypeValuePair";
+export const RESULT_TYPE_GET_USER_TYPE_PERMISSION_VAlUE_PAIR: string = "getAllUsersTypePermissionValuePair";
+export const RESULT_TYPE_ADD_USER_TYPE: string = "addUsersType";
+export const RESULT_TYPE_DELETE_USER_TYPE: string = "deleteUsersType";
+
+export const RESULT_TYPE_GET_ALL_PERMISSIONS: string = "getAllPermission";
+export const RESULT_TYPE_ADD_PERMISSIONS: string = "setPermission";
+
+export const RESULT_TYPE_GET_PERMISSIONS_BY_ROLE_ID: string = "getAllPermissionByRoleId";
+
+export const RESULT_TYPE_SET_PERMISSION_TO_ROLE: string = "setPermissionToRole";
+export const RESULT_TYPE_DELETE_PERMISSION_FROM_ROLE: string = "removePermissionFromRole";
+
+
+export const RESULT_TYPE_GET_ALL_ROLES_BY_USERID: string = "getAllRolesByUserId";
+
+export const RESULT_TYPE_SET_ROLE_TO_USER: string = "setRoleToUser";
+export const RESULT_TYPE_DELETE_ROLE_FROM_USER: string = "removeRoleToUser";
 
 
 
@@ -403,6 +441,9 @@ export const MODE_OT: string = "modeOT";
 export const MODE_DISCHARGE_BED: string = "modeDischargeBed";
 export const MODE_ADMISSION: string = "modeAdmission";
 export const MODE_EMERGENCY: string = "modeEmergency";
+export const MODE_ROLE_ASSIGN: string = "modeRoleAssign";
+
+
 //----------------- State ID Constant -------------------//
 export const ACTION_BUTTON_STATE: string = "actionBtnState";
 export const MODE_STATE: string = "modeStateID";
@@ -447,6 +488,18 @@ export class Option {
   }
 }
 
+export class Permissions {
+  access_area: string;
+  can_create: any;
+  can_delete: any
+  can_read: any;
+  can_update: any;
+
+  constructor() {
+
+  }
+}
+
 export class ApproveOption extends Option {
   constructor() {
     super()
@@ -457,6 +510,18 @@ export class ApprovalOption extends Option {
     super()
   }
 }
+
+export class userOption extends Option {
+  constructor() {
+    super()
+  }
+}
+export class userpermissionOption extends Option {
+  constructor() {
+    super()
+  }
+}
+
 export class RadioData {
   label: string;
   value: any;

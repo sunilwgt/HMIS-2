@@ -22,6 +22,7 @@ export interface PeriodicElement {
   position: number;
   weight: string;
   symbol: string;
+  status:string;
 }
 
 
@@ -35,18 +36,18 @@ export interface PeriodicElement {
 
 export class SchedulingComponent extends BaseComponent implements OnInit {
    ELEMENT_DATA: PeriodicElement[] = [
-    {position: 1, name: 'Doctor Name', weight: 'Department', symbol: 'Mon-Fri'},
-    {position: 2, name: 'Doctor Name', weight: 'Department', symbol: 'Sat , Sun'},
-    {position: 3, name: 'Doctor Name', weight: 'Department', symbol: 'Tue,Sun'},
-    {position: 4, name: 'Doctor Name', weight: 'Department', symbol: 'Tue,Sun'},
-    {position: 5, name: 'Doctor Name', weight: 'Department', symbol: 'Tue,Sun'},
-    {position: 6, name: 'Doctor Name', weight: 'Department', symbol: 'Tue,Sun'},
-    {position: 7, name: 'Doctor Name', weight: 'Department', symbol: 'Tue,Sun'},
-    {position: 8, name: 'Doctor Name', weight: 'Department', symbol: 'Tue,Sun'},
-    {position: 9, name: 'Doctor Name', weight: 'Department', symbol: 'Tue,Sun'},
-    {position: 10, name: 'Doctor Name', weight: 'Department', symbol: 'Tue,Sun'},
+    {position: 1, name: 'Doctor Name', weight: 'Department', symbol: 'Mon-Fri' , status:'Onleave'},
+    {position: 2, name: 'Doctor Name', weight: 'Department', symbol: 'Sat , Sun',status:'Onleave'},
+    {position: 3, name: 'Doctor Name', weight: 'Department', symbol: 'Tue,Sun',status:'Present'},
+    {position: 4, name: 'Doctor Name', weight: 'Department', symbol: 'Tue,Sun',status:'Present'},
+    {position: 5, name: 'Doctor Name', weight: 'Department', symbol: 'Tue,Sun',status:'Present'},
+    {position: 6, name: 'Doctor Name', weight: 'Department', symbol: 'Tue,Sun',status:'Present'},
+    {position: 7, name: 'Doctor Name', weight: 'Department', symbol: 'Tue,Sun',status:'Present'},
+    {position: 8, name: 'Doctor Name', weight: 'Department', symbol: 'Tue,Sun',status:'Present'},
+    {position: 9, name: 'Doctor Name', weight: 'Department', symbol: 'Tue,Sun',status:'Present'},
+    {position: 10, name: 'Doctor Name', weight: 'Department', symbol: 'Tue,Sun' ,status:'Present'},
   ];
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol' ,'status'];
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
 
   @ViewChild(GenericPopup)

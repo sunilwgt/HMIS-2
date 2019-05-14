@@ -118,10 +118,24 @@ import { DocumentListComponent } from "./compmodules/document/document-list/docu
 import { DocumentComponent } from "./compmodules/document/document.component";
 import { SchedulingListComponent } from "./compmodules/scheduling/scheduling-list/scheduling-list.component";
 import { SchedulingComponent } from "./compmodules/scheduling/scheduling.component";
+import { UsertypeComponent } from "./compmodules/usertype/usertype.component";
+import { UsertypeListComponent } from "./compmodules/usertype/usertype-list/usertype-list.component";
+import { UserTypeHeaderButtonsComponent } from "./compmodules/usertype/header-buttons/usertypeheader-buttons.component";
+import { UserHeaderButtonsComponent } from "./compmodules/users/header-buttons/userheader-buttons.component";
+import { UserListComponent } from "./compmodules/users/user-list/user-list.component";
+import { UserComponent } from "./compmodules/users/user.component";
+import { PermissionHeaderButtonsComponent } from "./compmodules/permissions/header-buttons/permissionheader-buttons.component";
+import { PermissionComponent } from "./compmodules/permissions/permission.component";
+import { PermissionListComponent } from "./compmodules/permissions/permission-list/permission-list.component";
+import { AssignPermissionHeaderButtonsComponent } from "./compmodules/assignpermission/header-buttons/assignpermissionheader-buttons.component";
+import { AssignPermissionComponent } from "./compmodules/assignpermission/assignpermission.component";
+import { AssignPermissionListComponent } from "./compmodules/assignpermission/assignpermission-list/assignpermission-list.component";
+import { ApprovedComponent } from "./compmodules/Approved/approved.component";
 export const DECLARATION_COMPONENTS = [
   ApproverListComponent,
   ApproverComponent,
   ApprovalDashboardComponent,
+  ApprovedComponent,
   AppComponent,
   HeaderComponent,
   LoginComponent,
@@ -238,11 +252,25 @@ export const DECLARATION_COMPONENTS = [
   DocumentListComponent,
   DocumentComponent,
   SchedulingListComponent,
-  SchedulingComponent
+  SchedulingComponent,
+  UsertypeComponent,
+  UsertypeListComponent,
+  UserTypeHeaderButtonsComponent,
+  UserHeaderButtonsComponent,
+  UserListComponent,
+  UserComponent,
+  PermissionHeaderButtonsComponent,
+  PermissionComponent,
+  PermissionListComponent,
+  AssignPermissionHeaderButtonsComponent,
+  AssignPermissionComponent,
+  AssignPermissionListComponent
+
 ]
 export const ENTRY_COMPONENTS: Array<any> = [
   ApproverListComponent,
   ApproverComponent,
+  ApprovedComponent,
   ApprovalDashboardComponent,
   RegistrationComponent,
   AdmissionComponent,
@@ -323,5 +351,13 @@ export const ENTRY_COMPONENTS: Array<any> = [
   DocumentListComponent,
   DocumentComponent,
   SchedulingListComponent,
-  SchedulingComponent
+  SchedulingComponent,
+  UsertypeComponent,
+  UsertypeListComponent,
+  UserComponent,
+  UserListComponent,
+  PermissionComponent,
+  PermissionListComponent,
+  AssignPermissionComponent,
+  AssignPermissionListComponent
 ]

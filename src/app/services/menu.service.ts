@@ -58,7 +58,7 @@ import {
   RL_PRESCRIPTION_LIST, RL_PRESCRIPTION, RL_WARD_TYPE_MODAL, RL_FORGET_PASSWORD_MODAL, RL_OT, RL_OT_LIST,
   RL_DISCHARGE_CERTIFICATE, RL_DISCHARGE_CERTIFICATE_LIST, RL_SAVE_MESSAGE_MODAL, RL_HOSPITAL_DETAILS_LIST,
   RL_DOCTOR_LIST, RL_WARD_LIST, RL_WARD, RL_BED_LIST, RL_OT_TYPE_LIST, RL_BED, RL_OT_TYPE, RL_NEW_BORN_LIST,
-  RL_NEW_BORN, RL_ADMISSION_CONFIRMATION_MODAL, RL_PRICE, RL_PRICE_LIST, RL_DELETE_CONFIRMATION_MODAL, RL_DISCHARGE_MODAL, RL_BILLING_PREVIEW, RL_APPROVER, RL_APPROVER_LIST, RL_APPROVAL, RL_APPROVAL_LIST, RL_APPROVAL_DASHBOARD, RL_APPROVAL_DASHBOARD_LIST, RL_APPROVED_LIST, RL_REJECTED_LIST, RL_DOCUMENT, RL_SCHEDULING_LIST, RL_SCHEDULING
+  RL_NEW_BORN, RL_ADMISSION_CONFIRMATION_MODAL, RL_PRICE, RL_PRICE_LIST, RL_DELETE_CONFIRMATION_MODAL, RL_DISCHARGE_MODAL, RL_BILLING_PREVIEW, RL_APPROVER, RL_APPROVER_LIST, RL_APPROVAL, RL_APPROVAL_LIST, RL_APPROVAL_DASHBOARD, RL_APPROVAL_DASHBOARD_LIST, RL_APPROVED_LIST, RL_REJECTED_LIST, RL_DOCUMENT, RL_SCHEDULING_LIST, RL_SCHEDULING, RL_USERTYPE_LIST, RL_USERTYPE, RL_USER, RL_USER_LIST, RL_PERMISSION, RL_PERMISSION_LIST, RL_ASSIGN_PERMISSION, RL_ASSIGN_PERMISSION_LIST
 
 } from '../models/common';
 import { ConfirmationModal } from '../compmodules/registration/confirmation-modal.component';
@@ -104,18 +104,36 @@ import { DocumentListComponent } from '../compmodules/document/document-list/doc
 import { DocumentComponent } from '../compmodules/document/document.component';
 import { SchedulingListComponent } from '../compmodules/scheduling/scheduling-list/scheduling-list.component';
 import { SchedulingComponent } from '../compmodules/scheduling/scheduling.component';
+import { UsertypeListComponent } from '../compmodules/usertype/usertype-list/usertype-list.component';
+import { UsertypeComponent } from '../compmodules/usertype/usertype.component';
+import { UserListComponent } from '../compmodules/users/user-list/user-list.component';
+import { UserComponent } from '../compmodules/users/user.component';
+import { PermissionComponent } from '../compmodules/permissions/permission.component';
+import { PermissionListComponent } from '../compmodules/permissions/permission-list/permission-list.component';
+import { AssignPermissionComponent } from '../compmodules/assignpermission/assignpermission.component';
+import { AssignPermissionListComponent } from '../compmodules/assignpermission/assignpermission-list/assignpermission-list.component';
 // import { ApprovalDashboardComponent } from '../compmodules/Approval-dashboard/approval-dashboard.component';
 
 @Injectable()
 export class MenuService implements OnInit {
+  // user_role: any;
   user_role: any;
+  permissions = [];
+ 
 
   constructor(public HmisAuthService: HmisAuthService) {
 
     this.HmisAuthService.getloginvalue.subscribe(
       (data: any) => {
+        console.log('lgetlogin value data', data);
+        this.permissions = [];
+        let permissiondata = []
 
-        this.user_role = data.Roles[0].role_name;
+        for (let d of data.Roles) {
+          permissiondata.push(d.permission_name)
+        }
+        console.log('permission data', permissiondata)
+        this.permissions = permissiondata;
       });
   }
 
@@ -126,6 +144,11 @@ export class MenuService implements OnInit {
   }
 
 
+
+
+  getuserpermissions() {
+    return this.permissions;
+  }
 
 
   public getPopupMenuItems(): Array<ComponentInfo> {
@@ -157,7 +180,7 @@ export class MenuService implements OnInit {
         routeLink: RL_BUILDING,
         headerTitle: "Building"
       },
-     
+
       {
         compName: ComponentModule[ComponentModule.ConfirmationModal],
         compId: ComponentModule.ConfirmationModal,
@@ -263,7 +286,7 @@ export class MenuService implements OnInit {
         routeLink: RL_APPROVAL,
         headerTitle: "Approval Status"
       },
-      
+
       {
         compName: ComponentModule[ComponentModule.PackagesModule],
         compId: ComponentModule.PackagesModule,
@@ -431,9 +454,236 @@ export class MenuService implements OnInit {
         compName: ComponentModule[ComponentModule.SchedulingModule],
         compId: ComponentModule.SchedulingModule,
         comp: new ComponentRef(SchedulingComponent),
-        routeLink:RL_SCHEDULING,
+        routeLink: RL_SCHEDULING,
         headerTitle: "Appointment"
       },
+      {
+        compName: ComponentModule[ComponentModule.UserTypeModule],
+        compId: ComponentModule.UserTypeModule,
+        comp: new ComponentRef(UsertypeComponent),
+        routeLink: RL_USERTYPE,
+        headerTitle: "Usertype"
+      },
+      {
+        compName: ComponentModule[ComponentModule.UserModule],
+        compId: ComponentModule.UserModule,
+        comp: new ComponentRef(UserComponent),
+        routeLink: RL_USER,
+        headerTitle: "User"
+      },
+      {
+        compName: ComponentModule[ComponentModule.PermissionModule],
+        compId: ComponentModule.PermissionModule,
+        comp: new ComponentRef(PermissionComponent),
+        routeLink: RL_PERMISSION,
+        headerTitle: "Permission"
+      },
+      {
+        compName: ComponentModule[ComponentModule.AssignPermissionModule],
+        compId: ComponentModule.AssignPermissionModule,
+        comp: new ComponentRef(AssignPermissionComponent),
+        routeLink: RL_ASSIGN_PERMISSION,
+        headerTitle: "Assign Permission"
+      },
+    ]
+  }
+
+  getrolebasedmenuitem(): Array<MenuItem> {
+    return [
+      {
+        name: "Dashboard", permissionname: 'OPD-PRIVILAGED', menuid: 1, hasPermission: true,
+        hasSubmenu: false, hasSubmenuPermission: true, iconClass: "dashboard", compInfo: this.getCompInfoAsPerId(ComponentModule.DashboardComponent)
+      },
+      {
+        name: "Appointment", permissionname: 'APPOINTMENT_PRIVILAGED', menuid: 1.1,
+        compInfo: this.getCompInfoAsPerId(ComponentModule.SchedulingListModule), iconClass: "dashboard", routeLink: RL_SCHEDULING_LIST
+      },
+      {
+        name: "Out-Patient Department p", permissionname: 'OPDManagement-Privileged', menuid: 3, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "out-patient", submenus: [
+         
+          {
+            name: "Patient Registeration", permissionname: "UserManagement", menuid: 2.1,
+            compInfo: this.getCompInfoAsPerId(ComponentModule.RegistrationModule),
+            isPopup: true, routeLink: RL_REGISTRATION
+          }, {
+            name: "Registeration List", permissionname: '', menuid: 2.1,
+            compInfo: this.getCompInfoAsPerId(ComponentModule.RegistrationListComponent), routeLink: RL_REGISTRATION_LIST
+          },
+          { name: "Prescription", permissionname: '', menuid: 3.1, compInfo: this.getCompInfoAsPerId(ComponentModule.PrescriptionListModule), routeLink: RL_PRESCRIPTION_LIST }
+          ,
+        ]
+      },
+      {
+        name: "Out-Patient Department e", permissionname: 'OPDManagement-Executive', menuid: 3, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "out-patient", submenus: [
+          { name: "Prescription", permissionname: '', menuid: 3.1, compInfo: this.getCompInfoAsPerId(ComponentModule.PrescriptionListModule), routeLink: RL_PRESCRIPTION_LIST }
+          , {
+            name: "Registeration List", permissionname: '', menuid: 2.1,
+            compInfo: this.getCompInfoAsPerId(ComponentModule.RegistrationListComponent), routeLink: RL_REGISTRATION_LIST
+          }
+        ]
+      },
+      {
+        name: "In-patient department p", permissionname: 'IPDManagement-Privileged', menuid: 4, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "in-patient", submenus: [
+          {
+            name: "Admission", permissionname: '', menuid: 4.1,
+            compInfo: this.getCompInfoAsPerId(ComponentModule.AdmissionModule), isPopup: true, routeLink: RL_ADMISSION
+          },
+          {
+            name: "Patients", permissionname: '', menuid: 4.2, compInfo: this.getCompInfoAsPerId(ComponentModule.AdmissionListModule), routeLink: RL_ADMISSION_LIST
+          },
+          {
+            name: "New Born", permissionname: '', menuid: 4.3, compInfo: this.getCompInfoAsPerId(ComponentModule.NewBornListModule), routeLink: RL_NEW_BORN_LIST
+          },
+          {
+            name: "OT", permissionname: '', menuid: 4.4, compInfo: this.getCompInfoAsPerId(ComponentModule.OtListModule), routeLink: RL_OT
+          },
+          {
+            name: "Discharge Certificate", permissionname: '', menuid: 4.5, compInfo: this.getCompInfoAsPerId(ComponentModule.DischargeCertificateListModule), routeLink: RL_DISCHARGE_CERTIFICATE_LIST
+          },
+        ]
+      },
+      {
+        name: "In-patient department e", permissionname: 'IPDManagement-Executive', menuid: 4, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "in-patient", submenus: [
+          // {
+          //   name: "Admission", permissionname: '', menuid: 4.1,
+          //   compInfo: this.getCompInfoAsPerId(ComponentModule.AdmissionModule), isPopup: true, routeLink: RL_ADMISSION
+          // },
+          {
+            name: "Patients", permissionname: '', menuid: 4.2, compInfo: this.getCompInfoAsPerId(ComponentModule.AdmissionListModule), routeLink: RL_ADMISSION_LIST
+          },
+          {
+            name: "New Born", permissionname: '', menuid: 4.3, compInfo: this.getCompInfoAsPerId(ComponentModule.NewBornListModule), routeLink: RL_NEW_BORN_LIST
+          },
+          {
+            name: "OT", permissionname: '', menuid: 4.4, compInfo: this.getCompInfoAsPerId(ComponentModule.OtListModule), routeLink: RL_OT
+          },
+          {
+            name: "Discharge Certificate", permissionname: '', menuid: 4.5, compInfo: this.getCompInfoAsPerId(ComponentModule.DischargeCertificateListModule), routeLink: RL_DISCHARGE_CERTIFICATE_LIST
+          },
+        ]
+      },
+
+      {
+        name: "Document Repository", permissionname: '', menuid: 5.1, iconClass: "document-repo", compInfo: this.getCompInfoAsPerId(ComponentModule.DocumentListModule), routeLink: RL_DOCUMENT
+      },
+
+      {
+        name: "Users", permissionname: '', menuid: 6, hasPermission: true, iconClass: "user"
+      },
+      {
+        name: "Billing p", permissionname: 'BillingDesk-Privileged', menuid: 7, hasPermission: true, iconClass: "billing", compInfo: this.getCompInfoAsPerId(ComponentModule.BillingListModule), routeLink: RL_BILLING_LIST
+      },
+      {
+        name: "Billing e", permissionname: 'BillingDesk-Executive', menuid: 7, hasPermission: true, iconClass: "billing", compInfo: this.getCompInfoAsPerId(ComponentModule.BillingListModule), routeLink: RL_BILLING_LIST
+      },
+
+      {
+        name: "Settings P", permissionname: 'SystemAdministrator-Privileged', menuid: 8, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "settings", submenus: [
+          {
+            name: "Hospital", permissionname: '', menuid: 8.1, hasSubmenu: true,
+            submenus: [
+              { name: "Hospital Settings", permissionname: '', menuid: 8.11, compInfo: this.getCompInfoAsPerId(ComponentModule.HospitalDetailsModule), isPopup: true, routeLink: RL_HOSPITAL_DETAILS },
+              { name: "Licence Renewal", permissionname: '', menuid: 8.12, compInfo: this.getCompInfoAsPerId(ComponentModule.LicenceListModule), routeLink: RL_LICENCE_LIST }
+            ]
+          },
+          {
+            name: "OPD", permissionname: "", menuid: 8.2, hasSubmenu: true,
+            submenus: [
+              { name: "Disease Type", permissionname: '"USER-PRIVILAGED"', menuid: 8.21, compInfo: this.getCompInfoAsPerId(ComponentModule.DiseaseTypeListModule), routeLink: RL_DISEASE_LIST },
+              { name: "Department Type", permissionname: '', menuid: 8.22, compInfo: this.getCompInfoAsPerId(ComponentModule.DepartmentTypeListModule), routeLink: RL_DEPARTMENT_TYPE_LIST },
+              { name: "Department", permissionname: '', menuid: 8.23, compInfo: this.getCompInfoAsPerId(ComponentModule.DepartmentListModule), routeLink: RL_DEPARTMENT_LIST },
+              { name: "Doctor", permissionname: '', menuid: 8.24, compInfo: this.getCompInfoAsPerId(ComponentModule.DoctorListModule), routeLink: RL_DOCTOR_LIST }
+            ]
+          },
+          {
+            name: "IPD", permissionname: 'IPD-PRIVILAGED', menuid: 8.3, hasSubmenu: true,
+            submenus: [
+              { name: "Building", permissionname: 'IPD-PRIVILAGED', menuid: 8.31, compInfo: this.getCompInfoAsPerId(ComponentModule.BuildingListModule), routeLink: RL_BUILDING_LIST },
+              { name: "Floor", permissionname: '', menuid: 8.32, compInfo: this.getCompInfoAsPerId(ComponentModule.FloorListModule), routeLink: RL_FLOOR_LIST },
+              { name: "Ward Type", permissionname: '', menuid: 8.33, compInfo: this.getCompInfoAsPerId(ComponentModule.WardTypeListModule), routeLink: RL_WARD_TYPE_LIST },
+              { name: "Ward", permissionname: '', menuid: 8.34, compInfo: this.getCompInfoAsPerId(ComponentModule.WardListModule), routeLink: RL_WARD_LIST },
+              { name: "Bed", permissionname: '', menuid: 8.35, compInfo: this.getCompInfoAsPerId(ComponentModule.BedListModule), routeLink: RL_BED_LIST },
+              { name: "Surgery Type", permissionname: '', menuid: 8.37, compInfo: this.getCompInfoAsPerId(ComponentModule.SurgeryTypeListModule), routeLink: RL_SURGERY_TYPE_LIST },
+              { name: "Admission Type", permissionname: '', menuid: 8.38, compInfo: this.getCompInfoAsPerId(ComponentModule.AdmissionTypeListModule), routeLink: RL_ADMISSION_TYPE_List },
+              { name: "Discharge Type", permissionname: '', menuid: 8.39, compInfo: this.getCompInfoAsPerId(ComponentModule.DischargeTypeListModule), routeLink: RL_DISCHARGE_TYPE_LIST },
+              { name: "Delivery type", permissionname: '', menuid: 8.40, compInfo: this.getCompInfoAsPerId(ComponentModule.DeliveryTypeListModule), routeLink: RL_DELIVERY_TYPE_LIST },
+              { name: "Operation Type", permissionname: '', menuid: 8.41, compInfo: this.getCompInfoAsPerId(ComponentModule.OperationTypeListModule), routeLink: RL_OPERATION_TYPE_LIST },
+              { name: "Pregnant Treatment", permissionname: '', menuid: 8.42, compInfo: this.getCompInfoAsPerId(ComponentModule.PregnantTreatmentListModule), routeLink: RL_PREGNANT_TREATMENT_LIST },
+              { name: "Vaccine type", permissionname: '', menuid: 8.43, compInfo: this.getCompInfoAsPerId(ComponentModule.VaccineTypeListModule), routeLink: RL_VACCINE_TYPE_LIST },
+              { name: "Approver master", permissionname: '', menuid: 8.44, compInfo: this.getCompInfoAsPerId(ComponentModule.ApproverListModule), routeLink: RL_APPROVER_LIST },
+              {
+                name: "Approval Status master", permissionname: '', menuid: 9, hasPermission: true, iconClass: "billing", compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovalListModule), routeLink: RL_APPROVAL_LIST
+              },
+            ]
+          },
+          {
+            name: "Billing", permissionname: '""', menuid: 8.4, hasSubmenu: true,
+            submenus: [
+              { name: "Packages", permissionname: '', menuid: 8.41, compInfo: this.getCompInfoAsPerId(ComponentModule.PackagesListModule), routeLink: RL_PACKAGES_LIST },
+              { name: "Price", permissionname: '', menuid: 8.42, compInfo: this.getCompInfoAsPerId(ComponentModule.PriceListModule), routeLink: RL_PRICE_LIST }
+            ]
+          },
+          {
+            name: "Approval Dashboard", permissionname: 'Approval_privilaged', menuid: 10, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "in-patient", submenus: [
+
+              {
+                name: "Approved Approvals", permissionname: '', menuid: 10.1, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovedListModule), routeLink: RL_APPROVED_LIST
+              },
+              {
+                name: "Pending Approvals", permissionname: '', menuid: 10.2, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovalDashboardListModule), routeLink: RL_APPROVAL_DASHBOARD_LIST
+              },
+              {
+                name: "Rejected Approvals", permissionname: '', menuid: 10.3, compInfo: this.getCompInfoAsPerId(ComponentModule.RejectedListModule), routeLink: RL_REJECTED_LIST
+              },
+            ]
+          },
+
+        ]
+      },
+      {
+        name: "Users Management E", permissionname: 'UserManagement-Executive', menuid: 9, hasSubmenu: true,
+        submenus: [
+          { name: "Roles", permissionname: '', menuid: 9.1, compInfo: this.getCompInfoAsPerId(ComponentModule.UserTypeListModule), isPopup: false, routeLink: RL_USERTYPE_LIST },
+          // { name: "Permissions", permissionname: '', menuid: 9.2, compInfo: this.getCompInfoAsPerId(ComponentModule.PermissionListModule), isPopup: false, routeLink: RL_PERMISSION_LIST },
+          // { name: "Assign Permission", menuid: 9.4, compInfo: this.getCompInfoAsPerId(ComponentModule.AssignPermissionListModule), isPopup: false, routeLink: RL_ASSIGN_PERMISSION_LIST },
+          {
+            name: "Assign Permission", permissionname: '', menuid: 9.4,
+            compInfo: this.getCompInfoAsPerId(ComponentModule.AssignPermissionModule),
+            isPopup: true, routeLink: RL_ASSIGN_PERMISSION
+          },
+          { name: "Users", permissionname: '', menuid: 9.4, compInfo: this.getCompInfoAsPerId(ComponentModule.UserListModule), isPopup: false, routeLink: RL_USER_LIST },
+        ]
+      },
+      {
+        name: "Users Management P", permissionname: 'UserManagement-Privileged', menuid: 9, hasSubmenu: true,
+        submenus: [
+          { name: "Roles", permissionname: '', menuid: 9.1, compInfo: this.getCompInfoAsPerId(ComponentModule.UserTypeListModule), isPopup: false, routeLink: RL_USERTYPE_LIST },
+          { name: "Permissions", permissionname: '', menuid: 9.2, compInfo: this.getCompInfoAsPerId(ComponentModule.PermissionListModule), isPopup: false, routeLink: RL_PERMISSION_LIST },
+          {
+            name: "Assign Permission", permissionname: '', menuid: 9.4,
+            compInfo: this.getCompInfoAsPerId(ComponentModule.AssignPermissionModule),
+            isPopup: true, routeLink: RL_ASSIGN_PERMISSION
+          },
+          { name: "Users", permissionname: '', menuid: 9.4, compInfo: this.getCompInfoAsPerId(ComponentModule.UserListModule), isPopup: false, routeLink: RL_USER_LIST },
+        ]
+      },
+      // {
+      //   name: "Approval Status", menuid: 9, hasPermission: true, iconClass: "billing", compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovalListModule), routeLink: RL_APPROVAL_LIST
+      // },
+      // {
+      //   name: "Approval Dashboard",  permissionname:'Approval_privilaged', menuid: 10, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "in-patient", submenus: [
+
+      //     {
+      //       name: "Approved Approvals",   permissionname:'',menuid: 10.1, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovedListModule), routeLink: RL_APPROVED_LIST
+      //     },
+      //     {
+      //       name: "Pending Approvals",  permissionname:'', menuid: 10.2, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovalDashboardListModule), routeLink: RL_APPROVAL_DASHBOARD_LIST
+      //     },
+      //     {
+      //       name: "Rejected Approvals",  permissionname:'',menuid: 10.3, compInfo: this.getCompInfoAsPerId(ComponentModule.RejectedListModule), routeLink: RL_REJECTED_LIST
+      //     }, 
+      //   ]
+      // },
     ]
   }
 
@@ -441,12 +691,12 @@ export class MenuService implements OnInit {
     if (this.user_role === 'Staff') {
       return [
         {
-          name: "Dashboard", menuid: 1, hasPermission: true,
+          name: "Dashboard", menuid: 1, hasPermission: true, permissionname: 'Dashboard',
           hasSubmenu: false, hasSubmenuPermission: true, iconClass: "dashboard", compInfo: this.getCompInfoAsPerId(ComponentModule.DashboardComponent)
         },
         {
-          name: "Out-Patient Department", menuid: 3, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "out-patient", submenus: [
-            { name: "Prescription", menuid: 3.1, compInfo: this.getCompInfoAsPerId(ComponentModule.PrescriptionListModule), routeLink: RL_PRESCRIPTION_LIST }
+          name: "Out-Patient Department", permissionname: '', menuid: 3, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "out-patient", submenus: [
+            { name: "Prescription", permissionname: '', menuid: 3.1, compInfo: this.getCompInfoAsPerId(ComponentModule.PrescriptionListModule), routeLink: RL_PRESCRIPTION_LIST }
           ]
         }
         // {
@@ -478,122 +728,122 @@ export class MenuService implements OnInit {
     else if (this.user_role === 'Front Desk User') {
       return [
         {
-          name: "Dashboard", menuid: 1, hasPermission: true,
+          name: "Dashboard", permissionname: '', menuid: 1, hasPermission: true,
           hasSubmenu: false, hasSubmenuPermission: true, iconClass: "dashboard", compInfo: this.getCompInfoAsPerId(ComponentModule.DashboardComponent)
         },
         {
-          name: "Appointment", menuid: 1.1,
+          name: "Appointment", permissionname: '', menuid: 1.1,
           compInfo: this.getCompInfoAsPerId(ComponentModule.SchedulingListModule), routeLink: RL_SCHEDULING_LIST
         },
         {
-          name: "Frontdesk", menuid: 2, hasPermission: true,
+          name: "Frontdesk", permissionname: '', menuid: 2, hasPermission: true,
           hasSubmenu: true, hasSubmenuPermission: true, iconClass: "frontdesk", submenus: [
             {
-              name: "PATIENT REGISTERATION", menuid: 2.1,
+              name: "PATIENT REGISTERATION", permissionname: '', menuid: 2.1,
               compInfo: this.getCompInfoAsPerId(ComponentModule.RegistrationModule),
               isPopup: true, routeLink: RL_REGISTRATION
             },
-        
+
 
             {
-              name: "REGISTERATION LIST", menuid: 2.1,
+              name: "REGISTERATION LIST", permissionname: '', menuid: 2.1,
               compInfo: this.getCompInfoAsPerId(ComponentModule.RegistrationListComponent), routeLink: RL_REGISTRATION_LIST
             }
           ]
         },
         {
-          name: "Out-Patient Department", menuid: 3, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "out-patient", submenus: [
-            { name: "Prescription", menuid: 3.1, compInfo: this.getCompInfoAsPerId(ComponentModule.PrescriptionListModule), routeLink: RL_PRESCRIPTION_LIST }
+          name: "Out-Patient Department", permissionname: '', menuid: 3, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "out-patient", submenus: [
+            { name: "Prescription", permissionname: '', menuid: 3.1, compInfo: this.getCompInfoAsPerId(ComponentModule.PrescriptionListModule), routeLink: RL_PRESCRIPTION_LIST }
           ]
         },
         {
-          name: "In-patient department", menuid: 4, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "in-patient", submenus: [
+          name: "In-patient department", permissionname: '', menuid: 4, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "in-patient", submenus: [
             {
-              name: "Admission", menuid: 4.1,
+              name: "Admission", permissionname: '', menuid: 4.1,
               compInfo: this.getCompInfoAsPerId(ComponentModule.AdmissionModule), isPopup: true, routeLink: RL_ADMISSION
             },
             {
-              name: "Patients", menuid: 4.2, compInfo: this.getCompInfoAsPerId(ComponentModule.AdmissionListModule), routeLink: RL_ADMISSION_LIST
+              name: "Patients", permissionname: '', menuid: 4.2, compInfo: this.getCompInfoAsPerId(ComponentModule.AdmissionListModule), routeLink: RL_ADMISSION_LIST
             },
             {
-              name: "New Born", menuid: 4.3, compInfo: this.getCompInfoAsPerId(ComponentModule.NewBornListModule), routeLink: RL_NEW_BORN_LIST
+              name: "New Born", permissionname: '', menuid: 4.3, compInfo: this.getCompInfoAsPerId(ComponentModule.NewBornListModule), routeLink: RL_NEW_BORN_LIST
             },
             {
-              name: "OT", menuid: 4.4, compInfo: this.getCompInfoAsPerId(ComponentModule.OtListModule), routeLink: RL_OT
+              name: "OT", permissionname: '', menuid: 4.4, compInfo: this.getCompInfoAsPerId(ComponentModule.OtListModule), routeLink: RL_OT
             },
             {
-              name: "Discharge Certificate", menuid: 4.5, compInfo: this.getCompInfoAsPerId(ComponentModule.DischargeCertificateListModule), routeLink: RL_DISCHARGE_CERTIFICATE_LIST
+              name: "Discharge Certificate", permissionname: '', menuid: 4.5, compInfo: this.getCompInfoAsPerId(ComponentModule.DischargeCertificateListModule), routeLink: RL_DISCHARGE_CERTIFICATE_LIST
             },
           ]
         },
         {
-          name: "Billing", menuid: 7, hasPermission: true, iconClass: "billing", compInfo: this.getCompInfoAsPerId(ComponentModule.BillingListModule), routeLink: RL_BILLING_LIST
+          name: "Billing", permissionname: '', menuid: 7, hasPermission: true, iconClass: "billing", compInfo: this.getCompInfoAsPerId(ComponentModule.BillingListModule), routeLink: RL_BILLING_LIST
         },
 
         {
-          name: "Approval Dashboard", menuid: 10, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "in-patient", submenus: [
-        
+          name: "Approval Dashboard", permissionname: '', menuid: 10, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "in-patient", submenus: [
+
             {
-              name: "Approved Approvals", menuid: 10.1, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovedListModule), routeLink: RL_APPROVED_LIST
+              name: "Approved Approvals", permissionname: '', menuid: 10.1, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovedListModule), routeLink: RL_APPROVED_LIST
             },
             {
-              name: "Pending Approvals", menuid: 10.2, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovalDashboardListModule), routeLink: RL_APPROVAL_DASHBOARD_LIST
+              name: "Pending Approvals", permissionname: '', menuid: 10.2, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovalDashboardListModule), routeLink: RL_APPROVAL_DASHBOARD_LIST
             },
             {
-              name: "rejected Approvals", menuid: 10.3, compInfo: this.getCompInfoAsPerId(ComponentModule.RejectedModule), routeLink: RL_REJECTED_LIST
+              name: "rejected Approvals", permissionname: '', menuid: 10.3, compInfo: this.getCompInfoAsPerId(ComponentModule.RejectedModule), routeLink: RL_REJECTED_LIST
             },
           ]
         },
-        
+
       ]
     }
 
     else {
       return [
         {
-          name: "Dashboard", menuid: 1, hasPermission: true,
+          name: "Dashboard", permissionname: 'OPD-PRIVILAGED', menuid: 1, hasPermission: true,
           hasSubmenu: false, hasSubmenuPermission: true, iconClass: "dashboard", compInfo: this.getCompInfoAsPerId(ComponentModule.DashboardComponent)
         },
         {
-          name: "Appointment", menuid: 1.1,
+          name: "Appointment", permissionname: '', menuid: 1.1,
           compInfo: this.getCompInfoAsPerId(ComponentModule.SchedulingListModule), iconClass: "dashboard", routeLink: RL_SCHEDULING_LIST
         },
         {
-          name: "Frontdesk", menuid: 2, hasPermission: true,
+          name: "Frontdesk", permissionname: '', menuid: 2, hasPermission: true,
           hasSubmenu: true, hasSubmenuPermission: true, iconClass: "frontdesk", submenus: [
             {
-              name: "PATIENT REGISTERATION", menuid: 2.1,
+              name: "PATIENT REGISTERATION", permissionname: "UserManagement", menuid: 2.1,
               compInfo: this.getCompInfoAsPerId(ComponentModule.RegistrationModule),
               isPopup: true, routeLink: RL_REGISTRATION
             },
             {
-              name: "REGISTERATION LIST", menuid: 2.1,
+              name: "REGISTERATION LIST", permissionname: '', menuid: 2.1,
               compInfo: this.getCompInfoAsPerId(ComponentModule.RegistrationListComponent), routeLink: RL_REGISTRATION_LIST
             }
           ]
         },
         {
-          name: "Out-Patient Department", menuid: 3, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "out-patient", submenus: [
-            { name: "Prescription", menuid: 3.1, compInfo: this.getCompInfoAsPerId(ComponentModule.PrescriptionListModule), routeLink: RL_PRESCRIPTION_LIST }
+          name: "Out-Patient Department", permissionname: 'OPD-PRIVILAGED', menuid: 3, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "out-patient", submenus: [
+            { name: "Prescription", permissionname: '', menuid: 3.1, compInfo: this.getCompInfoAsPerId(ComponentModule.PrescriptionListModule), routeLink: RL_PRESCRIPTION_LIST }
           ]
         },
         {
-          name: "In-patient department", menuid: 4, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "in-patient", submenus: [
+          name: "In-patient department", permissionname: 'IPD-PRIVILAGED', menuid: 4, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "in-patient", submenus: [
             {
-              name: "Admission", menuid: 4.1,
+              name: "Admission", permissionname: '', menuid: 4.1,
               compInfo: this.getCompInfoAsPerId(ComponentModule.AdmissionModule), isPopup: true, routeLink: RL_ADMISSION
             },
             {
-              name: "Patients", menuid: 4.2, compInfo: this.getCompInfoAsPerId(ComponentModule.AdmissionListModule), routeLink: RL_ADMISSION_LIST
+              name: "Patients", permissionname: '', menuid: 4.2, compInfo: this.getCompInfoAsPerId(ComponentModule.AdmissionListModule), routeLink: RL_ADMISSION_LIST
             },
             {
-              name: "New Born", menuid: 4.3, compInfo: this.getCompInfoAsPerId(ComponentModule.NewBornListModule), routeLink: RL_NEW_BORN_LIST
+              name: "New Born", permissionname: '', menuid: 4.3, compInfo: this.getCompInfoAsPerId(ComponentModule.NewBornListModule), routeLink: RL_NEW_BORN_LIST
             },
             {
-              name: "OT", menuid: 4.4, compInfo: this.getCompInfoAsPerId(ComponentModule.OtListModule), routeLink: RL_OT
+              name: "OT", permissionname: '', menuid: 4.4, compInfo: this.getCompInfoAsPerId(ComponentModule.OtListModule), routeLink: RL_OT
             },
             {
-              name: "Discharge Certificate", menuid: 4.5, compInfo: this.getCompInfoAsPerId(ComponentModule.DischargeCertificateListModule), routeLink: RL_DISCHARGE_CERTIFICATE_LIST
+              name: "Discharge Certificate", permissionname: '', menuid: 4.5, compInfo: this.getCompInfoAsPerId(ComponentModule.DischargeCertificateListModule), routeLink: RL_DISCHARGE_CERTIFICATE_LIST
             },
           ]
         },
@@ -601,81 +851,96 @@ export class MenuService implements OnInit {
         //   name: "Document Repository", menuid: 5, hasPermission: true, iconClass: "document-repo", compInfo: this.getCompInfoAsPerId(ComponentModule.DocumentRepository), isPopup: true, routeLink: RL_DOCUMENT_REPOSITORY
         // },
         {
-          name: "Document Repository", menuid: 5.1,  iconClass: "document-repo", compInfo: this.getCompInfoAsPerId(ComponentModule.DocumentListModule), routeLink: RL_DOCUMENT
+          name: "Document Repository", permissionname: '', menuid: 5.1, iconClass: "document-repo", compInfo: this.getCompInfoAsPerId(ComponentModule.DocumentListModule), routeLink: RL_DOCUMENT
         },
-       
+
         {
-          name: "Users", menuid: 6, hasPermission: true, iconClass: "user"
+          name: "Users", permissionname: '', menuid: 6, hasPermission: true, iconClass: "user"
         },
         {
-          name: "Billing", menuid: 7, hasPermission: true, iconClass: "billing", compInfo: this.getCompInfoAsPerId(ComponentModule.BillingListModule), routeLink: RL_BILLING_LIST
+          name: "Billing", permissionname: 'BILLING-PRIVILAGED', menuid: 7, hasPermission: true, iconClass: "billing", compInfo: this.getCompInfoAsPerId(ComponentModule.BillingListModule), routeLink: RL_BILLING_LIST
         },
-       
+
         {
-          name: "Settings", menuid: 8, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "settings", submenus: [
+          name: "Settings", permissionname: 'UserManagement', menuid: 8, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "settings", submenus: [
             {
-              name: "Hospital", menuid: 8.1, hasSubmenu: true,
+              name: "Hospital", permissionname: '', menuid: 8.1, hasSubmenu: true,
               submenus: [
-                { name: "Hospital Settings", menuid: 8.11, compInfo: this.getCompInfoAsPerId(ComponentModule.HospitalDetailsModule), isPopup: true, routeLink: RL_HOSPITAL_DETAILS },
-                { name: "Licence Renewal", menuid: 8.12, compInfo: this.getCompInfoAsPerId(ComponentModule.LicenceListModule), routeLink: RL_LICENCE_LIST }
+                { name: "Hospital Settings", permissionname: '', menuid: 8.11, compInfo: this.getCompInfoAsPerId(ComponentModule.HospitalDetailsModule), isPopup: true, routeLink: RL_HOSPITAL_DETAILS },
+                { name: "Licence Renewal", permissionname: '', menuid: 8.12, compInfo: this.getCompInfoAsPerId(ComponentModule.LicenceListModule), routeLink: RL_LICENCE_LIST }
               ]
             },
             {
-              name: "OPD", menuid: 8.2, hasSubmenu: true,
+              name: "OPD", permissionname: "", menuid: 8.2, hasSubmenu: true,
               submenus: [
-                { name: "Disease Type", menuid: 8.21, compInfo: this.getCompInfoAsPerId(ComponentModule.DiseaseTypeListModule), routeLink: RL_DISEASE_LIST },
-                { name: "Department Type", menuid: 8.22, compInfo: this.getCompInfoAsPerId(ComponentModule.DepartmentTypeListModule), routeLink: RL_DEPARTMENT_TYPE_LIST },
-                { name: "Department", menuid: 8.23, compInfo: this.getCompInfoAsPerId(ComponentModule.DepartmentListModule), routeLink: RL_DEPARTMENT_LIST },
-                { name: "Doctor", menuid: 8.24, compInfo: this.getCompInfoAsPerId(ComponentModule.DoctorListModule), routeLink: RL_DOCTOR_LIST }
+                { name: "Disease Type", permissionname: '"USER-PRIVILAGED"', menuid: 8.21, compInfo: this.getCompInfoAsPerId(ComponentModule.DiseaseTypeListModule), routeLink: RL_DISEASE_LIST },
+                { name: "Department Type", permissionname: '', menuid: 8.22, compInfo: this.getCompInfoAsPerId(ComponentModule.DepartmentTypeListModule), routeLink: RL_DEPARTMENT_TYPE_LIST },
+                { name: "Department", permissionname: '', menuid: 8.23, compInfo: this.getCompInfoAsPerId(ComponentModule.DepartmentListModule), routeLink: RL_DEPARTMENT_LIST },
+                { name: "Doctor", permissionname: '', menuid: 8.24, compInfo: this.getCompInfoAsPerId(ComponentModule.DoctorListModule), routeLink: RL_DOCTOR_LIST }
               ]
             },
             {
-              name: "IPD", menuid: 8.3, hasSubmenu: true,
+              name: "IPD", permissionname: 'IPD-PRIVILAGED', menuid: 8.3, hasSubmenu: true,
               submenus: [
-                { name: "Building", menuid: 8.31, compInfo: this.getCompInfoAsPerId(ComponentModule.BuildingListModule), routeLink: RL_BUILDING_LIST },
-                { name: "Floor", menuid: 8.32, compInfo: this.getCompInfoAsPerId(ComponentModule.FloorListModule), routeLink: RL_FLOOR_LIST },
-                { name: "Ward Type", menuid: 8.33, compInfo: this.getCompInfoAsPerId(ComponentModule.WardTypeListModule), routeLink: RL_WARD_TYPE_LIST },
-                { name: "Ward", menuid: 8.34, compInfo: this.getCompInfoAsPerId(ComponentModule.WardListModule), routeLink: RL_WARD_LIST },
-                { name: "Bed", menuid: 8.35, compInfo: this.getCompInfoAsPerId(ComponentModule.BedListModule), routeLink: RL_BED_LIST },
+                { name: "Building", permissionname: 'IPD-PRIVILAGED', menuid: 8.31, compInfo: this.getCompInfoAsPerId(ComponentModule.BuildingListModule), routeLink: RL_BUILDING_LIST },
+                { name: "Floor", permissionname: '', menuid: 8.32, compInfo: this.getCompInfoAsPerId(ComponentModule.FloorListModule), routeLink: RL_FLOOR_LIST },
+                { name: "Ward Type", permissionname: '', menuid: 8.33, compInfo: this.getCompInfoAsPerId(ComponentModule.WardTypeListModule), routeLink: RL_WARD_TYPE_LIST },
+                { name: "Ward", permissionname: '', menuid: 8.34, compInfo: this.getCompInfoAsPerId(ComponentModule.WardListModule), routeLink: RL_WARD_LIST },
+                { name: "Bed", permissionname: '', menuid: 8.35, compInfo: this.getCompInfoAsPerId(ComponentModule.BedListModule), routeLink: RL_BED_LIST },
                 //{ name: "OT", menuid: 8.36, compInfo: this.getCompInfoAsPerId(ComponentModule.OtTypeListModule), routeLink: RL_OT_TYPE_LIST },
-                { name: "Surgery Type", menuid: 8.37, compInfo: this.getCompInfoAsPerId(ComponentModule.SurgeryTypeListModule), routeLink: RL_SURGERY_TYPE_LIST },
-                { name: "Admission Type", menuid: 8.38, compInfo: this.getCompInfoAsPerId(ComponentModule.AdmissionTypeListModule), routeLink: RL_ADMISSION_TYPE_List },
-                { name: "Discharge Type", menuid: 8.39, compInfo: this.getCompInfoAsPerId(ComponentModule.DischargeTypeListModule), routeLink: RL_DISCHARGE_TYPE_LIST },
-                { name: "Delivery type", menuid: 8.40, compInfo: this.getCompInfoAsPerId(ComponentModule.DeliveryTypeListModule), routeLink: RL_DELIVERY_TYPE_LIST },
-                { name: "Operation Type", menuid: 8.41, compInfo: this.getCompInfoAsPerId(ComponentModule.OperationTypeListModule), routeLink: RL_OPERATION_TYPE_LIST },
-                { name: "Pregnant Treatment", menuid: 8.42, compInfo: this.getCompInfoAsPerId(ComponentModule.PregnantTreatmentListModule), routeLink: RL_PREGNANT_TREATMENT_LIST },
-                { name: "Vaccine type", menuid: 8.43, compInfo: this.getCompInfoAsPerId(ComponentModule.VaccineTypeListModule), routeLink: RL_VACCINE_TYPE_LIST },
+                { name: "Surgery Type", permissionname: '', menuid: 8.37, compInfo: this.getCompInfoAsPerId(ComponentModule.SurgeryTypeListModule), routeLink: RL_SURGERY_TYPE_LIST },
+                { name: "Admission Type", permissionname: '', menuid: 8.38, compInfo: this.getCompInfoAsPerId(ComponentModule.AdmissionTypeListModule), routeLink: RL_ADMISSION_TYPE_List },
+                { name: "Discharge Type", permissionname: '', menuid: 8.39, compInfo: this.getCompInfoAsPerId(ComponentModule.DischargeTypeListModule), routeLink: RL_DISCHARGE_TYPE_LIST },
+                { name: "Delivery type", permissionname: '', menuid: 8.40, compInfo: this.getCompInfoAsPerId(ComponentModule.DeliveryTypeListModule), routeLink: RL_DELIVERY_TYPE_LIST },
+                { name: "Operation Type", permissionname: '', menuid: 8.41, compInfo: this.getCompInfoAsPerId(ComponentModule.OperationTypeListModule), routeLink: RL_OPERATION_TYPE_LIST },
+                { name: "Pregnant Treatment", permissionname: '', menuid: 8.42, compInfo: this.getCompInfoAsPerId(ComponentModule.PregnantTreatmentListModule), routeLink: RL_PREGNANT_TREATMENT_LIST },
+                { name: "Vaccine type", permissionname: '', menuid: 8.43, compInfo: this.getCompInfoAsPerId(ComponentModule.VaccineTypeListModule), routeLink: RL_VACCINE_TYPE_LIST },
                 /* { name: "Packages", menuid: 8.44, compInfo: this.getCompInfoAsPerId(ComponentModule.PackagesListModule), routeLink: RL_PACKAGES_LIST },
                 { name: "Price", menuid: 8.45, compInfo: this.getCompInfoAsPerId(ComponentModule.PriceListModule), routeLink: RL_PRICE_LIST } */
-                { name: "Approver master", menuid: 8.44, compInfo: this.getCompInfoAsPerId(ComponentModule.ApproverListModule), routeLink: RL_APPROVER_LIST },
+                { name: "Approver master", permissionname: '', menuid: 8.44, compInfo: this.getCompInfoAsPerId(ComponentModule.ApproverListModule), routeLink: RL_APPROVER_LIST },
                 {
-                  name: "Approval Status master", menuid: 9, hasPermission: true, iconClass: "billing", compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovalListModule), routeLink: RL_APPROVAL_LIST
+                  name: "Approval Status master", permissionname: '', menuid: 9, hasPermission: true, iconClass: "billing", compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovalListModule), routeLink: RL_APPROVAL_LIST
                 },
               ]
             },
             {
-              name: "Billing", menuid: 8.4, hasSubmenu: true,
+              name: "Billing", permissionname: '"BILLING-PRIVILAGED"', menuid: 8.4, hasSubmenu: true,
               submenus: [
-                { name: "Packages", menuid: 8.41, compInfo: this.getCompInfoAsPerId(ComponentModule.PackagesListModule), routeLink: RL_PACKAGES_LIST },
-                { name: "Price", menuid: 8.42, compInfo: this.getCompInfoAsPerId(ComponentModule.PriceListModule), routeLink: RL_PRICE_LIST }
+                { name: "Packages", permissionname: '', menuid: 8.41, compInfo: this.getCompInfoAsPerId(ComponentModule.PackagesListModule), routeLink: RL_PACKAGES_LIST },
+                { name: "Price", permissionname: '', menuid: 8.42, compInfo: this.getCompInfoAsPerId(ComponentModule.PriceListModule), routeLink: RL_PRICE_LIST }
               ]
             },
+
+          ]
+        },
+        {
+          name: "Users Management", permissionname: 'BILLING-PRIVILAGED', menuid: 9, hasSubmenu: true,
+          submenus: [
+            { name: "Roles", permissionname: '', menuid: 9.1, compInfo: this.getCompInfoAsPerId(ComponentModule.UserTypeListModule), isPopup: false, routeLink: RL_USERTYPE_LIST },
+            { name: "Permissions", permissionname: '', menuid: 9.2, compInfo: this.getCompInfoAsPerId(ComponentModule.PermissionListModule), isPopup: false, routeLink: RL_PERMISSION_LIST },
+            // { name: "Assign Permission", menuid: 9.4, compInfo: this.getCompInfoAsPerId(ComponentModule.AssignPermissionListModule), isPopup: false, routeLink: RL_ASSIGN_PERMISSION_LIST },
+            {
+              name: "Assign Permission", permissionname: '', menuid: 9.4,
+              compInfo: this.getCompInfoAsPerId(ComponentModule.AssignPermissionModule),
+              isPopup: true, routeLink: RL_ASSIGN_PERMISSION
+            },
+            { name: "Users", permissionname: '', menuid: 9.4, compInfo: this.getCompInfoAsPerId(ComponentModule.UserListModule), isPopup: false, routeLink: RL_USER_LIST },
           ]
         },
         // {
         //   name: "Approval Status", menuid: 9, hasPermission: true, iconClass: "billing", compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovalListModule), routeLink: RL_APPROVAL_LIST
         // },
         {
-          name: "Approval Dashboard", menuid: 10, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "in-patient", submenus: [
-        
+          name: "Approval Dashboard", permissionname: 'Approval_privilaged', menuid: 10, hasPermission: true, hasSubmenu: true, hasSubmenuPermission: true, iconClass: "in-patient", submenus: [
+
             {
-              name: "Approved Approvals", menuid: 10.1, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovedListModule), routeLink: RL_APPROVED_LIST
+              name: "Approved Approvals", permissionname: '', menuid: 10.1, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovedListModule), routeLink: RL_APPROVED_LIST
             },
             {
-              name: "Pending Approvals", menuid: 10.2, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovalDashboardListModule), routeLink: RL_APPROVAL_DASHBOARD_LIST
+              name: "Pending Approvals", permissionname: '', menuid: 10.2, compInfo: this.getCompInfoAsPerId(ComponentModule.ApprovalDashboardListModule), routeLink: RL_APPROVAL_DASHBOARD_LIST
             },
             {
-              name: "Rejected Approvals", menuid: 10.3, compInfo: this.getCompInfoAsPerId(ComponentModule.RejectedListModule), routeLink: RL_REJECTED_LIST
+              name: "Rejected Approvals", permissionname: '', menuid: 10.3, compInfo: this.getCompInfoAsPerId(ComponentModule.RejectedListModule), routeLink: RL_REJECTED_LIST
             },
           ]
         },
@@ -691,7 +956,7 @@ export class MenuService implements OnInit {
       if (v.compId === compRefId) {
         // console.log('compId' , v.compId );
         // console.log('compRefId' , compRefId );
-        
+
         tempcinfo = v;
         break;
       }
@@ -772,7 +1037,7 @@ export class MenuService implements OnInit {
         compId: ComponentModule.BuildingModule,
         comp: new ComponentRef(BuildingListComponent)
       },
-      
+
       {
         compName: ComponentModule[ComponentModule.BuildingListModule],
         compId: ComponentModule.BuildingListModule,
@@ -781,7 +1046,7 @@ export class MenuService implements OnInit {
 
 
 
-      
+
 
 
 
@@ -965,7 +1230,7 @@ export class MenuService implements OnInit {
         compId: ComponentModule.ApprovalDashboardModule,
         comp: new ComponentRef(ApprovalDashboardComponent)
       },
-      
+
       {
         compName: ComponentModule[ComponentModule.ApproverListModule],
         compId: ComponentModule.ApproverListModule,
@@ -1013,6 +1278,36 @@ export class MenuService implements OnInit {
         comp: new ComponentRef(SchedulingListComponent),
         headerTitle: "scheduling List"
       },
+      {
+        compName: ComponentModule[ComponentModule.UserTypeListModule],
+        compId: ComponentModule.UserTypeListModule,
+        comp: new ComponentRef(UsertypeListComponent),
+        headerTitle: "User Type List"
+      },
+      {
+        compName: ComponentModule[ComponentModule.UserListModule],
+        compId: ComponentModule.UserListModule,
+        comp: new ComponentRef(UserListComponent),
+        headerTitle: "User List"
+      },
+      {
+        compName: ComponentModule[ComponentModule.PermissionListModule],
+        compId: ComponentModule.PermissionListModule,
+        comp: new ComponentRef(PermissionListComponent),
+        headerTitle: "Permission List"
+      },
+      {
+        compName: ComponentModule[ComponentModule.AssignPermissionListModule],
+        compId: ComponentModule.AssignPermissionListModule,
+        comp: new ComponentRef(AssignPermissionListComponent),
+        headerTitle: "Assign Permission List"
+      },
+      {
+        compName: ComponentModule[ComponentModule.AssignPermissionModule],
+        compId: ComponentModule.AssignPermissionModule,
+        comp: new ComponentRef(AssignPermissionComponent),
+        headerTitle: "Assign Permission"
+      },
       // {
       //   compName: ComponentModule[ComponentModule.SchedulingModule],
       //   compId: ComponentModule.SchedulingModule,
@@ -1020,7 +1315,7 @@ export class MenuService implements OnInit {
       //   routeLink:RL_SCHEDULING,
       //   headerTitle: "Patient Scheduling"
       // },
-   
+
     ]
   }
 

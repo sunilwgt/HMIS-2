@@ -102,38 +102,44 @@ export class AdmissionComponent extends BaseComponent implements OnInit {
 
 
   ngOnInit() {
-
-    if (this.state.currentstate === MODE_ADMISSION) {
-      this.showsearch = false;
-    }
-    if (this.state.currentstate === undefined) {
-      this.showsearch = true;
-    }
-    if (this.state.currentstate === MODE_ADD) {
-      this.showsearch = true;
-    }
-    this.modaloption = new GenericPopupOption();
-    this.modaloption.size = "sm";
-    this.bloodOptions = this.comonService.bloodOptions;
-    this.booleanOptions = this.comonService.radioYesNoOptions;
-    this.genderOptions = this.comonService.genderOptions;
-    this.admitedByOptions = this.comonService.admitedby;
-    this.relationWithOption = this.comonService.relationWithOption;
-    this.insuranceCompanyOption = this.comonService.insuranceCompanyOption;
-    this.govtIdType = this.comonService.govtIdType;
-    this.nationalityOption = this.comonService.nationalityOption;
-    this.religionOption = this.comonService.religionOption;
-    this._updateStateObj = this.stateService.createState(UPDATE_FIELD_STATE);
-    this._popUpStateObj = this.stateService.createState(PATIENT_ADMISSION_ID_STATE);
-    this.updateDataForEVMode();
-    if (this.state.currentstate === MODE_EDIT || this.state.currentstate === MODE_VIEW) {
-      this.IsEditMode = true;
-      this.isVisible = true;
-      this.hmisApi.getFloorDropdown(this.compData.building_id);
-    } else {
-      this.IsEditMode = false;
-      this.compData = new AdmissionMainModel();
-    }
+    const a  =  this.comonService.getpermissionrole();
+if(a === 'readonly'){
+  this.compLoadManager.closePopup();
+  alert('not allowed')
+}else{
+  if (this.state.currentstate === MODE_ADMISSION) {
+    this.showsearch = false;
+  }
+  if (this.state.currentstate === undefined) {
+    this.showsearch = true;
+  }
+  if (this.state.currentstate === MODE_ADD) {
+    this.showsearch = true;
+  }
+  this.modaloption = new GenericPopupOption();
+  this.modaloption.size = "sm";
+  this.bloodOptions = this.comonService.bloodOptions;
+  this.booleanOptions = this.comonService.radioYesNoOptions;
+  this.genderOptions = this.comonService.genderOptions;
+  this.admitedByOptions = this.comonService.admitedby;
+  this.relationWithOption = this.comonService.relationWithOption;
+  this.insuranceCompanyOption = this.comonService.insuranceCompanyOption;
+  this.govtIdType = this.comonService.govtIdType;
+  this.nationalityOption = this.comonService.nationalityOption;
+  this.religionOption = this.comonService.religionOption;
+  this._updateStateObj = this.stateService.createState(UPDATE_FIELD_STATE);
+  this._popUpStateObj = this.stateService.createState(PATIENT_ADMISSION_ID_STATE);
+  this.updateDataForEVMode();
+  if (this.state.currentstate === MODE_EDIT || this.state.currentstate === MODE_VIEW) {
+    this.IsEditMode = true;
+    this.isVisible = true;
+    this.hmisApi.getFloorDropdown(this.compData.building_id);
+  } else {
+    this.IsEditMode = false;
+    this.compData = new AdmissionMainModel();
+  }
+}
+   
 
   }
 

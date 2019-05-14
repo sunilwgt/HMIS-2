@@ -79,7 +79,15 @@ export enum ComponentModule {
   DocumentListModule,
   DocumentModule,
   SchedulingListModule,
-  SchedulingModule
+  SchedulingModule,
+  UserTypeListModule,
+  UserTypeModule,
+  UserListModule,
+  UserModule,
+  PermissionModule,
+  PermissionListModule,
+  AssignPermissionModule,
+  AssignPermissionListModule
 }
 
 

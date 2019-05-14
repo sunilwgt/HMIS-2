@@ -91,21 +91,25 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.govtIdType = this.comonService.govtIdType;
-    this.bplOption = this.comonService.radioYesNoOptions;
-    this.genderOptions = this.comonService.genderOptions;
-    this.patient_state = this.comonService.stateOptions;
-    this.nationalityOption = this.comonService.nationalityOption;
-    this.religionOption = this.comonService.religionOption;
-    this.modaloption = new GenericPopupOption();
-    this.modaloption.size = "sm";
-
-    this._updateStateObj = this.stateService.createState(UPDATE_FIELD_STATE);
-    this._popUpStateObj = this.stateService.createState(PATIENT_ID_STATE);
-
-    this.updateDataForEVMode();
-    if (this.state.currentstate === MODE_ADD) {
-      this.compData = new Registration();
+    const a = this.comonService.getpermissionrole();
+    if(a === 'readonly'){
+      alert('not alolowed')
+this.compLoadManager.closePopup();
+    }else{
+      this.govtIdType = this.comonService.govtIdType;
+      this.bplOption = this.comonService.radioYesNoOptions;
+      this.genderOptions = this.comonService.genderOptions;
+      this.patient_state = this.comonService.stateOptions;
+      this.nationalityOption = this.comonService.nationalityOption;
+      this.religionOption = this.comonService.religionOption;
+      this.modaloption = new GenericPopupOption();
+      this.modaloption.size = "sm";
+      this._updateStateObj = this.stateService.createState(UPDATE_FIELD_STATE);
+      this._popUpStateObj = this.stateService.createState(PATIENT_ID_STATE);
+      this.updateDataForEVMode();
+      if (this.state.currentstate === MODE_ADD) {
+        this.compData = new Registration();
+      }
     }
   }
 

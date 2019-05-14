@@ -38,6 +38,7 @@ export class RegistrationListComponent extends BaseComponent implements OnInit {
   public _stateObj: State;
   @Output() clickHandler: EventEmitter<any> = new EventEmitter();
   @Output() getdoctornameinsearch: EventEmitter<any> = new EventEmitter();
+  private isreadonly = true;
   showNav: any = [];
   private tabIndex: number = 0;
   private once = false;
@@ -409,6 +410,12 @@ export class RegistrationListComponent extends BaseComponent implements OnInit {
 
   }
   ngOnInit() {
+    const a = this.comonService.getpermissionrole();
+    if(a === 'readonly'){
+      this.isreadonly = true;
+    }else{
+      this.isreadonly = false;
+    }
     // this._updateStateObj = this.stateService.createState(UPDATE_FIELD_STATE);
     this.getdate();
     this.hmisApi.patientSearch(this.convertedfromdate, this.convertedtodate, '');

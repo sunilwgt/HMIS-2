@@ -39,11 +39,7 @@
                 </hmis-generic-action>
             </ng-template>
         </data-table-column> -->
-
-        <data-table-column [property]="'action'" [header]="'Action'" [sortable]="false" [resizable]=true [width]="110">
-            <ng-template #dataTableCell let-item="item">
-
-                <!-- <div  *ngIf="once" >
+             <!-- <div  *ngIf="once" >
 
         <hmis-generic-action  [printDisable]="false" [admissionDisable]="false" [isadmitted]="item.OpenAdmission > 0 ? true:false"
                 [isadmittedstyle]="item.OpenAdmission > 0 ? true:false" [itemdata]=item (clickHandler)="clickEventHandler($event)"
@@ -51,6 +47,11 @@
             </hmis-generic-action>
            
 </div> -->
+
+        <data-table-column *ngIf="!isreadonly" [property]="'action'" [header]="'Action'" [sortable]="false" [resizable]=true [width]="110">
+            <ng-template #dataTableCell let-item="item">
+
+           
                 <nav class="navbar navbar-default">
                     <div class="container-fluid">
                         <div class="navbar-header">
@@ -70,6 +71,7 @@
 
             </ng-template>
         </data-table-column>
+        
     </data-table>
 
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, Output, EventEmitter } from '@angular/core';
 import { DataTableTranslations, DataTableResource } from 'angular5-data-table';
 import { Subscription } from 'rxjs/Subscription';
 import { RL_DEPARTMENT, RESULT_TYPE_GET_DEPARTMENT, RL_BUILDING, RESULT_TYPE_GET_BUILDING, ActionType, MODE_EDIT, MODE_VIEW, MODE_DELETE, ADD, RL_BILLING, RL_PRESCRIPTION, RESULT_TYPE_GET_PRESCRIPTION, MODE_OTHERS, RESULT_TYPE_SET_PRESCRIPTION_AS_PER_ID, RESULT_TYPE_DELETE_PRESCRIPTION, MODE_ADD, RESULT_TYPE_GET_INDIVIDUAL_PRESCRIPTION, RESULT_TYPE_GET_INDIVIDUAL_PRESCRIPTION_BY_ID, RESULT_TYPE_GET_HOSPITAL_DETAIL_LIST } from '../../../models/common';
@@ -20,7 +20,8 @@ declare var jsPDF: any;
   encapsulation: ViewEncapsulation.None
 })
 export class PrescriptionListComponent extends BaseComponent implements OnInit {
-
+  @Output() clickHandler: EventEmitter<any> = new EventEmitter();
+  private isreadonly = true;
   private prescription = [];
   private prescriptionResource = new DataTableResource([]);
   private precriptionCount = 0;
@@ -95,18 +96,27 @@ export class PrescriptionListComponent extends BaseComponent implements OnInit {
     paginationRange: 'Result range'
   };
 
-  private clickEventHandler(eventObj: ActionType): void {
-    switch (eventObj.mode) {
+  private ClickEventHandler(eventObj: ActionType, mode, item): void {
+    console.log('weljfnukwebiuf', mode)
+    switch (mode) {
       case MODE_EDIT:
         this.compLoadManager.redirect(RL_PRESCRIPTION);
+        this.state.currentstate = MODE_EDIT;
+        this.state.stateData = item;
+        this.clickHandler.emit(<ActionType>{ data: item, mode: MODE_EDIT });
         break;
-
       case MODE_VIEW:
         this.compLoadManager.redirect(RL_PRESCRIPTION);
+        this.state.currentstate = MODE_VIEW;
+        this.state.stateData = item;
+        this.clickHandler.emit(<ActionType>{ data: item, mode: MODE_VIEW });
         break;
 
       case MODE_DELETE:
-        this.hmisApi.deletePrescriptionAsPerId(eventObj.data.ID);
+        this.hmisApi.deletePrescriptionAsPerId(item.ID);
+        this.state.currentstate = MODE_DELETE;
+        this.state.stateData = item;
+        this.clickHandler.emit(<ActionType>{ data: item, mode: MODE_DELETE });
         break;
 
       case MODE_OTHERS:
@@ -228,6 +238,13 @@ export class PrescriptionListComponent extends BaseComponent implements OnInit {
   // }
 
   ngOnInit() {
+    const a = this.comonService.getpermissionrole();
+    if (a === 'readonly') {
+      this.isreadonly = true;
+    } else {
+      this.isreadonly = false;
+
+    }
     //console.log(films);
   }
 
