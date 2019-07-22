@@ -35,9 +35,8 @@ export class AdmissionComponent extends BaseComponent implements OnInit {
 
   @ViewChild(GenericPopup)
   private genericPopup: GenericPopup;
-private minDateValue = '07/10/2019'
-private maxDateValue = '08/10/2019'
-
+  private minDateValue = '07/10/2019'
+  private maxDateValue = '08/10/2019'
   private bloodOptions: Array<Option>;
   private booleanOptions: Array<RadioData>;
   private genderOptions: Array<RadioData>;
@@ -82,14 +81,19 @@ private maxDateValue = '08/10/2019'
   private dischargeTypeOption: Array<DischargeTypeOption> = [];
   private gaurdianphoneError: CustomErrorInfo;
   private emergencyphoneError: CustomErrorInfo;
-
+  private dataloaded = false;
+  private floorloaded = false;
+  private docterview = false;
+  private admissiontypeloaded = false;
   
+
+  private showdoctornameview;
 
   private customCond: string = CUSTOM_COND;
 
   private showsearch: boolean = false;
-  constructor(baseservice: BaseServices, private helperFunc: HelperFunction,private snackbar:MatSnackBar,
-     private renderer: Renderer2, public datepipe: DatePipe) {
+  constructor(baseservice: BaseServices, private helperFunc: HelperFunction, private snackbar: MatSnackBar,
+    private renderer: Renderer2, public datepipe: DatePipe) {
     super(baseservice)
     this.defaultvalidation = true;
     this.showNav[0] = true;
@@ -108,51 +112,59 @@ private maxDateValue = '08/10/2019'
         this.showNav[0] = false;
       }
     })
-  
+
   }
 
 
   ngOnInit() {
-    const a  =  this.comonService.getpermissionrole();
-if(a === 'readonly'){
-  this.compLoadManager.closePopup();
-  alert('not allowed')
-}else{
-  if (this.state.currentstate === MODE_ADMISSION) {
-    this.showsearch = false;
-  }
-  if (this.state.currentstate === undefined) {
-    this.showsearch = true;
-  }
-  if (this.state.currentstate === MODE_ADD) {
-    this.showsearch = true;
-  }
-  this.modaloption = new GenericPopupOption();
-  this.modaloption.size = "sm";
-  this.bloodOptions = this.comonService.bloodOptions;
-  this.booleanOptions = this.comonService.radioYesNoOptions;
-  this.genderOptions = this.comonService.genderOptions;
-  this.admitedByOptions = this.comonService.admitedby;
-  this.relationWithOption = this.comonService.relationWithOption;
-  this.insuranceCompanyOption = this.comonService.insuranceCompanyOption;
-  this.govtIdType = this.comonService.govtIdType;
-  this.nationalityOption = this.comonService.nationalityOption;
-  this.religionOption = this.comonService.religionOption;
-  this._updateStateObj = this.stateService.createState(UPDATE_FIELD_STATE);
-  this._popUpStateObj = this.stateService.createState(PATIENT_ADMISSION_ID_STATE);
-  this.updateDataForEVMode();
-  if (this.state.currentstate === MODE_EDIT || this.state.currentstate === MODE_VIEW) {
-    this.IsEditMode = true;
-    this.isVisible = true;
-    this.hmisApi.getFloorDropdown(this.compData.building_id);
-  } else {
-    this.IsEditMode = false;
-    this.compData = new AdmissionMainModel();
-    console.log('admissionmodel' , this.state)
+    const a = this.comonService.getpermissionrole();
+    if (a === 'readonly') {
+      this.compLoadManager.closePopup();
+      alert('not allowed')
+    } else {
+      if (this.state.currentstate === MODE_ADMISSION) {
+        this.showsearch = false;
+      }
+      if (this.state.currentstate === undefined) {
+        this.showsearch = true;
+      }
+      if (this.state.currentstate === MODE_ADD) {
+        this.showsearch = true;
+      }
+      this.modaloption = new GenericPopupOption();
+      this.modaloption.size = "sm";
+      this.bloodOptions = this.comonService.bloodOptions;
+      this.booleanOptions = this.comonService.radioYesNoOptions;
+      this.genderOptions = this.comonService.genderOptions;
+      this.admitedByOptions = this.comonService.admitedby;
+      this.relationWithOption = this.comonService.relationWithOption;
+      this.insuranceCompanyOption = this.comonService.insuranceCompanyOption;
+      this.govtIdType = this.comonService.govtIdType;
+      this.nationalityOption = this.comonService.nationalityOption;
+      this.religionOption = this.comonService.religionOption;
+      this._updateStateObj = this.stateService.createState(UPDATE_FIELD_STATE);
+      this._popUpStateObj = this.stateService.createState(PATIENT_ADMISSION_ID_STATE);
+      this.updateDataForEVMode();
 
-  }
-}
-   
+      if (this.state.currentstate === MODE_VIEW) {
+        this.docterview = true;
+        this.showdoctornameview = this.compData.doctor_name
+
+      }
+      if (this.state.currentstate === MODE_EDIT || this.state.currentstate === MODE_VIEW) {
+        this.IsEditMode = true;
+        this.isVisible = true;
+        console.log('compfata', this.compData);
+this.floorloaded = true
+        this.hmisApi.getFloorDropdown(this.compData.building_id);
+      } else {
+        this.IsEditMode = false;
+        this.compData = new AdmissionMainModel();
+        console.log('admissionmodel', this.state)
+
+      }
+    }
+
 
   }
 
@@ -171,7 +183,7 @@ if(a === 'readonly'){
     // this.stateService.updateState(ADD);
   }
   hmisApiSubscribe(data: any): void {
-   
+
     if (data.resulttype === RESULT_TYPE_GET_REGISTERED_REG_NO) {
       var patientRegistarionData = data.result;
       this.createPatientlist(data.result);
@@ -202,39 +214,70 @@ if(a === 'readonly'){
     }
 
     if (data.resulttype === RESULT_TYPE_GET_ADMISSION_LIST) {
+      console.log('data', data.result)
+
       this.admissionTypeOption = this.comonService.admissionTypeListOption(data.result);
+      console.log('admissionTypeOption', this.admissionTypeOption)
+
+      this.admissiontypeloaded = true
+      // let selectedfeature: Array<any> = []
+
+      // let intial: any = [{
+      //   id: 0,
+      //   indexno: 0,
+      //   label: "Please Select Doctors",
+      //   value: 0
+      // }, {
+      //   label: "d",
+      //   value: 'd'
+      // }]
+      // selectedfeature[0] = intial;
+      // for (let v of data.result) {
+      //   delete Object.assign(v, { ["label"]: v["Name"] })["Name"];
+      //   delete Object.assign(v, { ["value"]: v["ID"] })["ID"];
+      //   selectedfeature[0].push(v)
+      // }
+
+      // this.doctorListOption = selectedfeature[0];
+      // this.dataloaded = true;
     }
 
     if (data.resulttype === RESULT_TYPE_GET_BUILDING_DROPDOWN) {
+
+
+
       this.buildingListOption = this.comonService.buildingOption(data.result);
+      this.dataloaded = true;
     }
 
     if (data.resulttype === RESULT_TYPE_GET_FLOOR_DROPDOWN) {
+
       this.floorListOption = this.comonService.floorOption(data.result);
+      this.floorloaded = true;
     }
 
     if (this.state !== undefined) {
       if (data.resulttype === RESULT_TYPE_ADD_ADMISSION) {
         this.compLoadManager.redirect(RL_ADMISSION_LIST);
-        if(data.result.charAt(0) === 'P'){
-        this.compLoadManager.closePopup();
-          this.snackbar.open(data.result, 'Close',
-          {
-            duration: 8000,
-            verticalPosition: 'top',
-            horizontalPosition: 'right',
-          });
-        }else{
+        if (data.result.charAt(0) === 'P') {
           this.compLoadManager.closePopup();
-       this.genericPopup.openPopup(this.compLoadManager.redirect(RL_ADMISSION_CONFIRMATION_MODAL, true));
+          this.snackbar.open(data.result, 'Close',
+            {
+              duration: 8000,
+              verticalPosition: 'top',
+              horizontalPosition: 'right',
+            });
+        } else {
+          this.compLoadManager.closePopup();
+          this.genericPopup.openPopup(this.compLoadManager.redirect(RL_ADMISSION_CONFIRMATION_MODAL, true));
         }
-       
+
         // this.genericPopup.openPopup(this.compLoadManager.redirect(RL_ADMISSION_CONFIRMATION_MODAL, true));
       }
     }
     if (data.resulttype === RESULT_TYPE_EDIT_ADMISSION) {
       this.compLoadManager.redirect(RL_ADMISSION_LIST);
-      const a =  this.comonService.admobserver();
+      const a = this.comonService.admobserver();
       this.hmisApi.getAdmittedPatientList(a.from, a.to, '');
       this.compLoadManager.closePopup();
     }
@@ -245,7 +288,11 @@ if(a === 'readonly'){
     }
 
     if (data.resulttype === RESULT_TYPE_GET_ALL_ADMISSION_LIST) {
+      console.log('data', data.result)
       this.admissionTypeOption = this.comonService.admissionTypeListOption(data.result);
+      console.log('admissionTypeOption', this.admissionTypeOption)
+      this.admissiontypeloaded = true
+
     }
     if (data.resulttype === RESULT_TYPE_GET_ALL_DISCHARGE_TYPE_LIST) {
       this.dischargeTypeOption = this.comonService.dischargeTypeListOption(data.result);
@@ -373,8 +420,8 @@ if(a === 'readonly'){
   getselectedItemHandlerForPackage(evntObj: any): void {
     this.packageDetails = this.packageInfo;
   }
-  SubmitClickHandler(){
-    console.log('wfneuiwnf' ,this.state)
+  SubmitClickHandler() {
+    console.log('wfneuiwnf', this.state)
     this.submitClickHandler()
   }
 
@@ -389,6 +436,9 @@ if(a === 'readonly'){
     this.admissionModel.bed_number = this.compData.bed_number;
     this.admissionModel.building_id = this.compData.building_id;
     this.admissionModel.ward_number = this.compData.ward_number;
+    console.log('compdata' , this.compData)
+
+    console.log('admission model' , this.admissionModel)
     this.hmisApi.setAdmission(this.admissionModel);
     // this.createPdfStructure(this.admissionModel);
   }

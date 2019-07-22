@@ -76,7 +76,7 @@ export class OtListComponent extends BaseComponent implements OnInit, OnDestroy 
 
   private arrangeOTPatientData(result) {
     for (let key in result) {
-      var dateOfOT = this.OTList[key].created_on.split("T");
+      var dateOfOT = this.OTList[key].operation_datetime.split("T");
       console.log('otlistdate1' , dateOfOT)
       this.OTList[key]['operation_datetime'] = dateOfOT[0]
       // this.OTList[key]['operation_datetime'] = this.datepipe.transform(dateOfOT[0], 'dd-MM-yyyy');s

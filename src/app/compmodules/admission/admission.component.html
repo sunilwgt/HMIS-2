@@ -1,5 +1,5 @@
 <generic-popup [modalOption]="modaloption"></generic-popup>
-<div class="panel with-nav-tabs panel-primary">
+<div class="panel with-nav-tabs panel-primary" >
   <div class="panel-heading">
     <ul class="nav nav-tabs">
       <li [ngClass]="showNav[0] == true ? 'active' : ''">
@@ -174,7 +174,7 @@
           <h4>Emergency Contact Details</h4>
         </div>
 
-        <div class="row">
+        <div class="row" >
 
 
           <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Name of Father/Husband/Guardian '"
@@ -188,13 +188,13 @@
 
           <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Father/Husband/Guardian Ph. No.'"
           class="col-lg-6 col-sm-12 col-xs-12 col-md-6 col-xl-6" [propName]="'gurdian_ph_number'" 
-           (customValidation)="GaurdianPhoneNoCheck($event)" [showCustomError]="gaurdianphoneError" [condition]="customCond"(compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+           (customValidation)="GaurdianPhoneNoCheck($event)"  [isrequire]=true  [showCustomError]="gaurdianphoneError" [condition]="customCond"(compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
 
           <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [propName]="'emergency_contact_person'"
           class="col-lg-6 col-sm-12 col-xs-12 col-md-6 col-xl-6"   [labelname]="'Contact person in case of emergency'"  (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
 
           <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [propName]="'emergency_contact_person_ph'"
-         (customValidation)="emergencyPhoneNoCheck($event)" [showCustomError]="emergencyphoneError" [condition]="customCond"    [labelname]="'Contact person Phone no'"  class="col-lg-6 col-sm-12 col-xs-12 col-md-6 col-xl-6" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+         (customValidation)="emergencyPhoneNoCheck($event)"     [isrequire]=true    [showCustomError]="emergencyphoneError" [condition]="customCond"    [labelname]="'Contact person Phone no'"  class="col-lg-6 col-sm-12 col-xs-12 col-md-6 col-xl-6" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
 
           <hmis-vertical-label-type (compValueChange)="valueChangeHandler($event)" [templateid]="gencomp[gencomp.Compselect]"
             [propName]="'relationship_with_patient'" [labelname]="'Relation with patient'"  class="col-lg-6 col-sm-12 col-xs-12 col-md-6 col-xl-6"
@@ -225,14 +225,25 @@
         <div class="card-title">
           <h4>Admission Details</h4>
         </div>
-        <div class="row">
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="admissionTypeOption"
+        <div class="row" >
+          <hmis-vertical-label-type *ngIf="admissiontypeloaded" [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="admissionTypeOption"
             [labelname]="'Select AdmissionType'" class="col-lg-6 col-sm-12 col-xs-12 col-md-6 col-xl-6" [propName]="'admission_type'"
             (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
 
-          <hmis-keyup-search [labelname]="'Doctors Under'" (getSelectedItem)="getselectedItemHandler($event)"
-            [propName]="'value'" (onKeyUp)="onKeyUpSearchForDoctor($event)" class="col-lg-6 col-sm-12 col-xs-12 col-md-6 col-xl-6"
-            [data]="doctorList"></hmis-keyup-search>
+            <div *ngIf="!docterview" class="col-lg-6 col-sm-12 col-xs-12 col-md-6 col-xl-6">
+              <hmis-keyup-search [labelname]="'Doctors Under'" (getSelectedItem)="getselectedItemHandler($event)"
+              [propName]="'value'" (onKeyUp)="onKeyUpSearchForDoctor($event)"
+              [data]="doctorList"></hmis-keyup-search>
+            </div>
+        
+
+
+            <div *ngIf="docterview" class="col-lg-6 col-sm-12 col-xs-12 col-md-6 col-xl-6" >
+              <div class="form-group">
+                <label>Doctors Under</label><br>
+                <input class="ageinputfield form-control" readonly type="text"  [(ngModel)]="showdoctornameview">
+              </div> 
+            </div>
 
           <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Gov. ID Type'"
             [selectOptions]="govtIdType" (compValueChange)="valueChangeHandler($event)" class="col-lg-6 col-sm-12 col-xs-12 col-md-6 col-xl-6" [propName]="'govt_id_type'"
@@ -261,12 +272,12 @@
           <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Medical Condition Details'"
             class="col-md-12" [propName]="'admission_notes'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
 
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="buildingListOption"
+          <hmis-vertical-label-type *ngIf="dataloaded" [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="buildingListOption"
             [labelname]="'Building'" class="col-lg-6 col-sm-12 col-xs-12 col-md-6 col-xl-6 required" [propName]="'building_id'"
             (compValueChange)="valueChangeHandler($event)"  [errorMessage]="'Please Provide Building.'"
             [isrequire]=true></hmis-vertical-label-type>
 
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="floorListOption"
+          <hmis-vertical-label-type *ngIf="floorloaded" [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="floorListOption"
             [labelname]="'Floor'"class="col-lg-6 col-sm-12 col-xs-12 col-md-6 col-xl-6 required" [propName]="'floor_id'"
             (compValueChange)="valueChangeHandler($event)"  [errorMessage]="'Please Provide Floor.'"
             [isrequire]=true></hmis-vertical-label-type>

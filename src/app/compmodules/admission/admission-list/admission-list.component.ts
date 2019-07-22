@@ -165,6 +165,8 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
       case MODE_VIEW:
         this.compLoadManager.redirect(RL_ADMISSION);
         this.state.currentstate = MODE_VIEW;
+        item.value = item.doctor_name
+        console.log('i' , item)
         this.state.stateData = item;
         this.clickHandler.emit(<ActionType>{ data: item, mode: MODE_VIEW });
         break;

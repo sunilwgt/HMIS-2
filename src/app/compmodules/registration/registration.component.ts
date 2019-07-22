@@ -24,7 +24,7 @@ import { setTokenSourceMapRange } from 'typescript';
   encapsulation: ViewEncapsulation.None
 })
 
-export class RegistrationComponent extends BaseComponent implements OnInit  {
+export class RegistrationComponent extends BaseComponent implements OnInit {
   @Output() clickHandler: EventEmitter<any> = new EventEmitter();
 
   @ViewChild(GenericPopup)
@@ -39,10 +39,10 @@ export class RegistrationComponent extends BaseComponent implements OnInit  {
   private doctorListOption: Array<Option> = [];
   private ProfessionOption: Array<Option> = [];
   private POption: Array<Option> = [];
-private doption:any;
+  private doption: any;
 
-private dataloaded = false;
-  
+  private dataloaded = false;
+
   private stateListOption: Array<StateListOption> = [];
   private patient_state: Array<Option>;
   showNav: any = [];
@@ -53,7 +53,7 @@ private dataloaded = false;
   private ageError: CustomErrorInfo;
   private customCond: string = CUSTOM_COND;
   private nationalityOption: Array<Option> = [];
-  
+
   private religionOption: Array<Option> = [];
   private hospitaldata;
   private showaddbutton = false;
@@ -195,45 +195,36 @@ private dataloaded = false;
       this.compLoadManager.redirect(RL_REGISTRATION_LIST);
       // this.hmisApi.patientSearch("");
       const a = this.comonService.regdateobserver();
-      console.log('ewnfwef', a);
       this.hmisApi.patientSearch(a.from, a.to, '');
       this.compLoadManager.closePopup();
     }
 
     if (data.resulttype === RESULT_TYPE_GET_ALL_DOCTOR_LIST) {
 
-      let selectedfeature:Array<any>  =  []
-      
-      let intial:any  = [{id: 0,
+      let selectedfeature: Array<any> = []
+
+      let intial: any = [{
+        id: 0,
         indexno: 0,
         label: "Please Select Doctors",
-        value: 0}]
+        value: 0
+      }, {
+        label: "d",
+        value: 'd'
+      }]
       selectedfeature[0] = intial;
-
-      for(let v of data.result){
-selectedfeature[0].push(v)
+      for (let v of data.result) {
+        delete Object.assign(v, { ["label"]: v["Name"] })["Name"];
+        delete Object.assign(v, { ["value"]: v["ID"] })["ID"];
+        selectedfeature[0].push(v)
       }
 
-      for (var k in selectedfeature[0]) {
-        delete Object.assign(k, {["newKey"]: k["Name"] })["Name"];
+      this.doctorListOption = selectedfeature[0];
+      this.dataloaded = true;
     }
 
-        // selectedfeature[0].push(data.result)
-        console.log('selectedfeature' , selectedfeature)
 
-        console.log('doctores' , data.result)
-
-        this.doctorListOption = selectedfeature[0];
-        this.dataloaded = true;
-        // this.ProfessionOption = this.comonService.ProfessionOption;
-      // this.ProfessionOption = selectedfeature
-
-      console.log('doctor list option1', this.doctorListOption);
-
-      let doctorListOptions:any= this.comonService.doctorListOptions(data.result);
-      // this.doctorListOption.push(doctorListOptions);
-      console.log('doctor list option2', this.doctorListOption);
-    }
+    
     if (data.resulttype === RESULT_TYPE_GET_HOSPITAL_DETAIL_LIST) {
       this.hospitaldata = data.result[0];
     }
@@ -259,15 +250,15 @@ selectedfeature[0].push(v)
       }
       // this.hmisApi.getDoctorList();
 
-  //     setTimeout(function(){
-  //       let selectedfeature:Array<Option>  = [{id: 0,
-  //         indexno: 0,
-  //         label: "Please Select Profession",
-  //         value: 0}, {label: "Buissness", value: "Buissness", id: 1}]
-  //         console.log('se' , selectedfeature ,this.doption);
-  // this.doctorListOption = selectedfeature;
+      //     setTimeout(function(){
+      //       let selectedfeature:Array<Option>  = [{id: 0,
+      //         indexno: 0,
+      //         label: "Please Select Profession",
+      //         value: 0}, {label: "Buissness", value: "Buissness", id: 1}]
+      //         console.log('se' , selectedfeature ,this.doption);
+      // this.doctorListOption = selectedfeature;
 
-  //     },10000);
+      //     },10000);
 
       this.govtIdType = this.comonService.govtIdType;
       this.bplOption = this.comonService.radioYesNoOptions;
@@ -276,9 +267,9 @@ selectedfeature[0].push(v)
       this.nationalityOption = this.comonService.nationalityOption;
       this.ProfessionOption = this.comonService.ProfessionOption;
 
-    
 
-console.log('profession option' , this.ProfessionOption)
+
+      console.log('profession option', this.ProfessionOption)
       this.religionOption = this.comonService.religionOption;
       this.modaloption = new GenericPopupOption();
       this.modaloption.size = "sm";

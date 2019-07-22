@@ -325,8 +325,13 @@ export class CommonService {
   }
 
   public buildingOption(data: Building): Array<BuildingOptions> {
-    let buildingArray: Array<BuildingOptions> = [];
+    let buildingArray: Array<any> = [];
     this.Building = data;
+    let a = 
+    { label: "Please select Building ", id: 0, value: 0, indexno: 0 }
+
+    buildingArray[0] = a;
+
     for (let val of this.Building) {
       let dOpt: BuildingOptions = new BuildingOptions();
       dOpt.label = val.Name;
@@ -337,14 +342,20 @@ export class CommonService {
   }
 
   public floorOption(data: Ward): Array<FloorOptions> {
-    let floorArray: Array<FloorOptions> = [];
+    let floorArray: Array<any> = [];
     this.Floor = data;
+
+    let a = 
+    { label: "Please select Floor", id: 0, value: 0, indexno: 0 }
+
+    floorArray[0] = a;
     for (let val of this.Floor) {
       let dOpt: FloorOptions = new FloorOptions();
       dOpt.label = val.Name;
       dOpt.value = val.ID;
       floorArray.push(dOpt);
     }
+    console.log('floor' , floorArray)
     return floorArray;
   }
   public wardOption(data: Ward): Array<WardOptions> {
@@ -427,15 +438,16 @@ export class CommonService {
   public admissionTypeListOption(data: any): Array<AdmissionTypeListOption> {
     let admissionTypeListArray: Array<AdmissionTypeListOption> = [];
 
-    // const a = 
-    // { label: "Please select Admission Type", id: 0, value: 0, indexno: 0 }
+    const a = 
+    { label: "Please select Admission Type", id: 0, value: 0, indexno: 0 }
 
-    // admissionTypeListArray[0] = a;
+    admissionTypeListArray[0] = a;
 
     for (let val of data) {
       let sOpt: AdmissionTypeListOption = new AdmissionTypeListOption();
       sOpt.label = val.Name;
       sOpt.value = val.ID;
+
       admissionTypeListArray.push(sOpt);
     }
     console.log('admission list' , admissionTypeListArray)
