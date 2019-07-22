@@ -48,13 +48,17 @@ export class HelperFunction {
     let todayDay = todaydate.getDate();
     let currentYear = todaydate.getFullYear();
     let age = currentYear - birthYear;
+
+    let bmonth = birthmonth + 1;
+    let cmonth = todayMonth + 1;
+    let finalmonth = cmonth - bmonth;
     if (todayMonth < birthmonth - 1) {
       age--;
     }
     if (birthmonth - 1 === todayMonth && todayDay < birthDay) {
       age--;
     }
-    return age;
+    return {age:age , month:finalmonth};
   }
 
   dateConvertToMin(date:Date):number{

@@ -37,6 +37,7 @@ export class DischargeCertificateComponent extends BaseComponent implements OnIn
   constructor(baseService: BaseServices, private helperFunc: HelperFunction,
     private snackbar: MatSnackBar, public datepipe: DatePipe) {
     super(baseService);
+    this.defaultvalidation = false;
     this.hmisApi.getHospitalSettings("");
 
   }
@@ -78,10 +79,11 @@ export class DischargeCertificateComponent extends BaseComponent implements OnIn
         alert("Patient Does not have billing")
         this.snackbar.open('Patient Does not have Billing', 'Close',
         {
-          duration: 3000,
+          duration: 5000,
           verticalPosition: 'top',
           horizontalPosition: 'right',
         });
+      
       }
       console.log('billing id ' , this.billingid)
     }
@@ -101,9 +103,19 @@ export class DischargeCertificateComponent extends BaseComponent implements OnIn
     if (data.resulttype === RESULT_TYPE_SET_DISCHARGE_CERTIFICATE) {
       console.log('set discharge certificate' , data);
       this.createPdfStructureadd(this.compData);
-      this.hmisApi.getDischargeCertificateList("");
+      const a =  this.comonService.dcertificatedateobserver();
+      console.log('new born date observer' ,a)
+      this.hmisApi.getdcertificatedatewise(a.from, a.to, '');
+
+      // this.hmisApi.getDischargeCertificateList("");
       this.compLoadManager.closePopup();
       this.compLoadManager.redirect(RL_DISCHARGE_CERTIFICATE_LIST);
+      this.snackbar.open(data.result, 'Close',
+      {
+        duration: 10000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right',
+      });
     }
     if (data.resulttype === RESULT_TYPE_EDIT_DISCHARGE_CERTIFICATE) {
       this.hmisApi.getDischargeCertificateList("");
@@ -173,12 +185,14 @@ export class DischargeCertificateComponent extends BaseComponent implements OnIn
     }
   }
 
-  protected submitClickHandler() {
+  protected invokeAddFunction() {
 
     console.log('current state' , this.state.currentstate);
     console.log('compdata' , this.compData);
 
     if (this.state.currentstate === MODE_ADD) {
+      console.log('add')
+
       this.dischargeCertificateModel.patient_id = this.compData.patient_registration_id;
       this.dischargeCertificateModel.admission_id = this.compData.patient_admission_id;
       this.dischargeCertificateModel.relationship = this.compData.relationship;
@@ -193,14 +207,15 @@ export class DischargeCertificateComponent extends BaseComponent implements OnIn
       console.log('this.dischargeCertificateModel.admission_id' , this.dischargeCertificateModel.admission_id);
       console.log('this.billingid' , this.billingid);
 
-
-      this.hmisApi.ValidateBillingAdjustemnt(this.dischargeCertificateModel.patient_id, this.dischargeCertificateModel.admission_id, this.billingid)//"0d15a6d8-556f-42ba-8043-8faeb8ade666"
+//for temporary closing validatebilling
+      // this.hmisApi.ValidateBillingAdjustemnt(this.dischargeCertificateModel.patient_id, this.dischargeCertificateModel.admission_id, this.billingid)//"0d15a6d8-556f-42ba-8043-8faeb8ade666"
       this.hmisApi.setDischargeCertficate(this.dischargeCertificateModel);
       // this.createPdfStructureadd(this.compData);
 
 
     }
     if (this.state.currentstate === DISCHARGE) {
+      console.log('discharge')
       this.dischargeCertificateModel.patient_id = this.compData.compData.registration_id;
       this.dischargeCertificateModel.admission_id = this.compData.compData.admission_id;
       this.dischargeCertificateModel.relationship = this.compData.relationship;
@@ -220,17 +235,26 @@ export class DischargeCertificateComponent extends BaseComponent implements OnIn
       // this.createPdfStructuredischarge(this.compData);
       this.hmisApi.setDischargeCertficate(this.dischargeCertificateModel);
     }
-    else {
+    if(this.state.currentstate === MODE_EDIT){
       this.hmisApi.setDischargeCertficateAsPerId(this.compData.ID, this.compData)
     }
+    // else {
+    //   console.log('edit')
+
+    //   this.hmisApi.setDischargeCertficateAsPerId(this.compData.ID, this.compData)
+    // }
 
   }
   // invokeAddFunction(){
   //   var d = "gjhbdfbjdhb";
   // }
-  // invokeEditFunction(){
+  invokeEditFunction(){
+this.invokeAddFunction();
+  }
 
-  // }
+
+
+  
   private createPdfStructureadd(data) {
     //console.log(data);
     var doc = new jsPDF('p', 'pt');

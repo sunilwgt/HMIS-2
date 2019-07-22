@@ -17,6 +17,9 @@ export class DashboardComponent  extends BaseComponent implements OnInit {
 	}
 
   ngOnInit() {
+    // localStorage.setItem('user','sunil');
+    // sessionStorage.setItem('us','sunil');
+    sessionStorage
     this.twardList = [
       {label: "Ward 1(5)", value:30, percentage: 30},
       {label: "Ward 2(7)", value:42, percentage: 42},

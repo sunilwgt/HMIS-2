@@ -5,15 +5,41 @@
         <data-table id="patients-grid" headerTitle="Floor list" [items]="floor" [itemCount]="floorCount" (reload)="reloadFloor($event)"
             [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false" [expandableRows]="false"
             [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
-            <data-table-column [property]="'floor_name'" [header]="'Floor Name'" [sortable]="true">
+
+            <data-table-column [property]="'$id'" [header]="'Seq.'" [sortable]="true"  [width]=80>
             </data-table-column>
-            <data-table-column [property]="'Description'" [header]="'Description'" [sortable]="true">
+
+            <data-table-column [property]="'floor_name'" [header]="'Floor Name'" [sortable]="true" [width]="100">
             </data-table-column>
-            <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true">
+            <data-table-column [property]="'Description'" [header]="'Description'" [sortable]="true" [width]="110">
+            </data-table-column>
+            <!-- <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true">
                 <ng-template #dataTableCell let-item="item">
                     <hmis-generic-action [itemdata]=item (clickHandler)="clickEventHandler($event)"></hmis-generic-action>
                 </ng-template>
+            </data-table-column> -->
+
+            <data-table-column *ngIf="!isreadonly" [property]="'action'" [header]="'Action'" [sortable]="false" [resizable]=true [width]="110">
+                <ng-template #dataTableCell let-item="item">
+                    <nav class="navbar navbar-default">
+                        <div class="container-fluid">
+                            <div class="navbar-header">
+                                <div class="dropdown">
+                                    <div class="test">
+                                        <div class="dropdown-content">
+                                            <a href="#"  (click)="clickEventHandler($event , 'modeView' , item)"><i class="fa fa-eye" ></i>&nbsp;&nbsp;View</a>
+                                            <a href="#"  (click)="clickEventHandler($event ,'modeEdit' , item)"> <i class="fa fa-edit" ></i>&nbsp;&nbsp;Edit </a>
+                                            <a href="#"  (click)="clickEventHandler($event , 'modeDelete' , item)"> <i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+        
+                </ng-template>
             </data-table-column>
+
         </data-table>
     </div>
 </div>

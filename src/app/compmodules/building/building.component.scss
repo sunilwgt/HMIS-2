@@ -3,3 +3,14 @@
         max-width: calc(100% - 30%) !important
     }
 }
+
+.required {
+    .form-group {
+        &>label {
+            &::after {
+                content: "*";
+                color: red;
+            }
+        }
+    }
+}

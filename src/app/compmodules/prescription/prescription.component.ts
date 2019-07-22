@@ -37,8 +37,9 @@ export class PrescriptionComponent extends BaseComponent implements OnInit {
 
   constructor(baseService: BaseServices, private helperFunc: HelperFunction, public datepipe: DatePipe) {
     super(baseService);
+    this.defaultvalidation = false;
     this.hmisApi.getDoctorList();
-    this.defaultvalidation = true;
+ 
 
 
   }
@@ -104,6 +105,9 @@ export class PrescriptionComponent extends BaseComponent implements OnInit {
     this.patientList = arrPatient;
   }
 
+
+
+
   ngOnInit() {
     this.updateDataForEVMode();
     if (this.state.currentstate === MODE_ADD) {
@@ -127,8 +131,11 @@ export class PrescriptionComponent extends BaseComponent implements OnInit {
   }
 
   invokeAddFunction(): void {
+    console.log("add " , this.compData)
     this.compData.date = this.prescriptionDate;
     this.compData.doctor_id = this.doctor_id;
+
+    // this.prescriptionModel = this.compData;
     this.prescriptionModel = this.comonService.arrangeDataForPrescription(this.compData);
     this.prescriptionModel.created_by = this.hmisApi.userDetail.created_by;
     this.prescriptionModel.modified_by = this.hmisApi.userDetail.modified_by;
@@ -137,6 +144,8 @@ export class PrescriptionComponent extends BaseComponent implements OnInit {
         this.compData.doctor_name = item.label;
       }
     }
+    console.log("add " , this.prescriptionModel)
+
     this.hmisApi.setPrescription(this.prescriptionModel);
   }
 

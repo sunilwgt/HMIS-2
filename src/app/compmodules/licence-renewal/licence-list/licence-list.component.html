@@ -1,32 +1,67 @@
 <div class="col-md-12">
 
-  <!-- <app-header-buttons></app-header-buttons> -->
-  <button type="button" class="btn btn-primary btn-flat btn-lg pull-right" (click)="addlicence()">Add Licence</button>
-  <div class="clearfix"></div>
-  <div style="margin: auto; margin-top:50px">
-      <data-table id="patients-grid" headerTitle="Licence list" [items]="departments" [itemCount]="departmentCount" (reload)="reloadDepartments($event)"
-          [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false" [expandableRows]="false"
-          [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
+    <!-- <app-header-buttons></app-header-buttons> -->
+    <button type="button" class="btn btn-primary btn-flat btn-lg pull-right" (click)="addlicence()">Add Licence Reminder</button>
+    <div class="clearfix"></div>
+    <div style="margin: auto; margin-top:50px">
+        <data-table id="patients-grid" headerTitle="Licence Reminder list" [items]="licence" [itemCount]="licenceCount" (reload)="reloadDepartments($event)"
+            [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false"
+            [expandableRows]="false" [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
 
-          <data-table-column [property]="'$id'" [header]="'No.'" [sortable]="true">
-          </data-table-column>
-          <data-table-column [property]="'Reminder Name'" [header]="'Name'" [sortable]="true">
-          </data-table-column>
-          <data-table-column [property]="'Date'" [header]="'Department description'" [sortable]="true">
-          </data-table-column>
-          <data-table-column [property]="'Date'" [header]="'Due Date'" [sortable]="true">
-          </data-table-column>
-          <data-table-column [property]="'Date'" [header]="'File'" [sortable]="true">
-          </data-table-column>
-          <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true">
-          </data-table-column>
-      </data-table>
-      <div style="margin-top: 10px">
-          <b>Selected:</b>
-          <!-- <span *ngIf="patientsTable.selectedRow == null"><i>No item selected</i></span>
+            <data-table-column [property]="'$id'" [header]="'Seq.'" [sortable]="true" [width]="80" >
+            </data-table-column>
+            <data-table-column [property]="'reminder_name'" [header]="'Name'" [sortable]="true" [width]="100">
+            </data-table-column>
+            <data-table-column [property]="'reminder_start_date'" [header]="'Start Date'" [sortable]="true" [width]="100">
+            </data-table-column>
+            <data-table-column [property]="'due_date'" [header]="'Due Date'" [sortable]="true" [width]="100">
+            </data-table-column>
+            <data-table-column [property]="'reminder_notes'" [header]="'Note'" [sortable]="true" [width]="100">
+            </data-table-column>
+            <!-- <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true">
+            </data-table-column> -->
+
+
+            <!-- <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true">
+                <ng-template #dataTableCell let-item="item">
+                  <hmis-generic-action [itemdata]=item (clickHandler)="clickEventHandler($event)"></hmis-generic-action>
+                </ng-template>
+              </data-table-column> -->
+
+
+              <data-table-column *ngIf="!isreadonly" [property]="'action'" [header]="'Action'" [sortable]="false" [resizable]=true [width]="110">
+                <ng-template #dataTableCell let-item="item">
+    
+               
+                    <nav class="navbar navbar-default">
+                        <div class="container-fluid">
+                            <div class="navbar-header">
+                                <div class="dropdown">
+                                    <div class="test">
+                                        <div class="dropdown-content">
+                                            <a href="#"  (click)="clickEventHandler($event , 'modeView' , item)"><i class="fa fa-eye" ></i>&nbsp;&nbsp;View</a>
+                                            <a href="#"  (click)="clickEventHandler($event ,'modeEdit' , item)"> <i class="fa fa-edit" ></i>&nbsp;&nbsp;Edit </a>
+                                            <a href="#"  (click)="clickEventHandler($event , 'modeDelete' , item)"> <i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</a>
+                                            <!-- <a href="#"  (click)="clickEventHandler($event ,'modeAdmission' , item)"><i class="fa fa-h-square"></i>&nbsp;&nbsp;Admission</a> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+    
+                </ng-template>
+            </data-table-column>
+
+
+
+        </data-table>
+        <div style="margin-top: 10px">
+            <b>Selected:</b>
+            <!-- <span *ngIf="patientsTable.selectedRow == null"><i>No item selected</i></span>
         <span [textContent]="patientsTable.selectedRow && patientsTable.selectedRow.item.title"></span> -->
-      </div>
-  </div>
+        </div>
+    </div>
 
 
 

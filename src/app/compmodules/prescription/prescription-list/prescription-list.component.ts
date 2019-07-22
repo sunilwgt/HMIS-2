@@ -238,6 +238,8 @@ export class PrescriptionListComponent extends BaseComponent implements OnInit {
   // }
 
   ngOnInit() {
+    this.compLoadManager.setHeaderTitle('Prescription')
+
     const a = this.comonService.getpermissionrole();
     if (a === 'readonly') {
       this.isreadonly = true;

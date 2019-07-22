@@ -8,28 +8,29 @@
 
         <div class="col-md-9">
           <div class="row">
-
             <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'First Name'" class="col-lg-6 col-sm-6 required"
-              [propName]="'first_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+              [propName]="'first_name'" (compValueChange)="valueChangeHandler($event)"   [errorMessage]="'Provide First Name.'"
+              [isrequire]=true></hmis-vertical-label-type>
 
             <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Last Name'" class="col-lg-6 col-sm-6 required"
-              [propName]="'last_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+              [propName]="'last_name'" (compValueChange)="valueChangeHandler($event)"  [errorMessage]="'Provide Last Name.'"
+              [isrequire]=true></hmis-vertical-label-type>
 
-            <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compradio]" [labelname]="'sex'" [propName]="'sex'" (compValueChange)="valueChangeHandler($event)"
-              class="col-lg-6 col-sm-6 required" [radioOptions]="genderOptions"></hmis-vertical-label-type>
+            <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compradio]" [errorMessage]="'Provide Gender.'"
+            [isrequire]=true [labelname]="'sex'" [propName]="'sex'" (compValueChange)="valueChangeHandler($event)"
+              class="col-lg-6 col-sm-6 required" [radioOptions]="genderOptions" 
+            ></hmis-vertical-label-type>
 
             <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Degree'" class="col-lg-6 col-sm-6 required"
-              [propName]="'degree'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
-
+              [propName]="'degree'" (compValueChange)="valueChangeHandler($event)"  [errorMessage]="'Provide Degree.'"
+              [isrequire]=true></hmis-vertical-label-type>
           </div>
         </div>
 
         <div class="col-md-3">
           <div class="row">
-
             <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compfile]" class="col-md-12 pull-right" [propName]="'doctor_profile_image'"
               (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
-
           </div>
         </div>
 
@@ -38,38 +39,49 @@
 
 
 
-        <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Designation'" class="col-lg-4 col-sm-6 required"
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Designation'" class="col-lg-4 col-sm-6"
           [propName]="'designation'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
 
         <hmis-vertical-label-type [selectOptions]="departmentTypeOption" [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Department Type'"
-          class="col-lg-4 col-sm-6 required" [propName]="'department_type'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          class="col-lg-4 col-sm-6 required" [propName]="'department_type'" (compValueChange)="valueChangeHandler($event)"  [errorMessage]="'Provide Department Type.'"
+          [isrequire]=true  ></hmis-vertical-label-type>
 
         <hmis-vertical-label-type [selectOptions]="departmentOption" [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Department'"
-          class="col-lg-4 col-sm-6 required" [propName]="'department_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          class="col-lg-4 col-sm-6 required" [propName]="'department_id'" (compValueChange)="valueChangeHandler($event)"   [errorMessage]="'Provide Department.'"
+          [isrequire]=true ></hmis-vertical-label-type>
 
-        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compemail]" [labelname]="'Email ID'" class="col-lg-4 col-sm-6 required"
-          [propName]="'email_address'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Email ID'" class="col-lg-4 col-sm-6 required"
+          [propName]="'email_address'" (compValueChange)="valueChangeHandler($event)"   [errorMessage]="'Provide Email.'"
+          [isrequire]=true  (customValidation)="customemailCheck($event)"
+          [showCustomError]="emailError" [condition]="customCond"></hmis-vertical-label-type>
+
+
 
         <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Phone 1'" class="col-lg-4 col-sm-6 required"
-          [propName]="'phone_number1'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          [propName]="'phone_number1'" (compValueChange)="valueChangeHandler($event)"   [errorMessage]="'Provide Phone1.'"
+          [isrequire]=true   (customValidation)="custompasswordCheck($event)"
+          [showCustomError]="passwordError" [condition]="customCond"></hmis-vertical-label-type>
 
-        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Phone 2'" class="col-lg-4 col-sm-6 required"
+        <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Phone 2'" class="col-lg-4 col-sm-6"
           [propName]="'phone_number2'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
 
         <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Short biography'" class="col-lg-6 col-sm-6 required"
-          [propName]="'short_biography'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          [propName]="'short_biography'" (compValueChange)="valueChangeHandler($event)"   [errorMessage]="'Provide Short Bio.'"
+          [isrequire]=true ></hmis-vertical-label-type>
 
         <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Address'" class="col-lg-6 col-sm-6 required"
-          [propName]="'address'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          [propName]="'address'" (compValueChange)="valueChangeHandler($event)"   [errorMessage]="'Provide Address.'"
+          [isrequire]=true ></hmis-vertical-label-type>
 
 
         <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Registration number'" class="col-lg-6 col-sm-6 required"
-          [propName]="'registration_number'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          [propName]="'registration_number'" (compValueChange)="valueChangeHandler($event)"   [errorMessage]="'Provide Registreration Number.'"
+          [isrequire]=true ></hmis-vertical-label-type>
       </div>
     </div>
     <div>
       <button type="submit" class="btn btn-default btn-info" (click)="submitClickHandler()">Save</button>
-      <button type="reset" class="btn btn-default btn-warning">Reset</button>
+      <!-- <button type="reset" class="btn btn-default btn-warning">Reset</button> -->
     </div>
   </div>
 

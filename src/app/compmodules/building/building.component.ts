@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Output  ,EventEmitter} from '@angular/core';
 import { GenericCompType } from '../../enums/generic-comp-type.enum';
 import { Subscription } from 'rxjs/Subscription';
 import { Building } from '../../models/opd';
-import { MODE_ADD, MODE_EDIT, MODE_VIEW, RESULT_TYPE_SET_BUILDING, RL_BUILDING_LIST, RESULT_TYPE_EDIT_BUILDING_LIST } from '../../models/common';
+import { MODE_ADD, MODE_EDIT, MODE_VIEW, RESULT_TYPE_SET_BUILDING, RL_BUILDING_LIST, RESULT_TYPE_EDIT_BUILDING_LIST, ACTION_BUTTON_STATE } from '../../models/common';
 import { BaseComponent } from '../../utils/base.component';
 import { BaseServices } from '../../utils/base.service';
+import { State } from '../../models/state';
 
 @Component({
   selector: 'app-building',
@@ -13,12 +14,13 @@ import { BaseServices } from '../../utils/base.service';
   encapsulation: ViewEncapsulation.None
 })
 export class BuildingComponent extends BaseComponent implements OnInit {
-
+  @Output() clickHandler: EventEmitter<any> = new EventEmitter();
+  public _stateObj: State
   private _tempData: Building;
 
-  constructor(baseService: BaseServices) {
+  constructor(private baseService: BaseServices) {
     super(baseService);
-    this.defaultvalidation = true;
+    this.defaultvalidation = false;
   }
 
   hmisApiSubscribe(data: any): void {
@@ -36,6 +38,10 @@ export class BuildingComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    
+
+ 
+this._stateObj = this.baseService.stateService.createState(ACTION_BUTTON_STATE);
     this.updateDataForEVMode();
     if (this.state.currentstate === MODE_ADD) {
       this.compData = new Building();

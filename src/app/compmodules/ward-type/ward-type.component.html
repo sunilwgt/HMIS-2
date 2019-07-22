@@ -4,12 +4,14 @@
       <form name="department_form" novalidate="novalidate">
         <div class="row">
 
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Ward type name'" class="col-lg-6 col-sm-6"
-            [propName]="'ward_type_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Description'" class="col-lg-6 col-sm-6"
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Ward type name'" class="col-lg-6 col-sm-6 required"
+            [propName]="'ward_type_name'" [isrequire]=true [errorMessage]="'Please Provide Ward Type Name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+         
+            <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Description'" class="col-lg-6 col-sm-6"
             [propName]="'description'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Beds'" class="col-lg-6 col-sm-6" [propName]="'beds'"
-            (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+         
+            <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Beds'" class="col-lg-6 col-sm-6 required" [propName]="'beds'"
+            (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Please Provide Bed Numbers'"></hmis-vertical-label-type>
           <!--hmis-vertical-label-type [selectOptions]="floorOptions" [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Select floor'"
             class="col-lg-6 col-sm-6 required" [propName]="'floor_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type-->
           <div class="col-lg-6 col-sm-6">

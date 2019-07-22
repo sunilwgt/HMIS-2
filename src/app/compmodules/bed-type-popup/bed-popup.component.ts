@@ -25,6 +25,20 @@ export class BedModal extends BaseComponent implements OnInit {
   hmisApiSubscribe(data: any): void {
     if (data.resulttype === RESULT_TYPE_GET_BED_BY_WARD) {
       this.beds = this.comonService.bedOptions(data.result);
+      console.log('beds1' , this.beds);
+     let  a = [];
+for(let v of this.beds){
+  console.log('ewf' , v.label)
+  a.push(v)
+}
+
+   a.sort(function(a, b){return a-b});
+
+
+    //  this.beds.sort(function(a, b){return a-b});
+     console.log('beds12' , a);
+
+
       if(this.beds.length == 0){
         this.IsAvailable = true;
       } 

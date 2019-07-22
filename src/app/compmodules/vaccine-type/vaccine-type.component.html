@@ -3,8 +3,8 @@
     <div class="basic-form">
       <form name="department_form" novalidate="novalidate">
         <div class="row">
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Vaccine name'" class="col-lg-6 col-sm-6"
-            [propName]="'vaccine_type_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Vaccine name'" class="col-lg-6 col-sm-6 required"
+            [propName]="'vaccine_type_name'" [isrequire]=true [errorMessage]="'Please Provide Vaccine Name'"  (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
           <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Description'" class="col-lg-6 col-sm-6"
             [propName]="'description'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
           <div class="col-lg-6 col-sm-6">

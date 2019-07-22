@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, Renderer2, ElementRef } from '@angular/core';
-import { GenericPopupOption, MODAL_ITEM_CLICKED_STATE, RESULT_TYPE_GET_PACKAGE, RESULT_TYPE_GET_ADMISSION_TYPE, RESULT_TYPE_GET_WARD_TYPE, RESULT_TYPE_GET_FLOOR, MODE_ADD, RESULT_TYPE_ADD_ADMISSION, RESULT_TYPE_GET_DOCTOR_AS_PER_ID, RESULT_TYPE_AUTO_COMPLETE_DOCTOR_SEARCH, DoctorListOption, RL_ADMISSION_LIST, RESULT_TYPE_EDIT_ADMISSION, RL_ADMISSION_CONFIRMATION_MODAL, PATIENT_ADMISSION_ID_STATE, ADMISSION_MODAL_ID_STATE, RESULT_TYPE_GET_PACKAGE_LIST, RL_BILLING, RESULT_TYPE_GET_ADMISSION_LIST, RESULT_TYPE_GET_ALL_ADMISSION_LIST, RESULT_TYPE_GET_ALL_DISCHARGE_TYPE_LIST, RESULT_TYPE_GET_BUILDING_DROPDOWN, RESULT_TYPE_GET_FLOOR_DROPDOWN, MODE_VIEW, RESULT_TYPE_GET_REGISTERED_REG_NO, RESULT_TYPE_GET_SELECTED_PATIENT_BY_ID, RL_REGISTRATION, ADD, MODE_ADMISSION, RL_ADMISSION } from '../../models/common';
+import { GenericPopupOption, MODAL_ITEM_CLICKED_STATE, RESULT_TYPE_GET_PACKAGE, RESULT_TYPE_GET_ADMISSION_TYPE, RESULT_TYPE_GET_WARD_TYPE, RESULT_TYPE_GET_FLOOR, MODE_ADD, RESULT_TYPE_ADD_ADMISSION, RESULT_TYPE_GET_DOCTOR_AS_PER_ID, RESULT_TYPE_AUTO_COMPLETE_DOCTOR_SEARCH, DoctorListOption, RL_ADMISSION_LIST, RESULT_TYPE_EDIT_ADMISSION, RL_ADMISSION_CONFIRMATION_MODAL, PATIENT_ADMISSION_ID_STATE, ADMISSION_MODAL_ID_STATE, RESULT_TYPE_GET_PACKAGE_LIST, RL_BILLING, RESULT_TYPE_GET_ADMISSION_LIST, RESULT_TYPE_GET_ALL_ADMISSION_LIST, RESULT_TYPE_GET_ALL_DISCHARGE_TYPE_LIST, RESULT_TYPE_GET_BUILDING_DROPDOWN, RESULT_TYPE_GET_FLOOR_DROPDOWN, MODE_VIEW, RESULT_TYPE_GET_REGISTERED_REG_NO, RESULT_TYPE_GET_SELECTED_PATIENT_BY_ID, RL_REGISTRATION, ADD, MODE_ADMISSION, RL_ADMISSION, CustomErrorInfo, INVALID_FIELD, VALID_FIELD, CUSTOM_COND } from '../../models/common';
 import { GenericCompType } from '../../enums/generic-comp-type.enum';
 import { Registration, DOB, CompDataInfo } from '../../models/registration';
 import { CommonService } from '../../services/common.service';
@@ -21,6 +21,7 @@ import * as _ from 'lodash';
 import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { GenericPopup } from '../../generic-components/generic-popup';
 import { register } from 'ts-node';
+import { MatSnackBar } from '@angular/material';
 
 declare var jsPDF: any;
 
@@ -34,6 +35,8 @@ export class AdmissionComponent extends BaseComponent implements OnInit {
 
   @ViewChild(GenericPopup)
   private genericPopup: GenericPopup;
+private minDateValue = '07/10/2019'
+private maxDateValue = '08/10/2019'
 
   private bloodOptions: Array<Option>;
   private booleanOptions: Array<RadioData>;
@@ -77,10 +80,18 @@ export class AdmissionComponent extends BaseComponent implements OnInit {
   private isVisible: boolean = false;
   private value: string = '';
   private dischargeTypeOption: Array<DischargeTypeOption> = [];
+  private gaurdianphoneError: CustomErrorInfo;
+  private emergencyphoneError: CustomErrorInfo;
+
+  
+
+  private customCond: string = CUSTOM_COND;
 
   private showsearch: boolean = false;
-  constructor(baseservice: BaseServices, private helperFunc: HelperFunction, private renderer: Renderer2, public datepipe: DatePipe) {
+  constructor(baseservice: BaseServices, private helperFunc: HelperFunction,private snackbar:MatSnackBar,
+     private renderer: Renderer2, public datepipe: DatePipe) {
     super(baseservice)
+    this.defaultvalidation = true;
     this.showNav[0] = true;
     this.hmisApi.getDoctor();
     this.hmisApi.getStateList();
@@ -89,7 +100,7 @@ export class AdmissionComponent extends BaseComponent implements OnInit {
     this.hmisApi.getBuildingDropdown();
     this.hmisApi.getDischargeTypeList();
 
-    this.defaultvalidation = true;
+    // this.defaultvalidation = true;
     this.stateService.stateObserver.subscribe(data => {
       if (data && data.stateID === ADMISSION_MODAL_ID_STATE) {
         this.storeAdmissionID = data.stateData;
@@ -137,6 +148,8 @@ if(a === 'readonly'){
   } else {
     this.IsEditMode = false;
     this.compData = new AdmissionMainModel();
+    console.log('admissionmodel' , this.state)
+
   }
 }
    
@@ -202,8 +215,21 @@ if(a === 'readonly'){
 
     if (this.state !== undefined) {
       if (data.resulttype === RESULT_TYPE_ADD_ADMISSION) {
+        this.compLoadManager.redirect(RL_ADMISSION_LIST);
+        if(data.result.charAt(0) === 'P'){
         this.compLoadManager.closePopup();
-        this.genericPopup.openPopup(this.compLoadManager.redirect(RL_ADMISSION_CONFIRMATION_MODAL, true));
+          this.snackbar.open(data.result, 'Close',
+          {
+            duration: 8000,
+            verticalPosition: 'top',
+            horizontalPosition: 'right',
+          });
+        }else{
+          this.compLoadManager.closePopup();
+       this.genericPopup.openPopup(this.compLoadManager.redirect(RL_ADMISSION_CONFIRMATION_MODAL, true));
+        }
+       
+        // this.genericPopup.openPopup(this.compLoadManager.redirect(RL_ADMISSION_CONFIRMATION_MODAL, true));
       }
     }
     if (data.resulttype === RESULT_TYPE_EDIT_ADMISSION) {
@@ -230,7 +256,7 @@ if(a === 'readonly'){
     this.showNav = [];
     this.showNav[index] = true;
     this.tabIndex = index;
-  }59
+  }
   private createPatientlist(data: any): void {
     let arrPatient: Array<ISelectOption> = [];
     for (let val of data) {
@@ -347,6 +373,10 @@ if(a === 'readonly'){
   getselectedItemHandlerForPackage(evntObj: any): void {
     this.packageDetails = this.packageInfo;
   }
+  SubmitClickHandler(){
+    console.log('wfneuiwnf' ,this.state)
+    this.submitClickHandler()
+  }
 
   invokeAddFunction(): void {
     this.admissionModel.patient_id = this.compData.ID;
@@ -391,4 +421,64 @@ if(a === 'readonly'){
       }
     }
   }
+
+
+  GaurdianPhoneNoCheck(evntObj: any): void {
+    console.log('contact person checkk', evntObj);
+    let to: CustomErrorInfo = new CustomErrorInfo();
+    if (!evntObj.newval) {
+      to.isErrorShow = false;
+      to.fieldStatus = VALID_FIELD;
+      to.data = evntObj;
+      to.errorMessage = ""
+    } else if ((evntObj.newval).toString().length < 10) {
+      to.isErrorShow = true;
+      to.fieldStatus = INVALID_FIELD;
+      to.data = evntObj;
+      to.errorMessage = "Minimum 10 digit required";
+    } else if ((evntObj.newval).toString().length > 12) {
+      to.isErrorShow = true;
+      to.fieldStatus = INVALID_FIELD;
+      to.data = evntObj;
+      to.errorMessage = "Maximum 12 digit required";
+    } else {
+      to.isErrorShow = false;
+      to.fieldStatus = VALID_FIELD;
+      to.data = evntObj;
+      to.errorMessage = "";
+    }
+
+    this.gaurdianphoneError = to;
+  }
+
+
+  emergencyPhoneNoCheck(evntObj: any): void {
+    console.log('contact person checkk', evntObj);
+    let to: CustomErrorInfo = new CustomErrorInfo();
+    if (!evntObj.newval) {
+      to.isErrorShow = false;
+      to.fieldStatus = VALID_FIELD;
+      to.data = evntObj;
+      to.errorMessage = ""
+    } else if ((evntObj.newval).toString().length < 10) {
+      to.isErrorShow = true;
+      to.fieldStatus = INVALID_FIELD;
+      to.data = evntObj;
+      to.errorMessage = "Minimum 10 digit required";
+    } else if ((evntObj.newval).toString().length > 12) {
+      to.isErrorShow = true;
+      to.fieldStatus = INVALID_FIELD;
+      to.data = evntObj;
+      to.errorMessage = "Maximum 12 digit required";
+    } else {
+      to.isErrorShow = false;
+      to.fieldStatus = VALID_FIELD;
+      to.data = evntObj;
+      to.errorMessage = "";
+    }
+
+    this.emergencyphoneError = to;
+  }
+
+
 }

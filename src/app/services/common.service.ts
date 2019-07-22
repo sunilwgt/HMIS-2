@@ -14,7 +14,10 @@ declare var jsPDF: any;
 export class CommonService {
   private _cmnObserver: Subject<any> = new Subject();
   admdateobserever:any;
+  otobserver:any
   regdateObserver:any;
+  newbornndateobserver:any;
+  datecertificatedateobserver:any;
   DepartmentType: any;
   WardType: any;
   Department: any;
@@ -47,7 +50,7 @@ export class CommonService {
 
   get bloodOptions(): Array<Option> {
     return [
-      { label: "Please select", id: 0, value: 0, indexno: 0 },
+      { label: "Please select blood Type", id: 0, value: 0, indexno: 0 },
       { label: "A+", id: 1, value: 'A+', indexno: 1 },
       { label: "A-", id: 2, value: 'A-', indexno: 2 },
       { label: "B+", id: 3, value: 'B+', indexno: 3 },
@@ -79,6 +82,15 @@ export class CommonService {
   admobserver() {
     return this.admdateobserever;
   }
+  
+
+  setdateforotsearch(f,t){
+    this.otobserver = {from:f , to:t};
+  }
+
+  otbserver() {
+    return this.otobserver;
+  }
 
   setdateforregsearch(f,t){
     this.regdateObserver = {from:f , to:t};
@@ -87,9 +99,24 @@ export class CommonService {
   regdateobserver() {
     return this.regdateObserver;
   }
+
+  setdatefornewbornsearch(f,t){
+    this.newbornndateobserver = {from:f , to:t};
+  }
+
+  newborndateobserver() {
+    return this.newbornndateobserver;
+  }
+  setdatefordcertificate(f,t){
+    this.datecertificatedateobserver = {from:f , to:t};
+  }
+
+  dcertificatedateobserver() {
+    return this.datecertificatedateobserver;
+  }
   get govtIdType(): Array<Option> {
     return [
-      { label: "Please select", id: 0, value: 0, indexno: 0 },
+      { label: "Please select Id Type", id: 0, value: 0, indexno: 0 },
       { label: "Aadhar card", id: 1, value: 'aadharCard', indexno: 1 },
       { label: "Voter Id", id: 2, value: 'voterId', indexno: 2 },
       { label: "Driving licence", id: 3, value: 'drivingLicence', indexno: 3 },
@@ -115,6 +142,7 @@ export class CommonService {
 
   get genderOptions(): Array<RadioData> {
     return [
+
       { label: "Male", value: "Male", id: 1 },
       { label: "Female", value: "Female", id: 2 },
       { label: "Transgender", value: "Transgender", id: 3 }
@@ -125,13 +153,28 @@ export class CommonService {
   }
   get nationalityOption(): Array<Option> {
     return [
+      { label: "Please Select Nationality", id: 0, value: 0, indexno: 0 },
+
       { label: "Indian", value: "Indian", id: 1 },
       { label: "Bangladesi", value: "Bangladesi", id: 2 },
       { label: "Other", value: "Other", id: 3 }
     ];
   }
+
+  get ProfessionOption(): Array<Option> {
+    return [
+      { label: "Please Select Profession", id: 0, value: 0, indexno: 0 },
+
+      { label: "Buissness", value: "Buissness", id: 1 },
+      { label: "Professional", value: "Professional", id: 2 },
+      { label: "Other", value: "Other", id: 3 }
+    ];
+  }
+
   get religionOption(): Array<Option> {
     return [
+      { label: "Please Select Religion", id: 0, value: 0, indexno: 0 },
+
       { label: "Hindu", value: "Hindu", id: 1 },
       { label: "Muslims", value: "Muslims", id: 2 },
       { label: "Sikh", value: "Sikh", id: 3 },
@@ -143,7 +186,7 @@ export class CommonService {
 
   get paymentModeOption(): Array<Option> {
     return [
-      { label: "Please select", id: 0, value: 0, indexno: 0 },
+      { label: "Please Select", id: 0, value: 0, indexno: 0 },
       { label: "Cash", id: 1, value: 'Cash', indexno: 1 },
       { label: "POS", id: 2, value: 'POS', indexno: 2 },
       { label: "Credit/Debit", id: 3, value: 'Credit/Debit', indexno: 3 }
@@ -152,6 +195,8 @@ export class CommonService {
 
   get relationWithOption(): Array<Option> {
     return [
+      { label: "Please Select Relationship", id: 0, value: 0, indexno: 0 },
+
       { label: "Father", value: "Father", id: 1 },
       { label: "Mother", value: "Mother", id: 2 },
       { label: "Son", value: "Son", id: 3 },
@@ -381,12 +426,19 @@ export class CommonService {
   }
   public admissionTypeListOption(data: any): Array<AdmissionTypeListOption> {
     let admissionTypeListArray: Array<AdmissionTypeListOption> = [];
+
+    // const a = 
+    // { label: "Please select Admission Type", id: 0, value: 0, indexno: 0 }
+
+    // admissionTypeListArray[0] = a;
+
     for (let val of data) {
       let sOpt: AdmissionTypeListOption = new AdmissionTypeListOption();
       sOpt.label = val.Name;
       sOpt.value = val.ID;
       admissionTypeListArray.push(sOpt);
     }
+    console.log('admission list' , admissionTypeListArray)
     return admissionTypeListArray;
   }
   public convertToPatientList(data: any): Array<ISelectOption> {
@@ -457,7 +509,7 @@ export class CommonService {
     var dob = data.patient_dob.split("T");
     //admissionObject.patient_dob = this.datepipe.transform(dob[0], 'dd-mm-yyyy');
     admissionObject.patient_dob = dob[0];
-    admissionObject.patient_age = this.helperFunc.getCalculatedAge(dob[0]);
+    // admissionObject.patient_age = this.helperFunc.getCalculatedAge(dob[0]);
     admissionObject.patient_name = data.patient_first_name + ' ' + data.patient_last_name;
     admissionObject.patient_sex = data.patient_sex;
     admissionObject.patient_city = data.patient_city;
@@ -528,6 +580,8 @@ export class CommonService {
     OTMOdelObject.operation_type_id = data.operation_type_id;
     OTMOdelObject.operation_datetime = this.datepipe.transform(data.operation_datetime, 'yyyy-MM-dd');
     OTMOdelObject.patient_operation_start = data.patient_operation_start;
+    OTMOdelObject.patient_operation_end = data.patient_operation_end;
+
     OTMOdelObject.surgery_type_id = data.surgery_type_id;
     OTMOdelObject.doctor_id = data.doctor_id;
     OTMOdelObject.anesthesiologist_id = data.anesthesiologist_id;
@@ -541,6 +595,7 @@ export class CommonService {
   }
 
   public arrangeDataForOTModelForUpdate(data: any) {
+    console.log('data' ,data)
     let OTMOdelObject = new OtCreate();
     OTMOdelObject.ID = data.operation_id;
     OTMOdelObject.admission_id = data.admission_id;

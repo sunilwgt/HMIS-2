@@ -51,7 +51,7 @@ export class InnerHeaderComponent extends BaseComponent implements OnInit {
   }
   ngOnDestroy() {
     // prevent memory leak when component destroyed
-    this._subscription.unsubscribe();
+    // this._subscription.unsubscribe();
 
   }
 

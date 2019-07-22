@@ -7,6 +7,8 @@
     <data-table id="patients-grid" headerTitle="Permissions List" [items]="arrangepermissionsdata" [itemCount]="permissionsCount" (reload)="reloadPermissions($event)"
         [limit]="15" [sortAsc]="false" [selectColumn]="true" [multiSelect]="true" [substituteRows]="false"
         [expandableRows]="false" [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
+        <data-table-column [property]="'$id'" [header]="'Seq.'" [sortable]="true"  [width]=80>
+        </data-table-column>
         <data-table-column [property]="'access_area'" [header]="'Access Area'" [sortable]="true" [resizable]=true
             [width]="150">
             </data-table-column>

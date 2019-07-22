@@ -65,10 +65,10 @@
             [indexColumn]="false" [selectOnRowClick]="true">
             <data-table-column [property]="'$id'" [header]="'Seq.'" [resizable]=true [width]="50">
             </data-table-column>
-            <data-table-column [width]="120">
-                <ng-template #dataTableHeader let-item="item">
+            <data-table-column [width]="120" [property]="'admission_sequence'"  [header]="'Adm Seq.'">
+                <!-- <ng-template #dataTableHeader let-item="item">
                     Adm Seq..
-                </ng-template>
+                </ng-template> -->
                 <ng-template #dataTableCell let-item="item">
                     <a href="/" onclick="return false;" (click)="ongridclick($event , item , content)">{{item.admission_sequence}}</a>
                 </ng-template>
@@ -77,15 +77,18 @@
                 [resizable]=true [width]="120">
             </data-table-column> -->
 
-            <data-table-column [width]="120">
-                <ng-template #dataTableHeader let-item="item">
+            <data-table-column [width]="120" [property]="'patient_registration_no'" [header]="'Reg No.'">
+                <!-- <ng-template #dataTableHeader let-item="item">
                     Reg No.
-                </ng-template>
+                </ng-template> -->
                 <ng-template #dataTableCell let-item="item">
                     <a href="/" onclick="return false;" (click)="ongridclick2($event , item , content2)">{{item.patient_registration_no}}</a>
                 </ng-template>
 
             </data-table-column>
+            <data-table-column [property]="'patient_first_name'" [header]="'Name'" [sortable]="true" [resizable]=true
+            [width]="130">
+        </data-table-column>
             <data-table-column [property]="'admission_type_name'" [header]="'Adm Type'" [sortable]="true" [resizable]=true
                 [width]="130">
             </data-table-column>

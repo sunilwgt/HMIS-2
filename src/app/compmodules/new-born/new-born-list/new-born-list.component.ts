@@ -3,10 +3,12 @@ import { DataTableTranslations, DataTableResource } from 'angular5-data-table';
 import { BaseComponent } from '../../../utils/base.component';
 import { NewBorn } from '../../../models/opd';
 import { BaseServices } from '../../../utils/base.service';
-import { ActionType, MODE_EDIT, MODE_VIEW, MODE_DELETE, RL_NEW_BORN, RESULT_TYPE_GET_NEW_BORN_LIST, MODE_ADD, RESULT_TYPE_DELETE_NEW_BORN } from '../../../models/common';
+import { ActionType, MODE_EDIT, MODE_VIEW, MODE_DELETE, RL_NEW_BORN, RESULT_TYPE_GET_NEW_BORN_LIST, MODE_ADD, RESULT_TYPE_DELETE_NEW_BORN, RESULT_TYPE_GET_NEW_BORN_LIST_DATEWISE } from '../../../models/common';
 import { DatePipe } from '@angular/common';
 import { NgbModalOptions, NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatSnackBar } from '@angular/material';
+import * as _ from 'lodash';
+import { Angular2Csv } from 'angular2-csv';
 
 
 
@@ -18,14 +20,15 @@ import { MatSnackBar } from '@angular/material';
 })
 export class NewBornListComponent extends BaseComponent implements OnInit {
   @Output() clickHandler: EventEmitter <any> = new EventEmitter();
-
+  private csvdata = []
   private isreadonly = true;
   private newBorn = [];
   private newBornResource = new DataTableResource([]);
   private newBornCount = 0;
   private dateValuefrom;
    private dateValueto;
-
+   private convertedfromdate;
+   private convertedtodate;
 modalOption: NgbModalOptions;
 private modalRef: NgbModalRef;
 closeResult: any;
@@ -36,12 +39,22 @@ private rowdata:any;
   constructor(baseService: BaseServices, private snackbar:MatSnackBar,
     public datepipe: DatePipe ,  private modalServices: NgbModal) {
     super(baseService);
-    this.hmisApi.getNewBornSearch("");
+    // this.hmisApi.getNewBornSearch("");
   }
 
   hmisApiSubscribe(data: any): void {
-    if (data.resulttype === RESULT_TYPE_GET_NEW_BORN_LIST) {
-      //console.log("new born list     ",data.result);
+    // if (data.resulttype === RESULT_TYPE_GET_NEW_BORN_LIST) {
+    //   console.log("new born list     ",data.result);
+    //   this.newBorn = data.result;
+    //   this.arrangeDataForNewBorn(data.result);
+    //   this.newBornResource = new DataTableResource(this.newBorn);
+    //   this.newBornResource.count().then(count => {
+    //     this.newBornCount = count;
+    //   });
+    // }
+
+    if (data.resulttype === RESULT_TYPE_GET_NEW_BORN_LIST_DATEWISE) {
+      console.log("new born list     ",data.result);
       this.newBorn = data.result;
       this.arrangeDataForNewBorn(data.result);
       this.newBornResource = new DataTableResource(this.newBorn);
@@ -50,7 +63,9 @@ private rowdata:any;
       });
     }
     if(data.resulttype === RESULT_TYPE_DELETE_NEW_BORN){
-      this.hmisApi.getNewBornSearch("");
+      // this.hmisApi.getNewBornSearch("");
+      this.getdate()
+      this.hmisApi.getnewborndatewise(this.convertedfromdate, this.convertedtodate, '');
     }
   }
 
@@ -140,6 +155,8 @@ private rowdata:any;
   }
 
   ngOnInit() {
+    this.compLoadManager.setHeaderTitle('New Born')
+
     const a = this.comonService.getpermissionrole();
     if(a === 'readonly'){
 this.isreadonly = true;
@@ -148,11 +165,71 @@ this.isreadonly = true;
 
     }
     this.getdate()
+    console.log('wefwef' , this.convertedfromdate, this.convertedtodate,)
+    this.hmisApi.getnewborndatewise(this.convertedfromdate, this.convertedtodate, '');
+    console.log('ngoninu')
   }
-  getdate(){
-    const data  = new Date();
+
+
+  searchPatient() {
+    this.convertdate();
+    this.hmisApi.getnewborndatewise(this.convertedfromdate, this.convertedtodate, '');
+
+  }
+
+  getdate() {
+    const data = new Date();
     this.dateValuefrom = data;
     this.dateValueto = data;
-  
+    this.convertdate();
   }
+
+
+
+  convertdate() {
+    const a = this.comonService.convertdate(this.dateValuefrom, this.dateValueto)
+    this.convertedfromdate = a.from;
+    this.convertedtodate = a.to;
+    this.setdate(this.convertedfromdate, this.convertedtodate);
+  }
+
+  setdate(f, t) {
+    this.comonService.setdatefornewbornsearch(f, t)
+  }
+
+
+
+  exportToCSV() {
+    console.log('data', this.newBorn)
+
+    _.forEach(this.newBorn, (value, key) => {
+      var newArray: any = {
+        "patient_registration_no": value.patient_registration_no,
+        "admission_sequence": value.admission_sequence,
+        "baby_alias_name":value.baby_alias_name,
+        "mother_name": value.mother_name,
+        "father_name": value.father_name,
+        "sex": value.sex,
+        "baby_dob": value.baby_dob,
+        "baby_height": value.baby_height,
+        "baby_weight": value.baby_weight,
+        "critical_illness_note": value.critical_illness_note,
+        "delivery_note": value.delivery_note,
+        "delivery_type_name": value.delivery_type_name,
+
+
+      };
+      this.csvdata.push(newArray);
+    });
+    var options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: true,
+      headers: ["Registeration Number", "Admission No.", "Baby Name.", "Mother Name", "Father Name", "Baby Gender", "Baby Dob" ,"Baby Height", "Baby Weight", "Critical illness note", "Delievery Note" , "Delievery Type Name"]
+    };
+    new Angular2Csv(this.csvdata, 'New Born list', options);
+  }
+
 }

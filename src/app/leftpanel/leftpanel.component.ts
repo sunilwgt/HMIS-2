@@ -36,9 +36,12 @@ export class LeftpanelComponent implements OnInit {
     const b = [];
     // console.log('permissions' , a) ; 
     // console.log('menuitems' , this._menuItems)
+    console.log('menuitems' , this._menuItems);
+    // b[0].push(this._menuItems[0]);
+    b[0] = this._menuItems[0]
     for (let ab of a) {
       const bc = (this._menuItems.filter((res) => res.permissionname === ab))
-      console.log('bc', bc)
+      console.log('filteredmenus', bc)
       if (bc.length > 0) {
         // b[0] = 'null'
         b.push(...bc)

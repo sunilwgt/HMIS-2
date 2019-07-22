@@ -1,19 +1,27 @@
+<!-- <p-toast position="top-right"></p-toast> -->
 <div class="card crd_frm">
   <div class="card-body" style="margin-bottom: 0 ">
     <div class="basic-form">
       <form name="department_form" novalidate="novalidate">
         <div class="row">
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'First Name'" class="col-lg-6 col-sm-6"
-            [propName]="'first_name'" (compValueChange)="valueChangeHandler($event)" [isrequire]=false></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'First Name'" class="col-lg-6 col-sm-6 required"
+            [propName]="'first_name'" (compValueChange)="valueChangeHandler($event)"  [errorMessage]="'Provide First Name.'"
+            [isrequire]=true></hmis-vertical-label-type>
 
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Last Name'" class="col-lg-6 col-sm-6"
-            [propName]="'last_name'" (compValueChange)="valueChangeHandler($event)" [isrequire]=false></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Last Name'" class="col-lg-6 col-sm-6 required"
+            [propName]="'last_name'" (compValueChange)="valueChangeHandler($event)"  [errorMessage]="'Provide Last Name.'"
+            [isrequire]=true></hmis-vertical-label-type>
 
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Email'" class="col-lg-6 col-sm-6"
-            [propName]="'user_name'" (compValueChange)="valueChangeHandler($event)" [isrequire]=false></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Email'" class="col-lg-6 col-sm-6 required"
+            [propName]="'user_name'" (compValueChange)="valueChangeHandler($event)"  [errorMessage]="'Provide Email.'"
+            [isrequire]=true (customValidation)="customemailCheck($event)"
+            [showCustomError]="emailError" [condition]="customCond"></hmis-vertical-label-type>
 
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Password'" class="col-lg-6 col-sm-6"
-            [propName]="'password'" (compValueChange)="valueChangeHandler($event)" [isrequire]=false></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Password'" class="col-lg-6 col-sm-6 required"
+            [propName]="'password'" (compValueChange)="valueChangeHandler($event)"  [errorMessage]="'Provide Password.'"
+            [isrequire]=true     (customValidation)="custompasswordCheck($event)"
+            [showCustomError]="passwordError" [condition]="customCond"> 
+          </hmis-vertical-label-type>
         </div>
         &nbsp;
       </form>
@@ -36,6 +44,21 @@
               </div>
             </div>
           </div>
+        </div><br><br>
+
+        <div class="row" *ngIf="isviewmode">
+          <div class="col">
+            <h4>Selected roles</h4>
+          </div>
+    
+            <div class="col" >
+                <div class="permissiondropdownn">
+                  <div *ngFor="let role of roledropdownList">
+                    <input type="checkbox" disabled="disabled" [checked]="role.selected" (change)="onchangerole($event,role.value , role)">{{role?.label}}
+                  </div>
+                </div>
+              </div>
+            </div><br><br>
 
       <!-- <div class="col">
         <div class="roledropdown">
@@ -53,11 +76,11 @@
           </ng-multiselect-dropdown>
         </div>
       </div> -->
-    </div><br><br>
+    
 
     <div class="row">
       <div class="col-4">
-        <button *ngIf="showSubmitBtn" type="submit" class="btn btn-default btn-info" (click)="SubmitClickHandler()">{{submitBtnLabel}}</button>
+        <button *ngIf="showSubmitBtn" type="submit" class="btn btn-default btn-info" (click)="submitClickHandler()">{{submitBtnLabel}}</button>
 
       </div>
     </div>

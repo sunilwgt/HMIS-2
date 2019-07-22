@@ -18,7 +18,7 @@ export class SurgeryTypeComponent extends BaseComponent implements OnInit {
   private _apiSubscription: Subscription;
   constructor(baseService: BaseServices) {
     super(baseService);
-    this.defaultvalidation = true;
+    this.defaultvalidation = false;
   }
 
   hmisApiSubscribe(data: any): void {

@@ -3,14 +3,14 @@
     <div class="basic-form">
       <form name="building_form" novalidate="novalidate">
         <div class="row">
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Price Code'" class="col-lg-6 col-sm-6" [propName]="'price_code'"
-            (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Price Title'" class="col-lg-6 col-sm-6"
-            [propName]="'price_title'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Price Code'" class="col-lg-6 col-sm-6 required" [propName]="'price_code'"
+            (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Please Provide Price Code'" ></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Price Title'" class="col-lg-6 col-sm-6 required"
+            [propName]="'price_title'" (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Please Provide Price Title'" ></hmis-vertical-label-type>
           <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Description'" class="col-lg-6 col-sm-6"
             [propName]="'price_description'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Price'" class="col-lg-6 col-sm-6"
-            [propName]="'price'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type> 
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Price'" class="col-lg-6 col-sm-6 required"
+            [propName]="'price'" (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Please Provide Price'" ></hmis-vertical-label-type> 
         <!--   <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Actual cost ward medicine'" class="col-lg-6 col-sm-6"
             [propName]="'actual_cost_ward_medicine'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>   
           <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compnumber]" [labelname]="'Anaesthetic machine charge'" class="col-lg-6 col-sm-6"

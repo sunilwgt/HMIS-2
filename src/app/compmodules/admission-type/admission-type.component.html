@@ -4,10 +4,10 @@
       <form name="department_form" novalidate="novalidate">
         <div class="row">
 
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Admission type name'" class="col-lg-6 col-sm-6"
-            [propName]="'admission_type_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Admission type code'" class="col-lg-6 col-sm-6"
-            [propName]="'admission_type_code'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Admission type name'" class="col-lg-6 col-sm-6 required"
+            [propName]="'admission_type_name'" (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Please Provide Admission Type Name'"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Admission type code'" class="col-lg-6 col-sm-6 required"
+            [propName]="'admission_type_code'" (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Please Provide  Admission Type Code'"></hmis-vertical-label-type>
           <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Description'" class="col-lg-6 col-sm-6"
             [propName]="'admission_type_desc'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
           <div class="col-lg-6 col-sm-6">

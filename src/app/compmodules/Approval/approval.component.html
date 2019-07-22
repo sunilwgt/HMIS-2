@@ -5,11 +5,12 @@
             <form name="building_form" novalidate="novalidate">
                 <div class="row">
                     <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Approval Type'"
-                        class="col-12 col-sm-4 col-md-8 col-lg-8 col-xl-3" [propName]="'approval_status_type'"
-                        (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+                        class="col-12 col-sm-4 col-md-8 col-lg-8 col-xl-3 required" [propName]="'approval_status_type'"
+                        (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Please Provide Approval Type'" ></hmis-vertical-label-type>
+                       
                         <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Approval Status'"
-                        class="col-12 col-sm-4 col-md-8 col-lg-8 col-xl-3" [propName]="'approval_status_name'"
-                        (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+                        class="col-12 col-sm-4 col-md-8 col-lg-8 col-xl-3 required" [propName]="'approval_status_name'"
+                        (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Please Provide Approval Status'" ></hmis-vertical-label-type>
 
                     <!-- <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Approval Status'"
                         [selectOptions]="ActionList" [propName]="'approval_status_name'" (compValueChange)="valueChangeHandler($event)"

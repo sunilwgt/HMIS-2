@@ -151,9 +151,21 @@ export class UserListComponent extends BaseComponent implements OnInit {
   }
 
   reloadPatients(params) {
-    this.usersResource.query(params).then(users => this.users = users);
+    console.log('wel;')
+    this.usersResource.query(params).then(users => this.arrangeusersdata = users);
+    this.snackbar.open('Page Refreshed', 'Close',
+    {
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'right',
+    });
   }
+  
+  Refreshpage(){
+    console.log('wel;')
+    this.hmisApi.userSearch("");
 
+  }
 
   // special params:
   translations = <DataTableTranslations>{

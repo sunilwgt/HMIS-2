@@ -1,11 +1,11 @@
 <!--generic-popup [modalOption]="modaloption"></generic-popup-->
-<a href="#" class="btn btn-info" (click)="clickViewHandler()" tooltip="View" placement="top" show-delay="300">
+<a href="#" class="btn btn-info" *ngIf="viewDisable" (click)="clickViewHandler()" tooltip="View" placement="top" show-delay="300">
   <i class="fa fa-eye"></i>
   <span>
     <!-- <strong>View</strong> -->
   </span>
 </a>
-<a href="#" class="btn btn-success" (click)="clickEditHandler()" tooltip="Edit" placement="top" show-delay="300">
+<a href="#" class="btn btn-success" *ngIf="editDisable" (click)="clickEditHandler()" tooltip="Edit" placement="top" show-delay="300">
   <i class="fa fa-edit"></i>
   <span>
     <!-- <strong>Edit</strong> -->

@@ -20,6 +20,10 @@ import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 export class VerticalLabelTypeComponent implements OnInit, OnDestroy, OnChanges {
   mindate;
   maxdate;
+  maxdateforpcalender;
+  mindateforpcalender;
+  eventmindate;
+  eventmaxdate;
   @Input() data: Array<any> = [];
   @Input() templateid: string;
   @Input() labelname: string;
@@ -143,9 +147,11 @@ export class VerticalLabelTypeComponent implements OnInit, OnDestroy, OnChanges 
       } else {
         this._fieldState.currentstate = VALID_FIELD;
       }
-
+console.log('fieldstate' , this._fieldState)
       this.baseService.stateService.registerState(this._fieldState);
+
     }
+    
     if (this.selectOptions && this.selectOptions.length > 0) {
       this.compValue.fieldValue = 0;
     }
@@ -160,7 +166,6 @@ export class VerticalLabelTypeComponent implements OnInit, OnDestroy, OnChanges 
       }
     }
 
-
     if (this.state.currentstate === MODE_VIEW) {
       if (this.state.stateData[this._propName] !== undefined) {
         this.updateFieldValue(this.state.stateData);
@@ -170,7 +175,7 @@ export class VerticalLabelTypeComponent implements OnInit, OnDestroy, OnChanges 
     if (this.fieldValue && this.fieldValue.length) {
       this.compValue.fieldValue = this.fieldValue;
     }
-
+this.pcalenderdate()
   }
 
   ngOnChanges() {
@@ -190,7 +195,12 @@ export class VerticalLabelTypeComponent implements OnInit, OnDestroy, OnChanges 
     else if (this.templateid === GenericCompType[GenericCompType.Compdate]) {
       this.compValue.fieldValue = this.helperFunc.convertToDateString(statedata[this._propName]);
     }
+    else if (this.templateid === GenericCompType[GenericCompType.Compdatepast]) {
+      this.compValue.fieldValue = this.helperFunc.convertToDateString(statedata[this._propName]);
 
+    } else if (this.templateid === GenericCompType[GenericCompType.Compdatebetween]) {
+      this.compValue.fieldValue = this.helperFunc.convertToDateString(statedata[this._propName]);
+    }
     else if (this.templateid === GenericCompType[GenericCompType.Compbillselectrow]) {
 
     }
@@ -209,14 +219,67 @@ export class VerticalLabelTypeComponent implements OnInit, OnDestroy, OnChanges 
 
     }
   }
+  settimeinformat(e){
+    var da = new Date();
+    var h:any = da.getHours();
+    var m:any = da.getMinutes();
+    var s:any= da.getSeconds();
+    var hours:any = (h+24)%24; 
+    var mid='AM';
+    if(hours==0){ //At 00 hours we need to show 12 am
+      hours=12;
+      }
+      else if(hours>12)
+      {
+      hours=hours%12;
+      mid='PM';
+      }
+      if (hours < 10) {
+        hours = '0' + hours;
+      }
+      if (m < 10) {
+        m = '0' + m;
+      }
+      if (s < 10) {
+        s = '0' + s;
+      }
 
+      let finaltime =  hours+":" + m +":" + s + " "+ mid
+      console.log('hours' , hours+":" + m +":" + s + " "+ mid)
+
+      return finaltime
+   
+
+
+  }
 
   private onModelChange(evt: any, item: any = null) {
+    console.log('odate' , evt)
     if (this.templateid === GenericCompType[GenericCompType.Compdate]) {
       evt = this.helperFunc.convertDateToString(evt);
+      console.log('evt date' , evt)
+
       this.compDataInfo.extraprops = {
         calculatedAge: this.helperFunc.getCalculatedAge(evt)
       }
+    }
+    if (this.templateid === GenericCompType[GenericCompType.pdatewithtime]) {
+     let time =  this.settimeinformat(evt);
+      let a = this.helperFunc.convertDateToString(evt);
+evt = a + " " + time
+       console.log('evt pdate' , evt)
+      
+      // this.compDataInfo.extraprops = {
+      //   calculatedAge: this.helperFunc.getCalculatedAge(evt)
+      // }
+    }
+    if (this.templateid === GenericCompType[GenericCompType.Compdatepast]) {
+      console.log('evt' , evt , this.mindate , this.maxdate);
+      this.setmaxdate(evt , this.mindate , this.maxdate)
+      // evt = this.helperFunc.convertDateToString(evt);
+      // this.compDataInfo.extraprops = {
+      //   calculatedAge: this.helperFunc.getCalculatedAge(evt)
+      // }
     }
     if (item != null) {
       this.priceCompValueInfo.label = item.label;
@@ -355,5 +418,79 @@ export class VerticalLabelTypeComponent implements OnInit, OnDestroy, OnChanges 
     const max = maxyear + '-' + m + '-' + day;
     this.mindate = min;
     this.maxdate = max;
+    console.log('mindate' , this.mindate , this.maxdate)
+
+  }
+
+  setmaxdate(e , mind ,maxd){
+    const eventdate = new Date(e);
+    console.log('date' , eventdate)
+    let day: any = eventdate.getDate();
+    let m: any = eventdate.getMonth() + 1;
+    let y = eventdate.getFullYear();
+    if (m < 10) {
+      m = '0' + m;
+    }
+    if (day < 10) {
+      day = '0' + day;
+    }
+
+    // const maxyear = (y + 50);
+    const min = mind
+    const max = y + '-' + m + '-' + day;
+    this.eventmindate = min;
+    this.eventmaxdate = max;
+    console.log('eventmindate' , this.eventmindate , this.eventmaxdate)
+    var input = document.getElementById("Compdatebetween");
+    console.log('input' , input)
+    input.setAttribute("min", this.eventmindate);
+    input.setAttribute("max", this.eventmaxdate);
+
+  }
+
+
+
+
+  pcalenderdate() {
+    // const date = new Date();
+    // let day: any = date.getDate();
+    // let m: any = date.getMonth() + 1;
+    // let y = date.getFullYear();
+    // if (m < 10) {
+    //   m = '0' + m;
+    // }
+    // if (day < 10) {
+    //   day = '0' + day;
+    // }
+    // const maxyear = (y + 50);
+    // const min = y + '-' + m + '-' + day;
+    // const max = maxyear + '-' + m + '-' + day;
+    // this.mindateforpcalender = min;
+    // this.maxdateforpcalender = max;
+    
+    // console.log('maxdate p calender' , this.maxdateforpcalender , this.mindateforpcalender)
+  }
+
+  afunc(){
+    
+    let date = new Date();
+    let day: any = date.getDate();
+    let m: any = date.getMonth() + 1;
+    let y = date.getFullYear();
+    if (m < 10) {
+      m = '0' + m;
+    }
+    if (day < 10) {
+      day = '0' + day;
+    }
+    const maxyear = (y + 50);
+    const min = y + '-' + m + '-' + day;
+    const max = maxyear + '-' + m + '-' + day;
+    this.mindateforpcalender = min;
+    this.maxdateforpcalender = max;
+    
+    console.log('maxdate p calender' , this.maxdateforpcalender , this.mindateforpcalender)
+    
+    console.log('maxdate' , this.maxdateforpcalender)
   }
 }

@@ -21,7 +21,7 @@ export class ApproverComponent extends BaseComponent implements OnInit {
 
   constructor(baseService: BaseServices) {
     super(baseService);
-    this.defaultvalidation = true;
+    this.defaultvalidation = false;
     this.hmisApi.getapproverSelect("");
   }
 

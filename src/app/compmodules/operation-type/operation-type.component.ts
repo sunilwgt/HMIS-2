@@ -16,7 +16,7 @@ export class OperationTypeComponent extends BaseComponent implements OnInit {
 
   constructor(baseService: BaseServices) {
     super(baseService);
-    this.defaultvalidation = true;
+    this.defaultvalidation = false;
   }
 
   hmisApiSubscribe(data: any): void {
@@ -46,6 +46,11 @@ export class OperationTypeComponent extends BaseComponent implements OnInit {
   }
 
   invokeEditFunction(): void {
+console.log('id' , this.compData.ID)
+console.log('compdata' , this.compData)
+
+
+
     this.hmisApi.setOperationTypeAsPerId(this.compData.ID, this.compData);
   }
 }

@@ -156,16 +156,8 @@
     }
 }
 
-.required {
-    .form-group {
-        &>label {
-            &::after {
-                content: "*";
-                color: red;
-            }
-        }
-    }
-}
+
+
 
 .no_lb {
     margin-top: 35px;
@@ -226,3 +218,20 @@
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
 }
+
+
+.required {
+    .form-group {
+        &>label {
+            &::after {
+                content: "*";
+                color: red;
+            }
+        }
+    }
+}
+
+
+
+
+

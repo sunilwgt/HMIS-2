@@ -26,8 +26,8 @@
     <div class="row">
       <div class="col-md-6">
         <div class="roledropdown">
-            <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Permission Name'" class="col-lg-6 col-sm-6"
-            [propName]="'access_area'" (compValueChange)="valueChangeHandler($event)" [isrequire]=false></hmis-vertical-label-type>
+            <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Permission Name'" class="col-lg-6 col-sm-6 required"
+            [propName]="'access_area'" [isrequire]=true [errorMessage]="'Please Permission  Name'"  (compValueChange)="valueChangeHandler($event)" [isrequire]=false></hmis-vertical-label-type>
         </div>
       </div>
       <div class="col-md-6">
@@ -42,7 +42,7 @@
 
     <div class="row">
       <div class="col-4">
-        <button *ngIf="showSubmitBtn" type="submit" class="btn btn-default btn-info" (click)="SubmitClickHandler()">{{submitBtnLabel}}</button>
+        <button *ngIf="showSubmitBtn" type="submit" class="btn btn-default btn-info" (click)="submitClickHandler()">{{submitBtnLabel}}</button>
 
       </div>
     </div>

@@ -3,6 +3,7 @@ import { BaseComponent } from '../../../utils/base.component';
 import { BaseServices } from '../../../utils/base.service';
 import { DataTableResource, DataTableTranslations } from 'angular5-data-table';
 import { RESULT_TYPE_GET_HOSPITAL_DETAIL_LIST, MODE_EDIT, MODE_VIEW, MODE_DELETE, ActionType, RL_HOSPITAL_DETAILS, RESULT_TYPE_DELETE_HOSPITAL_DETAIL } from '../../../models/common';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-hospital-details-list',
@@ -15,7 +16,7 @@ export class HospitalDetailsListComponent extends BaseComponent implements OnIni
   private hospitalSettingsResource = new DataTableResource([]);
   private hospitalSettingsCount = 0;
 
-  constructor(baseService: BaseServices) {
+  constructor(baseService: BaseServices , private snackbar:MatSnackBar) {
     super(baseService);
     this.hmisApi.getHospitalSettings("");
   }
@@ -37,6 +38,12 @@ export class HospitalDetailsListComponent extends BaseComponent implements OnIni
 
   reloadHospitalDetails(params) {
     this.hospitalSettingsResource.query(params).then(dtypes => this.hospitalSettings = dtypes);
+    this.snackbar.open('Page Refreshed', 'Close',
+    {
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'right',
+    });
   }
 
   // special params:

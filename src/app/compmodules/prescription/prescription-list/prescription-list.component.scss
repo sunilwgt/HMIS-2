@@ -144,3 +144,15 @@
   :host /deep/ .data-table .data-table-row.selected {
       background-color: #E4EDF9;
   }
+
+
+  .required {
+    .form-group {
+        &>label {
+            &::after {
+                content: "*";
+                color: red;
+            }
+        }
+    }
+}

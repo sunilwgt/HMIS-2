@@ -58,7 +58,7 @@ import {
   RL_PRESCRIPTION_LIST, RL_PRESCRIPTION, RL_WARD_TYPE_MODAL, RL_FORGET_PASSWORD_MODAL, RL_OT, RL_OT_LIST,
   RL_DISCHARGE_CERTIFICATE, RL_DISCHARGE_CERTIFICATE_LIST, RL_SAVE_MESSAGE_MODAL, RL_HOSPITAL_DETAILS_LIST,
   RL_DOCTOR_LIST, RL_WARD_LIST, RL_WARD, RL_BED_LIST, RL_OT_TYPE_LIST, RL_BED, RL_OT_TYPE, RL_NEW_BORN_LIST,
-  RL_NEW_BORN, RL_ADMISSION_CONFIRMATION_MODAL, RL_PRICE, RL_PRICE_LIST, RL_DELETE_CONFIRMATION_MODAL, RL_DISCHARGE_MODAL, RL_BILLING_PREVIEW, RL_APPROVER, RL_APPROVER_LIST, RL_APPROVAL, RL_APPROVAL_LIST, RL_APPROVAL_DASHBOARD, RL_APPROVAL_DASHBOARD_LIST, RL_APPROVED_LIST, RL_REJECTED_LIST, RL_DOCUMENT, RL_SCHEDULING_LIST, RL_SCHEDULING, RL_USERTYPE_LIST, RL_USERTYPE, RL_USER, RL_USER_LIST, RL_PERMISSION, RL_PERMISSION_LIST, RL_ASSIGN_PERMISSION, RL_ASSIGN_PERMISSION_LIST
+  RL_NEW_BORN, RL_ADMISSION_CONFIRMATION_MODAL, RL_PRICE, RL_PRICE_LIST, RL_DELETE_CONFIRMATION_MODAL, RL_DISCHARGE_MODAL, RL_BILLING_PREVIEW, RL_APPROVER, RL_APPROVER_LIST, RL_APPROVAL, RL_APPROVAL_LIST, RL_APPROVAL_DASHBOARD, RL_APPROVAL_DASHBOARD_LIST, RL_APPROVED_LIST, RL_REJECTED_LIST, RL_DOCUMENT, RL_SCHEDULING_LIST, RL_SCHEDULING, RL_USERTYPE_LIST, RL_USERTYPE, RL_USER, RL_USER_LIST, RL_PERMISSION, RL_PERMISSION_LIST, RL_ASSIGN_PERMISSION, RL_ASSIGN_PERMISSION_LIST, RL_DASHBOARD
 
 } from '../models/common';
 import { ConfirmationModal } from '../compmodules/registration/confirmation-modal.component';
@@ -153,6 +153,12 @@ export class MenuService implements OnInit {
 
   public getPopupMenuItems(): Array<ComponentInfo> {
     return [
+      {
+        compName: ComponentModule[ComponentModule.DashboardComponent],
+        compId: ComponentModule.DashboardComponent,
+        comp: new ComponentRef(DashboardComponent),
+        routeLink: RL_DASHBOARD,
+      },
       {
         compName: ComponentModule[ComponentModule.DepartmentModule],
         compId: ComponentModule.DepartmentModule,
@@ -491,7 +497,7 @@ export class MenuService implements OnInit {
   getrolebasedmenuitem(): Array<MenuItem> {
     return [
       {
-        name: "Dashboard", permissionname: 'OPD-PRIVILAGED', menuid: 1, hasPermission: true,
+        name: "Dashboard", permissionname: 'Dashboard-Executive', menuid: 1, hasPermission: true,
         hasSubmenu: false, hasSubmenuPermission: true, iconClass: "dashboard", compInfo: this.getCompInfoAsPerId(ComponentModule.DashboardComponent)
       },
       {
@@ -535,7 +541,7 @@ export class MenuService implements OnInit {
             name: "New Born", permissionname: '', menuid: 4.3, compInfo: this.getCompInfoAsPerId(ComponentModule.NewBornListModule), routeLink: RL_NEW_BORN_LIST
           },
           {
-            name: "OT", permissionname: '', menuid: 4.4, compInfo: this.getCompInfoAsPerId(ComponentModule.OtListModule), routeLink: RL_OT
+            name: "OT", permissionname: '', menuid: 4.4, compInfo: this.getCompInfoAsPerId(ComponentModule.OtListModule), routeLink: RL_OT_LIST
           },
           {
             name: "Discharge Certificate", permissionname: '', menuid: 4.5, compInfo: this.getCompInfoAsPerId(ComponentModule.DischargeCertificateListModule), routeLink: RL_DISCHARGE_CERTIFICATE_LIST
@@ -567,9 +573,9 @@ export class MenuService implements OnInit {
         name: "Document Repository", permissionname: '', menuid: 5.1, iconClass: "document-repo", compInfo: this.getCompInfoAsPerId(ComponentModule.DocumentListModule), routeLink: RL_DOCUMENT
       },
 
-      {
-        name: "Users", permissionname: '', menuid: 6, hasPermission: true, iconClass: "user"
-      },
+      // {
+      //   name: "Users", permissionname: '', menuid: 6, hasPermission: true, iconClass: "user"
+      // },
       {
         name: "Billing p", permissionname: 'BillingDesk-Privileged', menuid: 7, hasPermission: true, iconClass: "billing", compInfo: this.getCompInfoAsPerId(ComponentModule.BillingListModule), routeLink: RL_BILLING_LIST
       },
@@ -582,8 +588,8 @@ export class MenuService implements OnInit {
           {
             name: "Hospital", permissionname: '', menuid: 8.1, hasSubmenu: true,
             submenus: [
-              { name: "Hospital Settings", permissionname: '', menuid: 8.11, compInfo: this.getCompInfoAsPerId(ComponentModule.HospitalDetailsModule), isPopup: true, routeLink: RL_HOSPITAL_DETAILS },
-              { name: "Licence Renewal", permissionname: '', menuid: 8.12, compInfo: this.getCompInfoAsPerId(ComponentModule.LicenceListModule), routeLink: RL_LICENCE_LIST }
+              { name: "Hospital Settings", permissionname: '', menuid: 8.11, compInfo: this.getCompInfoAsPerId(ComponentModule.HospitalDetailsListModule),  routeLink: RL_HOSPITAL_DETAILS_LIST },
+              { name: "Licence Reminder", permissionname: '', menuid: 8.12, compInfo: this.getCompInfoAsPerId(ComponentModule.LicenceListModule), routeLink: RL_LICENCE_LIST }
             ]
           },
           {
@@ -641,7 +647,7 @@ export class MenuService implements OnInit {
         ]
       },
       {
-        name: "Users Management E", permissionname: 'UserManagement-Executive', menuid: 9, hasSubmenu: true,
+        name: "Users Management E", permissionname: 'UserManagement-Executive', menuid: 9, hasSubmenu: true, iconClass:'user',
         submenus: [
           { name: "Roles", permissionname: '', menuid: 9.1, compInfo: this.getCompInfoAsPerId(ComponentModule.UserTypeListModule), isPopup: false, routeLink: RL_USERTYPE_LIST },
           // { name: "Permissions", permissionname: '', menuid: 9.2, compInfo: this.getCompInfoAsPerId(ComponentModule.PermissionListModule), isPopup: false, routeLink: RL_PERMISSION_LIST },
@@ -655,7 +661,7 @@ export class MenuService implements OnInit {
         ]
       },
       {
-        name: "Users Management P", permissionname: 'UserManagement-Privileged', menuid: 9, hasSubmenu: true,
+        name: "Users Management P", permissionname: 'UserManagement-Privileged', menuid: 9, hasSubmenu: true,iconClass:'user',
         submenus: [
           { name: "Roles", permissionname: '', menuid: 9.1, compInfo: this.getCompInfoAsPerId(ComponentModule.UserTypeListModule), isPopup: false, routeLink: RL_USERTYPE_LIST },
           { name: "Permissions", permissionname: '', menuid: 9.2, compInfo: this.getCompInfoAsPerId(ComponentModule.PermissionListModule), isPopup: false, routeLink: RL_PERMISSION_LIST },
@@ -867,7 +873,7 @@ export class MenuService implements OnInit {
               name: "Hospital", permissionname: '', menuid: 8.1, hasSubmenu: true,
               submenus: [
                 { name: "Hospital Settings", permissionname: '', menuid: 8.11, compInfo: this.getCompInfoAsPerId(ComponentModule.HospitalDetailsModule), isPopup: true, routeLink: RL_HOSPITAL_DETAILS },
-                { name: "Licence Renewal", permissionname: '', menuid: 8.12, compInfo: this.getCompInfoAsPerId(ComponentModule.LicenceListModule), routeLink: RL_LICENCE_LIST }
+                { name: "Licence Reminder", permissionname: '', menuid: 8.12, compInfo: this.getCompInfoAsPerId(ComponentModule.LicenceListModule), routeLink: RL_LICENCE_LIST }
               ]
             },
             {
@@ -914,7 +920,7 @@ export class MenuService implements OnInit {
           ]
         },
         {
-          name: "Users Management", permissionname: 'BILLING-PRIVILAGED', menuid: 9, hasSubmenu: true,
+          name: "Users Management", permissionname: 'BILLING-PRIVILAGED', menuid: 9, hasSubmenu: true,iconClass: "user",
           submenus: [
             { name: "Roles", permissionname: '', menuid: 9.1, compInfo: this.getCompInfoAsPerId(ComponentModule.UserTypeListModule), isPopup: false, routeLink: RL_USERTYPE_LIST },
             { name: "Permissions", permissionname: '', menuid: 9.2, compInfo: this.getCompInfoAsPerId(ComponentModule.PermissionListModule), isPopup: false, routeLink: RL_PERMISSION_LIST },
@@ -1130,7 +1136,7 @@ export class MenuService implements OnInit {
       {
         compName: ComponentModule[ComponentModule.DashboardComponent],
         compId: ComponentModule.DashboardComponent,
-        comp: new ComponentRef(DashboardComponent)
+        comp: new ComponentRef(DashboardComponent),
       },
       {
         compName: ComponentModule[ComponentModule.BillingListModule],

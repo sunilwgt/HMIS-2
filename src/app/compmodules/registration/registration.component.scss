@@ -1,3 +1,12 @@
+
+// .agefield{
+//     height:15%;
+//     width:15%;
+// }
+
+// .ageinputfield{
+//     height: 50%
+// }
 @media screen and (min-width:768px) {
     .modal-lg {
         max-width: calc(100% - 30%) !important
@@ -140,6 +149,16 @@
                 }    
             }
 
+        }
+    }
+}
+.required {
+    .form-group {
+        &>label {
+            &::after {
+                content: "*";
+                color: red;
+            }
         }
     }
 }

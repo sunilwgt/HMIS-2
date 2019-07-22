@@ -48,6 +48,7 @@ export class UsertypeComponent extends BaseComponent implements OnInit {
   constructor(baseService: BaseServices, private _errorService: ErrorService, private el: ElementRef
   ) {
     super(baseService);
+    this.defaultvalidation = false;
     // this.showNav[0] = true;
     //this.hmisApi.getDoctor();
     // this.hmisApi.getDoctorListSearch("");
@@ -102,7 +103,17 @@ export class UsertypeComponent extends BaseComponent implements OnInit {
       this.compData = new UserType();
     }
   }
-  SubmitClickHandler() {
+  // SubmitClickHandler() {
+  //   if (this.state.currentstate === MODE_ADD) {
+  //     this.usertypeModel.role_name = this.compData.role_name;
+  //     this.usertypeModel.role_description = this.compData.role_description;
+  //     this.usertypeModel.created_by = this.hmisApi.userDetail.created_by;
+  //     this.usertypeModel.modified_by = this.hmisApi.userDetail.modified_by;
+  //     this.hmisApi.setUserType(this.usertypeModel);
+  //   }
+  // }
+
+  invokeAddFunction(): void {
     if (this.state.currentstate === MODE_ADD) {
       this.usertypeModel.role_name = this.compData.role_name;
       this.usertypeModel.role_description = this.compData.role_description;
@@ -110,16 +121,6 @@ export class UsertypeComponent extends BaseComponent implements OnInit {
       this.usertypeModel.modified_by = this.hmisApi.userDetail.modified_by;
       this.hmisApi.setUserType(this.usertypeModel);
     }
-  }
-
-  invokeAddFunction(): void {
-    console.log('compdata', this.compData);
-    //this.setExtnData();
-    // this.compData.patient_age = "27";
-    // this.compData.patient_age_unit = "month";
-    //console.log(this.compData);
-    //console.log("compdata ", this.compData);
-    // this.hmisApi.setPatient(this.compData);
   }
 
   invokeEditFunction(): void {

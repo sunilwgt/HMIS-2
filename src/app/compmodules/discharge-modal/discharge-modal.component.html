@@ -5,10 +5,10 @@
         <div class="row">
 
           <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compdatepast]" [labelname]="'Discharge Date'" class="col-md-6" [propName]="'discharge_date'"
-            (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+            (compValueChange)="valueChangeHandler($event)" class="col-md-6 col-xl-6 col-sm-12 required" [isrequire]=true [errorMessage]="'Please Select Discharge Date'" ></hmis-vertical-label-type>
 
           <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="dischargeTypeOption" [labelname]="'Discharge Type'"
-            class="col-md-6" [propName]="'discharge_type'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+            class="col-md-6 col-xl-6 col-sm-12 required" [propName]="'discharge_type'" (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Please Select Discharge Type Option'"></hmis-vertical-label-type>
 
           <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Discharge Instruction'" class="col-md-12"
             [propName]="'discharge_instruction'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>

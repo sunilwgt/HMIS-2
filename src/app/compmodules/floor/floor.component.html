@@ -3,11 +3,13 @@
     <div class="basic-form">
       <form name="department_form" novalidate="novalidate">
         <div class="row">
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Floor name'" class="col-lg-6 col-sm-6" [propName]="'floor_name'"
-            (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
-          <hmis-vertical-label-type [selectOptions]="buildingOptions" [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Select building'"
-            class="col-lg-6 col-sm-6 required" [propName]="'building_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Description'" class="col-lg-6 col-sm-6"
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Floor name'" class="col-lg-6 col-sm-6 required" [propName]="'floor_name'"
+            (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Please Provide Floor Name'" ></hmis-vertical-label-type>
+         
+            <hmis-vertical-label-type [selectOptions]="buildingOptions" [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Select building'"
+            class="col-lg-6 col-sm-6 required" [propName]="'building_id'"  [isrequire]=true [errorMessage]="'Please Select Building '"  (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+        
+            <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Description'" class="col-lg-6 col-sm-6"
             [propName]="'Description'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
           <div class="col-lg-6 col-sm-6">
             <div class="add_department">

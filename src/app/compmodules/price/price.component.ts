@@ -14,7 +14,7 @@ export class PriceComponent extends BaseComponent implements OnInit {
   selectedPackage:any;
   constructor(baseService: BaseServices) {
     super(baseService);
-    this.defaultvalidation = true;
+    this.defaultvalidation = false;
   }
   hmisApiSubscribe(data: any): void {
     if (data.resulttype === RESULT_TYPE_SET_PRICE) {

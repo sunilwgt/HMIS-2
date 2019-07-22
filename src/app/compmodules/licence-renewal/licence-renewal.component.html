@@ -4,20 +4,23 @@
   </div>
   <form>
       <div class="row basic-form"> 
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Reminder name'" class="col-lg-6 col-sm-6"
-            [propName]="''" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Reminder name'" class="col-lg-6 col-sm-6 required"
+            [propName]="'reminder_name'"  [isrequire]=true [errorMessage]="'Please Select reminder name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
 
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compdate]" [labelname]="'Due date'" class="col-lg-6 col-sm-6"
-            [propName]="''" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compdatepast]" [labelname]="'Due date'" class="col-lg-6 col-sm-6 required"
+            [propName]="'due_date'" [isrequire]=true [errorMessage]="'Please Select due date'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
             
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compdate]" [labelname]="'Reminder start date'" class="col-lg-6 col-sm-6"
-            [propName]="''" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
-            
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compdatebetween]" [labelname]="'Reminder start date'" class="col-lg-6 col-sm-6 required"
+            [propName]="'reminder_start_date'" [isrequire]=true [errorMessage]="'Please Select reminder start date'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
+            <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Notes'"
+            class="col-md-12" [propName]="'reminder_notes'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+
           <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compfiletwo]" [labelname]="'Upload an image'" class="col-lg-6 col-sm-6"
-            [propName]="''" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>  
+            [propName]="'upload_image'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>  
 
                  
       </div>
-      <button type="submit" class="btn btn-info">Save</button>
+      <button type="submit" class="btn btn-info"  (click)="submitClickHandler()">Save</button>
   </form>
 </div>

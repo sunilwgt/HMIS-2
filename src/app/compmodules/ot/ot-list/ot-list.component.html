@@ -72,50 +72,77 @@
             <!-- <data-table-column [property]="'patient_registration_no'" [header]="'Reg No'" [sortable]="true" [resizable]=true
                 [width]="150">
             </data-table-column> -->
+            <data-table-column [property]="'$id'" [header]="'Seq.'" [sortable]="true"  [width]=80>
+            </data-table-column>
 
-
-            <data-table-column [width]="150" [sortable]="true" [resizable]=true>
-                <ng-template #dataTableHeader let-item="item" >
+            <data-table-column [width]="150" [sortable]="true" [resizable]=true [property]="'patient_registration_no'"  [header]="'Reg Seq.'">
+                <!-- <ng-template #dataTableHeader let-item="item">
                     Reg No.
-                </ng-template>
-                <ng-template #dataTableCell let-item="item">
-                    <a href="/" onclick="return false;"
-                        (click)="ongridclick1($event , item , content1)">{{item.patient_registration_no}}</a>
-                </ng-template>
+                </ng-template> -->
+                <!-- <ng-template #dataTableCell let-item="item" >
+                    <a href="/" onclick="return false;" (click)="ongridclick1($event , item , content1)">{{item.patient_registration_no}}</a>
+                </ng-template> -->
 
             </data-table-column>
 
-            <data-table-column [width]="150" [sortable]="true" [resizable]=true>
-                <ng-template #dataTableHeader let-item="item" >
-                   Admission No.
-                </ng-template>
-                <ng-template #dataTableCell let-item="item">
-                    <a href="/" onclick="return false;"
-                        (click)="ongridclick1($event , item , content1)">{{item.admission_sequence}}</a>
-                </ng-template>
+            <data-table-column [width]="130" [sortable]="true" [resizable]=true [property]="'admission_sequence'"  [header]="'Adm Seq.'">
+                <!-- <ng-template #dataTableHeader let-item="item">
+                    Admission No.
+                </ng-template> -->
+                <!-- <ng-template #dataTableCell let-item="item">
+                    <a href="/" onclick="return false;" (click)="ongridclick1($event , item , content1)">{{item.admission_sequence}}</a>
+                </ng-template> -->
 
             </data-table-column>
-             <data-table-column [width]="150" [sortable]="true" [resizable]=true>
-                <ng-template #dataTableHeader let-item="item" >
+            <data-table-column [width]="130" [sortable]="true" [resizable]=true  [property]="'ot_sequence'"  [header]="'Ot Seq.'">
+                <!-- <ng-template #dataTableHeader let-item="item">
                     OT No.
-                </ng-template>
-                <ng-template #dataTableCell let-item="item">
-                    <a href="/" onclick="return false;"
-                        (click)="ongridclick1($event , item , content1)">{{item.patient_registration_no}}</a>
-                </ng-template>
+                </ng-template> -->
+                <!-- <ng-template #dataTableCell let-item="item">
+                    <a href="/" onclick="return false;" (click)="ongridclick1($event , item , content1)">{{item.ot_sequence}}</a>
+                </ng-template> -->
 
             </data-table-column>
 
             <data-table-column [property]="'patient_name'" [header]="'Patient name'" [sortable]="true" [resizable]=true
-                [width]="180">
+                [width]="130">
             </data-table-column>
-            <data-table-column [property]="'operation_date'" [header]="'OT Date'" [sortable]="true" [resizable]=true
+            <data-table-column [property]="'operation_datetime'" [header]="'OT Date'" [sortable]="true" [resizable]=true
                 [width]="120">
             </data-table-column>
-            <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true" [resizable]=true [width]="250">
+
+            
+            <data-table-column [property]="'action'" [header]="'Discharge'" [sortable]="true" [resizable]=true [width]="100">
                 <ng-template #dataTableCell let-item="item">
-                    <hmis-generic-action [DischargeBedDisable]="false" [emergencyDisable]="false" [itemdata]=item
+                    <hmis-generic-action [DischargeBedDisable]="false" [viewDisable]="false"  [editDisable]="false" [deleteDisable]="false" [emergencyDisable]="true" [itemdata]=item
                         (clickHandler)="clickEventHandler($event)"></hmis-generic-action>
+                </ng-template>
+            </data-table-column>
+
+            <data-table-column *ngIf="!isreadonly" [property]="'action'" [header]="'Action'" [sortable]="false"
+                [resizable]=true [width]="120">
+                <ng-template #dataTableCell let-item="item">
+
+
+                    <nav class="navbar navbar-default">
+                     <div class="container-fluid">
+                            <div class="navbar-header">
+                                <div class="dropdown">
+                                    <div class="test">
+                                        <div class="dropdown-content">
+                                            <a href="#" (click)="ClickEventHandler($event , 'modeView' , item)"><i
+                                                    class="fa fa-eye"></i>&nbsp;&nbsp;View</a>
+                                            <a href="#" (click)="ClickEventHandler($event ,'modeEdit' , item)"> <i
+                                                    class="fa fa-edit"></i>&nbsp;&nbsp;Edit </a>
+                                            <a href="#" (click)="ClickEventHandler($event , 'modeDelete' , item)"> <i
+                                                    class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
                 </ng-template>
             </data-table-column>
         </data-table>
@@ -123,7 +150,7 @@
 </div>
 
 
-
+<!-- 
 <ng-template #content1 let-modal>
     <div class="modal-header" style="background-color: rgba(26, 82, 146, 0.856)">
         <h4 class="modal-title" id="modal-basic-title" style="color:rgb(4, 4, 26);">OT INFORMATION</h4>
@@ -344,4 +371,4 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-outline-dark" (click)="closemodal('Save click')">Close</button>
     </div>
-</ng-template>
+</ng-template> -->

@@ -288,6 +288,13 @@ export class NewBorn {
     }
 }
 
+export class Liscence {
+    constructor() {
+
+    }
+}
+
+
 export class DischargeTypeOption extends Option {
     constructor() {
         super();

@@ -7,6 +7,8 @@ import { BaseServices } from '../../utils/base.service';
 import { State } from '../../models/state';
 import { ISelectOption } from '../../interfaces/ISelectOption';
 import { patientListOption } from '../../models/patient';
+import * as _ from 'lodash';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'hmis-disease-type',
@@ -21,9 +23,9 @@ export class DiseaseTypeComponent extends BaseComponent implements OnInit {
   private patientData:any = [];
   private patientList:any = [];
 
-  constructor(baseService: BaseServices) {
+  constructor(baseService: BaseServices , private snackbar:MatSnackBar) {
     super(baseService);
-    this.defaultvalidation = true;
+    this.defaultvalidation = false;
   }
 
   hmisApiSubscribe(data: any): void {
@@ -34,11 +36,23 @@ export class DiseaseTypeComponent extends BaseComponent implements OnInit {
       this.compLoadManager.redirect(RL_DISEASE_LIST);
       this.hmisApi.getDiseaseTypeSerach("");
       this.compLoadManager.closePopup();
+      this.snackbar.open('Disease type Added Successfully', 'Close',
+      {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right',
+      });
     }
     if (data.resulttype === RESULT_TYPE_EDIT_DISEASE_TYPE) {
       this.compLoadManager.redirect(RL_DISEASE_LIST);
       this.hmisApi.getDiseaseTypeSerach("");
       this.compLoadManager.closePopup();
+      this.snackbar.open('Disease type Updated Successfully', 'Close',
+      {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right',
+      });
     }
   }
 
@@ -64,9 +78,37 @@ export class DiseaseTypeComponent extends BaseComponent implements OnInit {
  
 
   invokeAddFunction(): void {
+const dtypestring  = new String(this.compData.decease_type_name);
+const dtypedesc  = new String(this.compData.description);
+
+if (dtypestring.length < 2|| dtypedesc.length < 2){
+  const  diseasetypename  = this.isAlphanumericname(this.compData.decease_type_name)
+  const diseasetypdesc  = this.isAlphanumericnamedesc(this.compData.decease_type_name)
+  if (diseasetypename === true && diseasetypdesc === true){
     this.hmisApi.setDiseaseType(this.compData);
+  }else{
+
+    this.snackbar.open('Enter Proper values ', 'Close',
+    {
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'right',
+    });
+  }
+}else {
+  this.hmisApi.setDiseaseType(this.compData);
+}
+
   }
 
+
+ isAlphanumericname(char) {
+    return "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(char) > -1;
+}
+
+isAlphanumericnamedesc(char) {
+  return "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(char) > -1;
+}
   invokeEditFunction(): void {
     this.hmisApi.setDiseaseTypeAsPerId(this.compData.ID, this.compData);
   }

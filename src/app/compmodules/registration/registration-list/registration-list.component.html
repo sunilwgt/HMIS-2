@@ -6,13 +6,13 @@
 
     <data-table id="patients-grid" headerTitle="" [items]="arrrangedpatientdata" [itemCount]="patientCount" (reload)="reloadPatients($event)"
         [limit]="15" [sortAsc]="false" [selectColumn]="true" [multiSelect]="true" [substituteRows]="false"
-        [expandableRows]="false" [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
+        [expandableRows]="false" [translations]="translations" [indexColumn]="false" [selectOnRowClick]="false">
         <data-table-column [property]="'$id'" [header]="'Seq.'" [resizable]=true [width]="50">
         </data-table-column>
-        <data-table-column [width]="80">
-            <ng-template #dataTableHeader let-item="item">
+        <data-table-column [width]="80" [property]="'patient_registration_no'" [header]="'Reg no.'">
+            <!-- <ng-template #dataTableHeader let-item="item">
                 Reg No.
-            </ng-template>
+            </ng-template> -->
             <ng-template #dataTableCell let-item="item">
                 <a href="/" onclick="return false;" (click)="ongridclick($event , item , content)">{{item.patient_registration_no}}</a>
             </ng-template>

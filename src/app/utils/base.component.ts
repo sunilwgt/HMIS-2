@@ -5,10 +5,11 @@ import { StateService } from "../services/state.service";
 import { CommonService } from "../services/common.service";
 import { CompLoadManagerService } from "./computils/comp-load-manager.service";
 import { State, RegisterState } from "../models/state";
-import { MODE_STATE, MODE_EDIT, MODE_VIEW, MODE_ADD, ACTION_BUTTON_STATE, ADD, EDIT, MODE_OTHERS, VALIDATE_FIELD_STATE, VALID_FIELD, ADMISSION_MODAL_ID_STATE, DISCHARGE } from "../models/common";
+import { MODE_STATE, MODE_EDIT, MODE_VIEW, MODE_ADD, ACTION_BUTTON_STATE, ADD, EDIT, MODE_OTHERS, VALIDATE_FIELD_STATE, VALID_FIELD, ADMISSION_MODAL_ID_STATE, DISCHARGE, MODE_ADD_WITH_PREVALUES } from "../models/common";
 import { CompDataInfo } from "../models/registration";
 import { GenericCompType } from "../enums/generic-comp-type.enum";
 import { Subscription } from 'rxjs/Subscription';
+import { CompData } from "../models/compinfo";
 
 
 
@@ -85,7 +86,8 @@ export class BaseComponent implements OnDestroy {
   protected updateDataForEVMode(): void {
     if (this.state.currentstate === MODE_EDIT || this.state.currentstate === MODE_VIEW) {
       this.compData = this.state.stateData;
-    } else {
+    }  
+    else {
       this.initialState();
     }
     this.changeSubmitBtnProp(this.state.currentstate);
@@ -110,6 +112,7 @@ export class BaseComponent implements OnDestroy {
   }
 
   protected submitClickHandler(): void {
+    console.log('enter submit' , this.state.currentstate)
     if (this.validateSubmitHandler()) {
       switch (this.state.currentstate) {
         case MODE_ADD:
@@ -120,6 +123,9 @@ export class BaseComponent implements OnDestroy {
           break;
         case MODE_OTHERS:
           this.invokeOtherFunction();
+          break;
+          case MODE_ADD_WITH_PREVALUES:
+          this.invokeAddFunction();
           break;
       }
     }
@@ -135,14 +141,21 @@ export class BaseComponent implements OnDestroy {
   }
 
   protected validateSubmitHandler(): boolean {
+    console.log('defaultvalidation' , this.defaultvalidation);
     if (!this.defaultvalidation) {
       let registerState: RegisterState = this.stateService.getRegisteredStatesAsPerId(VALIDATE_FIELD_STATE);
+      console.log('registered state' , registerState)
       for (let v of registerState.states) {
+        console.log('v.currentstate' , v.currentstate)
         if (v.currentstate !== VALID_FIELD) {
           this.stateService.updateState(this._validateSObj);
+          console.log('false')
           return false;
         }
       }
+
+      console.log('true')
+
       return true;
     } else {
       if (this.compData && Object.keys(this.compData).length > 0) {
@@ -169,6 +182,9 @@ export class BaseComponent implements OnDestroy {
       case MODE_EDIT:
         this.btnProps(true, EDIT.toLocaleUpperCase());
         break;
+        case MODE_ADD_WITH_PREVALUES:
+        this.btnProps(true, ADD.toLocaleUpperCase());
+        break;
     }
   }
 
@@ -178,6 +194,7 @@ export class BaseComponent implements OnDestroy {
   }
 
   private initialState(): void {
+    console.log('initialstate')
     this.state.currentstate = MODE_ADD;
     this._sObj.currentstate = ADD;
     this.stateService.updateState(this._sObj);

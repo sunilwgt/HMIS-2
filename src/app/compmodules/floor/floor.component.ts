@@ -19,7 +19,7 @@ export class FloorComponent extends BaseComponent implements OnInit {
   constructor(baseService: BaseServices) {
     super(baseService);
     this.hmisApi.getBuildingDropdown();
-    this.defaultvalidation = true;
+    this.defaultvalidation = false;
   }
 
   hmisApiSubscribe(data: any): void {

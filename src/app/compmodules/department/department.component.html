@@ -3,12 +3,14 @@
     <div class="basic-form">
       <form name="department_form" novalidate="novalidate">
         <div class="row">
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Department name'" class="col-lg-6 col-sm-6"
-            [propName]="'department_name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
-          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Department description'" class="col-lg-6 col-sm-6"
+          <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Department name'" class="col-lg-6 col-sm-6 required"
+            [propName]="'department_name'" [isrequire]=true [errorMessage]="'Please Select Department name'"  (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+         
+            <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Department description'" class="col-lg-6 col-sm-6"
             [propName]="'department_description'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
-          <hmis-vertical-label-type [selectOptions]="departmentOption" [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Select department type'"
-            class="col-lg-6 col-sm-6 required" [propName]="'departmenttype_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+         
+            <hmis-vertical-label-type [selectOptions]="departmentOption" [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Select department type'"
+            class="col-lg-6 col-sm-6 required" [propName]="'departmenttype_id'" [isrequire]=true [errorMessage]="'Please Select Department Type'"  (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
 
           <div class="col-lg-6 col-sm-6">
             <div class="add_department">

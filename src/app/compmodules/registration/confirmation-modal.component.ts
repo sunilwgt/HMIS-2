@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CompLoadManagerService } from '../../utils/computils/comp-load-manager.service';
-import { RL_ADMISSION, PATIENT_ID_STATE, RL_PRESCRIPTION_LIST } from '../../models/common';
+import { RL_ADMISSION, PATIENT_ID_STATE, RL_PRESCRIPTION_LIST, RL_REGISTRATION_LIST } from '../../models/common';
 import { BaseServices } from '../../utils/base.service';
 import { Subscription } from 'rxjs/Subscription';
 import { State } from '../../models/state';
@@ -48,6 +48,8 @@ export class ConfirmationModal implements OnInit {
 
   private openPrescriptionModal(): void {
     this.baseservice.compLoadManager.closePopup();
-    this.baseservice.compLoadManager.redirect(RL_PRESCRIPTION_LIST);
+    // this.baseservice.compLoadManager.redirect(RL_PRESCRIPTION_LIST);
+    this.baseservice.compLoadManager.redirect(RL_REGISTRATION_LIST);
+
   }
 }

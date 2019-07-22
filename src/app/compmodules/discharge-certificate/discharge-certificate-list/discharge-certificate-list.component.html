@@ -69,6 +69,9 @@
             [multiSelect]="false" [substituteRows]="false" [expandableRows]="false" [translations]="translations"
             [indexColumn]="false" [selectOnRowClick]="true" (rowClick)="ongridclick($event , content)">
 
+   <data-table-column [property]="'$id'" [header]="'Seq.'" [sortable]="true"  [width]=80>
+        </data-table-column>
+
             <data-table-column [property]="'admission_sequence'" [header]="'Admission Id'" [sortable]="true" [width]="140">
             </data-table-column>
             <data-table-column [property]="'patient_registration_no'" [header]="'Registration Id'" [sortable]="true"

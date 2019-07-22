@@ -20,6 +20,9 @@ export class GenericActionComponent extends BaseComponent implements OnInit {
   @Input() actiontypeId: string | number;
   @Input() itemdata: any;
   @Input() deleteDisable: boolean = true;
+  @Input() viewDisable: boolean = true;
+  @Input() editDisable: boolean = true;
+
   @Input() printDisable: boolean = true;
   @Input() dischargeDisable: boolean = true;
   @Input() oTDisable: boolean = true;

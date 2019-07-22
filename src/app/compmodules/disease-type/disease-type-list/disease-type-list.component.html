@@ -8,18 +8,47 @@
             [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false" [expandableRows]="false"
             [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
 
-            <data-table-column [property]="'$id'" [header]="'Sl. No.'" [sortable]="true">
+            <data-table-column [property]="'$id'" [header]="'Sl. No.'" [sortable]="true" [width]="80">
             </data-table-column>
-            <data-table-column [property]="'decease_type_name'" [header]="'Disease Name'" [sortable]="true">
+            <data-table-column [property]="'decease_type_name'" [header]="'Disease Name'" [sortable]="true"  [width]="110">
             </data-table-column>
-            <data-table-column [property]="'description'" [header]="'Disease Description'" [sortable]="true">
+            <data-table-column [property]="'description'" [header]="'Disease Description'" [sortable]="true"  [width]="110">
             </data-table-column>
-            <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true">
+
+
+            <!-- <data-table-column [property]="'action'" [header]="'Action'" [sortable]="true">
                 <ng-template #dataTableCell let-item="item">
-                    <hmis-generic-action [itemdata]=item (clickHandler)="clickEventHandler($event)"></hmis-generic-action>
+                    <hmis-generic-action  [itemdata]=item (clickHandler)="clickEventHandler($event)"></hmis-generic-action>
+                </ng-template>
+            </data-table-column> -->
+
+            <data-table-column *ngIf="!isreadonly" [property]="'action'" [header]="'Action'" [sortable]="false" [resizable]=true [width]="110">
+                <ng-template #dataTableCell let-item="item">
+                    <nav class="navbar navbar-default">
+                        <div class="container-fluid">
+                            <div class="navbar-header">
+                                <div class="dropdown">
+                                    <div class="test">
+                                        <div class="dropdown-content">
+                                            <a href="#"  (click)="clickEventHandler($event , 'modeView' , item)"><i class="fa fa-eye" ></i>&nbsp;&nbsp;View</a>
+                                            <a href="#"  (click)="clickEventHandler($event ,'modeEdit' , item)"> <i class="fa fa-edit" ></i>&nbsp;&nbsp;Edit </a>
+                                            <a href="#"  (click)="clickEventHandler($event , 'modeDelete' , item)"> <i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</a>
+                                            <!-- <a href="#"  (click)="clickEventHandler($event ,'modeAdmission' , item)"><i class="fa fa-h-square"></i>&nbsp;&nbsp;Admission</a> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+    
                 </ng-template>
             </data-table-column>
+
+
         </data-table>
+
+
+
         <div style="margin-top: 10px">
             <b>Selected:</b>
             <!-- <span *ngIf="patientsTable.selectedRow == null"><i>No item selected</i></span>

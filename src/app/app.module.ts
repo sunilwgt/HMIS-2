@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule ,ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
@@ -70,6 +69,10 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
+// import {ToastModule} from 'primeng/toast';
+// import { MessageService } from 'primeng/api';
+
+
 @NgModule({
   declarations: [DECLARATION_COMPONENTS,OnlyNumber],
   imports: [
@@ -127,8 +130,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   MatTooltipModule,
   ],
   entryComponents: ENTRY_COMPONENTS,
-  providers: [   NgbActiveModal,HmisAuthService, HmisAuthGuard, MenuService, CompLoadManagerService, CommonService, HmisApisService, HelperFunction, StateService, LoaderService, ErrorService, RoleManagerService, BaseServices, HmisExternalApisService,
-    {
+  providers: [   NgbActiveModal,HmisAuthService, HmisAuthGuard, MenuService, CompLoadManagerService, CommonService, HmisApisService, HelperFunction, StateService, LoaderService, ErrorService, RoleManagerService, BaseServices, HmisExternalApisService
+    ,{
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
     }

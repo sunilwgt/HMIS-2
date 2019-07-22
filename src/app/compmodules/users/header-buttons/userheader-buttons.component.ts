@@ -85,15 +85,13 @@ setdate(f, t) {
   }
 
   exportToCSV() {
+    console.log('data' , this.csvjson)
     _.forEach(this.csvjson, (value, key) => {
       var newArray: any = {
-        "patient_registration_no": value.patient_registration_no,
-        "patient_name": value.patient_name,
-        "patient_sex": value.patient_sex,
-        "patient_phone": value.patient_phone,
-        "patient_age": value.patient_age,
-        "doctor_name": value.doctor_name,
-        "admitted_on": value.admitted_on
+        "firstname": value.first_name,
+        "last_name": value.last_name,
+        "email": value.user_name,
+        "cretedon": value.created_date
       };
       this.csvData.push(newArray);
     });
@@ -103,9 +101,9 @@ setdate(f, t) {
       decimalseparator: '.',
       showLabels: true,
       showTitle: true,
-      headers: ["Patient registration no.", "Patient name", "Patient sex", "Patient phone no", "Patient age", "Doctor name", "date of admission"]
+      headers: ["First Name", "Last Name", "Email", "createdon"]
     };
-    new Angular2Csv(this.csvData, 'Patient list', options);
+    new Angular2Csv(this.csvData, 'Users list', options);
   }
 
 }

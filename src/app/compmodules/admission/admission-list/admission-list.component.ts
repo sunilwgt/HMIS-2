@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { DataTableTranslations, DataTableResource } from 'angular5-data-table';
 import { BaseComponent } from '../../../utils/base.component';
 import { BaseServices } from '../../../utils/base.service';
@@ -16,6 +16,8 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material';
+// import { Angular2Csv } from 'angular2-csv';
+import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 declare var jsPDF: any;
 @Component({
   selector: 'app-admission-list',
@@ -48,6 +50,7 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
   private dateValuefrom: Date; ''
   private convertedfromdate;
   private convertedtodate;
+  private csvdata = [];
   constructor(private baseService: BaseServices, private modalServices: NgbModal, public datepipe: DatePipe, private helperFunc: HelperFunction,
     private snackbar: MatSnackBar, ) {
     super(baseService);
@@ -58,6 +61,7 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
   hmisApiSubscribe(data: any): void {
     if (data.resulttype === RESULT_TYPE_GET_ADMITTED_PATIENT_LIST) {
       this.admissionList = data.result;
+      this.csvdata = data.result;
       this.arrangeAdmittedPatientData(data.result);
       this.admissionListResource = new DataTableResource(this.admissionList);
       this.admissionListResource.count().then(count => {
@@ -181,10 +185,13 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
             });
         } else {
           this.stateService.stateData = eventObj.data;
+          this.state.stateData = item;
+          this.clickHandler.emit(<ActionType>{ data: item, mode: MODE_ADD });
           this.compLoadManager.redirect(RL_DISCHARGE_MODAL);
         }
         break;
       case MODE_OT:
+     console.log('enterd ot')
         if (item.OpenOT > 0) {
           this.snackbar.open('Patient has an active OT entry. Please update patient previous OT details.', 'Close',
             {
@@ -193,6 +200,11 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
               horizontalPosition: 'right',
             });
         } else {
+     console.log('state' , this.state)
+
+          this.state.currentstate = MODE_ADD;
+     console.log('state2' , this.state)
+
           this.hmisApi.getPatientDetailsForOTOnSearchId(item.ID);
           this.compLoadManager.redirect(RL_OT)
         }
@@ -227,6 +239,7 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.compLoadManager.setHeaderTitle('Patients')
     const a = this.comonService.getpermissionrole();
     if (a === 'readonly') {
       this.isreadonly = true;
@@ -265,6 +278,37 @@ export class AdmissionListComponent extends BaseComponent implements OnInit {
   searchAdmittedPatient() {
     this.hmisApi.getAdmittedPatientList(this.convertedfromdate, this.convertedtodate, this.searchStr);
   }
+
+  exportToCSV() {
+   
+
+    _.forEach(this.admissionList, (value, key) => {
+      var newArray: any = {
+        "patient_registration_no": value.patient_registration_no,
+        "admission_sequence": value.admission_sequence,
+        "patient_first_name": value.patient_first_name,
+        "patient_last_name": value.patient_last_name,
+        "patient_sex": value.patient_sex,
+        "patient_phone": value.patient_phone,
+        "doctor_name": value.doctor_name,
+        "building_name": value.building_name,
+        "ward_name": value.ward_name,
+        "bed_number": value.bed_number,
+        
+      };
+      this.csvdata.push(newArray);
+    });
+    var options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: true,
+      headers: ["Registeration Number", "Admission No.", "First Name", "Last Name" , "Gender" , "Phone" , "Doctor Under" , "Building Name" , "Ward Name" , "Bed Number"]
+    };
+    new Angular2Csv(this.csvdata, 'Admission  list', options);
+  }
+
 
   createPdfStructureofadmission(data: any, state: string) {
     var doc = new jsPDF('p', 'pt');

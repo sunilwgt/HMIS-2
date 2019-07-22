@@ -13,6 +13,7 @@ import { CompDataInfo } from '../../models/registration';
 import { DatePipe } from '@angular/common';
 import { ErrorService } from '../../services/error.service';
 import { GenericPopup } from '../../generic-components/generic-popup';
+import { MatSnackBar } from '@angular/material';
 
 
 @Component({
@@ -45,7 +46,8 @@ export class OtComponent extends BaseComponent implements OnInit {
   showNav: any = [];
  
 
-  constructor(baseService: BaseServices,private _errorService: ErrorService, private helperFunc: HelperFunction, public datepipe: DatePipe) {
+  constructor(baseService: BaseServices,private _errorService: ErrorService, private snackbar:MatSnackBar,
+    private helperFunc: HelperFunction, public datepipe: DatePipe) {
     super(baseService);
     this.showNav[0] = true;
     // changed this to true for not checking validation
@@ -86,15 +88,43 @@ export class OtComponent extends BaseComponent implements OnInit {
     }
 
     if (data.resulttype === RESULT_TYPE_SET_OPERATION_THEATRE) {
+
       this.compLoadManager.redirect(RL_OT_LIST);
-      this.hmisApi.getOperationTheatreListing("");
+      console.log('redirected' , data);
+
+      let a = this.comonService.admobserver()
+
+      console.log('a' , a)
+      this.hmisApi.getotlistdatewise(a.from , a.to , '');
+      // this.hmisApi.getOperationTheatreListing("");
+
       this.compLoadManager.closePopup();
+      this.snackbar.open(data.result, 'Close',
+      {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right',
+      });
+
     }
 
     if (data.resulttype === RESULT_TYPE_EDIT_OPERATION_THEATRE) {
+      console.log('dat' , data.result)
       this.compLoadManager.redirect(RL_OT_LIST);
-      this.hmisApi.getOperationTheatreListing("");
+      // this.hmisApi.getOperationTheatreListing("");
+      let a = this.comonService.otbserver()
+
+      console.log('a' , a)
+      this.hmisApi.getotlistdatewise(a.from , a.to , '');
+      // this.hmisApi.getOperationTheatreListing("");
+
       this.compLoadManager.closePopup();
+      this.snackbar.open(data.result, 'Close',
+      {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right',
+      });
     }
 
   }
@@ -122,6 +152,8 @@ export class OtComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('state3' , this.state)
+
     if (this.state.currentstate === MODE_OT) {
       this.showsearch = false;
     }
@@ -141,11 +173,20 @@ export class OtComponent extends BaseComponent implements OnInit {
   }
 
   invokeAddFunction(): void {
+    this.compData.created_by = this.hmisApi.userDetail.created_by;
+    this.compData.modified_by = this.hmisApi.userDetail.modified_by;
     this.OTModel = this.comonService.arrangeDataForOTModel(this.compData);
+    console.log('compdata' , this.compData)
+
+    console.log('otmodel' , this.OTModel)
     this.hmisApi.setOperationTheatre(this.OTModel);
   }
 
   invokeEditFunction(): void {
+
+    this.compData.created_by = this.hmisApi.userDetail.created_by;
+    this.compData.modified_by = this.hmisApi.userDetail.modified_by;
+    
     this.OTModel = this.comonService.arrangeDataForOTModelForUpdate(this.compData);
     this.hmisApi.setOperationTheatreAsPerId(this.compData.operation_id, this.OTModel);
   }

@@ -27,7 +27,7 @@ export class DocrepoComponent extends BaseComponent implements OnInit {
     //console.log(data.resulttype);
     
     if (data.resulttype === 'imageDownload') {
-      console.log(data, data.resulttype);
+      console.log('datas' , data, data.resulttype);
     }
  
   }
@@ -42,14 +42,14 @@ export class DocrepoComponent extends BaseComponent implements OnInit {
   invokeAddFunction(): void {
   }
 getdata(){
-  this.externalApis.getfiles();
+  // this.externalApis.getfiles();
 }
   private getFiles(evnt:any):void{
     let files:any = evnt.srcElement.files;
     this.filesize = files[0].size;
     this.filename = files[0].name;
    console.log(files[0]);
-    this.externalApis.loadProfileImage(files[0]);
+    // this.externalApis.loadProfileImage(files[0]);
   }
 
   private dropHandler(evnt:any):void{

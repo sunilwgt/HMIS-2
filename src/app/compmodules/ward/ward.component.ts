@@ -18,7 +18,7 @@ export class WardComponent extends BaseComponent implements OnInit {
   constructor(baseService: BaseServices) {
     super(baseService);
     this.hmisApi.getBuildingDropdown();
-    this.defaultvalidation = true;
+    this.defaultvalidation = false;
     this.hmisApi.getWardTypeSearch("");
     
   }

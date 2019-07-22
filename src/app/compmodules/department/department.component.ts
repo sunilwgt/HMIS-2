@@ -20,7 +20,7 @@ export class DepartmentComponent extends BaseComponent implements OnInit {
 
   constructor(baseService: BaseServices) {
     super(baseService);
-    this.defaultvalidation = true;
+    this.defaultvalidation = false;
    // this.hmisApi.getDetpartmentType();
     this.hmisApi.getDepartmentTypeDropdown();
   }

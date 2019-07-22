@@ -61,6 +61,7 @@ export class PermissionComponent extends BaseComponent implements OnInit {
   constructor(baseService: BaseServices, private _errorService: ErrorService, private el: ElementRef
   ) {
     super(baseService);
+    this.defaultvalidation = false;
     // this.showNav[0] = true;
     //this.hmisApi.getDoctor();
     // this.hmisApi.getDoctorListSearch("");
@@ -162,6 +163,7 @@ export class PermissionComponent extends BaseComponent implements OnInit {
   onSelectAll(items: any) {
     console.log(items);
   }
+
   SubmitClickHandler() {
     console.log('state', this.state.currentstate);
 
@@ -206,12 +208,16 @@ export class PermissionComponent extends BaseComponent implements OnInit {
 
 
   invokeAddFunction(): void {
-    //this.setExtnData();
-    // this.compData.patient_age = "27";
-    // this.compData.patient_age_unit = "month";
-    //console.log(this.compData);
-    //console.log("compdata ", this.compData);
-    this.hmisApi.setPatient(this.compData);
+    if (this.state.currentstate === MODE_ADD) {
+      const permissionvalues = this.fillpermissiondata();
+      this.permissionmodel.access_area = this.compData.access_area;
+      this.permissionmodel.can_create = permissionvalues.can_create;
+      this.permissionmodel.can_read = permissionvalues.can_read;
+      this.permissionmodel.can_update = permissionvalues.can_update;
+      this.permissionmodel.can_delete = permissionvalues.can_delete;
+      console.log('permission data', this.permissionmodel);
+      this.hmisApi.setPermission(this.permissionmodel);
+    }
   }
 
   invokeEditFunction(): void {

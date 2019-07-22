@@ -1,12 +1,12 @@
-<app-userheader-buttons [csvjson]="patients"></app-userheader-buttons>
-
+<app-userheader-buttons [csvjson]="arrangeusersdata"></app-userheader-buttons>
 <div style="margin: auto; margin-top:10px">
+    <data-table id="patients-grid" headerTitle="Users List" [items]="arrangeusersdata" [itemCount]="usersCount" (reload)="reloadPatients($event)"
+        [limit]="10" [sortAsc]="false" [selectColumn]="true" [multiSelect]="true" [substituteRows]="false"
+        [expandableRows]="false" [translations]="translations" [indexColumn]="false" [selectOnRowClick]="false">
+      
+        <data-table-column [property]="'$id'" [header]="'Seq.'" [sortable]="true"  [width]=50>
+        </data-table-column>
 
-
-
-    <data-table id="patients-grid" headerTitle="Users List" [items]="arrangeusersdata" [itemCount]="patientCount" (reload)="reloadPatients($event)"
-        [limit]="15" [sortAsc]="false" [selectColumn]="true" [multiSelect]="true" [substituteRows]="false"
-        [expandableRows]="false" [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
         <data-table-column [property]="'first_name'" [header]="'First Name'" [sortable]="true" [resizable]=true
             [width]="100">
             </data-table-column>
@@ -30,20 +30,17 @@
                                         <a href="#"  (click)="clickEventHandler($event , 'modeView' , item)"><i class="fa fa-eye" ></i>&nbsp;&nbsp;View</a>
                                         <a href="#"  (click)="clickEventHandler($event ,'modeEdit' , item)"> <i class="fa fa-edit" ></i>&nbsp;&nbsp;Edit </a>
                                         <!-- <a href="#"  (click)="clickEventHandler($event , 'modeRoleAssign' , item)"> <i class="fa fa-edit"></i>&nbsp;&nbsp;Assign/Remove Role</a> -->
-                                        <a href="#"  (click)="clickEventHandler($event , 'modeDelete' , item)"> <i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete User</a>
-
+                                        <a href="#"  (click)="clickEventHandler($event , 'modeDelete' , item)"> <i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </nav>
-
             </ng-template>
         </data-table-column>
     </data-table>
 </div>
-
 
 
 

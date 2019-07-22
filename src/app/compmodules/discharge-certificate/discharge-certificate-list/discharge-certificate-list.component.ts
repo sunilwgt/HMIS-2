@@ -8,6 +8,9 @@ import { BaseServices } from '../../../utils/base.service';
 import { DischargeCertificateOption } from '../../../models/department';
 import { NgbModalOptions, NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatSnackBar } from '@angular/material';
+import { Angular2Csv } from 'angular2-csv';
+import * as _ from 'lodash';
+
 
 
 @Component({
@@ -32,12 +35,15 @@ export class DischargeCertificateListComponent extends BaseComponent implements 
   private dischargeCertificateOption: Array<DischargeCertificateOption> = [];
   private dischargeCertificateResource = new DataTableResource([]);
   private dischargeCertificateCount = 0;
+  private csvdata = [];
+  private convertedfromdate;
+   private convertedtodate;
  
 
 
   constructor(baseService: BaseServices , private modalServices: NgbModal , private snackbar:MatSnackBar) {
     super(baseService);
-    this.hmisApi.getDischargeCertificateList("");
+    // this.hmisApi.getDischargeCertificateList("");
   }
   hmisApiSubscribe(data: any): void {
     if(data.resulttype === RESULT_TYPE_GET_DISCHARGE_CERTIFICATE_LIST){
@@ -141,6 +147,8 @@ export class DischargeCertificateListComponent extends BaseComponent implements 
   }
 
   ngOnInit() {
+    this.compLoadManager.setHeaderTitle('Discharge Certificate')
+
     const a = this.comonService.getpermissionrole();
     if(a === 'readonly'){
 this.isreadonly = true;
@@ -150,10 +158,72 @@ this.isreadonly = true;
     }
     //console.log(films);
     this.getdate();
+    this.hmisApi.getdcertificatedatewise(this.convertedfromdate, this.convertedtodate, '');
+
   }
-  getdate(){
-    const data  = new Date();
+
+  searchPatient() {
+    this.convertdate();
+    this.hmisApi.getdcertificatedatewise(this.convertedfromdate, this.convertedtodate, '');
+
+  }
+
+  getdate() {
+    const data = new Date();
     this.dateValuefrom = data;
     this.dateValueto = data;
+    this.convertdate();
+  }
+
+
+
+  convertdate() {
+    const a = this.comonService.convertdate(this.dateValuefrom, this.dateValueto)
+    this.convertedfromdate = a.from;
+    this.convertedtodate = a.to;
+    this.setdate(this.convertedfromdate, this.convertedtodate);
+  }
+
+  setdate(f, t) {
+    this.comonService.setdatefordcertificate(f, t)
+  }
+
+  exportToCSV() {
+    console.log('data', this.dischargeCertificates)
+
+    // console.log('before data' , this.csvdata)
+    // if(csvdata.length  > 0){
+    //   while(this.csvdata.length > 0){
+    //     csvdata.pop()
+    //   }
+    // }
+    // console.log('after data' , this.csvdata)
+
+    _.forEach(this.dischargeCertificates, (value, key) => {
+      var newArray: any = {
+        "patient_registration_no": value.patient_registration_no,
+        "admission_sequence": value.admission_sequence,
+        "patient_name": value.patient_name,
+        "patient_sex": value.patient_sex,
+        "patient_phone": value.patient_phone,
+        "date_of_admission": value.date_of_admission,
+        "discharge_date": value.discharge_date,
+        "discharge_note": value.discharge_note,
+        "final_diagonysis": value.final_diagonysis,
+      
+
+
+      };
+      this.csvdata.push(newArray);
+    });
+    var options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: true,
+      headers: ["Registeration Number", "Admission No.", "Patient Name", "Gender", "Phone", "Admission Date", "Discharge Date", "Discharge Note", "Final Diagnosis" , "Purpose of Surgery" ]
+    };
+    new Angular2Csv(this.csvdata, 'Discharge List', options);
   }
 }

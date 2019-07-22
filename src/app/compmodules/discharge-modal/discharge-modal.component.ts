@@ -18,10 +18,15 @@ export class DischargeModalComponent extends BaseComponent implements OnInit {
   constructor(baseService: BaseServices) {
     super(baseService);
     this.hmisApi.getDischargeTypeList();
-    this.defaultvalidation = true;
+    this.defaultvalidation = false;
   }
 
   ngOnInit() {
+    console.log('currnestate' , this.state.currentstate);
+    console.log('data' , this.stateService.stateData);
+    console.log('data' , this.state.stateData);
+
+
     this.StateDataObj = this.stateService.stateData;
     //console.log(this.StateDataObj);
     this.updateDataForEVMode();
@@ -37,7 +42,7 @@ export class DischargeModalComponent extends BaseComponent implements OnInit {
 
     if (data.resulttype === RESULT_TYPE_UPDATE_ADMISSION_DISCHARGE_DETAIL) {
       if (data.result === true) {
-        this.stateService.stateData = this.StateDataObj['ID'];
+        this.stateService.stateData =  this.state.stateData['ID'];
         this.hmisApi.getDischargePatientList(this.state.stateData.admission_sequence);
         
       }
@@ -51,8 +56,9 @@ export class DischargeModalComponent extends BaseComponent implements OnInit {
   }
 
   invokeAddFunction(): void {
-    this.DischargeModel.admission_id = this.StateDataObj['ID'];
-    this.DischargeModel.patient_id = this.StateDataObj['patient_id'];
+    console.log('invoke add function ' , this.comonService)
+    this.DischargeModel.admission_id = this.state.stateData['ID'];
+    this.DischargeModel.patient_id = this.state.stateData['patient_id'];
     this.DischargeModel.discharge_date = this.compData.discharge_date;
     this.DischargeModel.discharge_type = this.compData.discharge_type;
     this.DischargeModel.discharge_instruction = this.compData.discharge_instruction;

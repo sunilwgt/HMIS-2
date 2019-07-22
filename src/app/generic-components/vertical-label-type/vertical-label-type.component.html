@@ -35,7 +35,7 @@
   <div class="form-group">
     <label>{{labelname}}</label>
     <div class="form_inline_">
-      <input placeholder="{{placeholderLabel}}" class="form-control" type="number" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"
+      <input placeholder="{{placeholderLabel}}" class="form-control" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"
         [disabled]="!_isEditable">
     </div>
     <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
@@ -52,6 +52,30 @@
     <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
   </div>
 </ng-template>
+
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.pdatewithtime]">
+  <div class="form-group">
+    <label>{{labelname}}</label>
+    <!-- <input placeholder="{{placeholderLabel}}" class="form-control"  type="date"  [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"
+      [disabled]="!_isEditable"> -->
+      <p-calendar  [disabled]="!_isEditable" class="form-control select_block" placeholder="{{placeholderLabel}}"  showTime="true" hourFormat="12" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"></p-calendar>
+
+    <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
+  </div>
+</ng-template>
+
+<!-- <ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compdate]">
+  <div class="form-group">
+    <label>{{labelname}}</label>
+    <p-calendar [(ngModel)]="compValue.fieldValue"  placeholder="{{placeholderLabel}}"   [disabled]="!_isEditable" (ngModelChange)="onModelChange($event)"></p-calendar>
+    <input placeholder="{{placeholderLabel}}" class="form-control"  type="date"  [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"
+      [disabled]="!_isEditable">
+    <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
+  </div>
+</ng-template> -->
+
+
 <ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compdatepast]">
   <div class="form-group">
     <label>{{labelname}}</label>
@@ -59,9 +83,39 @@
       [disabled]="!_isEditable">
     <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
   </div>
-</ng-template>
+</ng-template> 
+
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compdatebetween]">  
+  
+  <div class="form-group">
+    <label>{{labelname}}</label>
+    <input placeholder="{{placeholderLabel}}" class="form-control"  id="Compdatebetween" [min]="eventmindate"  [max]="eventmaxdate"  type="date" (click)="date()"  [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"
+      [disabled]="!_isEditable">
+    <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
+  </div>
+</ng-template> 
+
+<!-- <ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compdatefuture]">
+    <div class="form-group">
+      <label>{{labelname}}</label>
+      <p-calendar [(ngModel)]="compValue.fieldValue"  placeholder="{{placeholderLabel}}"  [maxDate]="mindateforpcalender"  [disabled]="!_isEditable" ></p-calendar>
+  
+      <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
+    </div>
+  </ng-template> -->
+
 
 <ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.CompTime]">
+  <div class="form-group">
+    <label>{{labelname}}</label>
+    <input placeholder="{{placeholderLabel}}" class="form-control" type="time" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"
+      [disabled]="!_isEditable">
+    <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
+  </div>
+</ng-template>
+
+<ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.CompTimeend]">
   <div class="form-group">
     <label>{{labelname}}</label>
     <input placeholder="{{placeholderLabel}}" class="form-control" type="time" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"
@@ -78,6 +132,7 @@
       <div class="select_custom">
         <select class="form-control" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)" [disabled]="!_isEditable">
           <option [selected]="op.value === compValue.fieldValue" *ngFor="let op of selectOptions" value="{{op.value}}">{{op.label}}</option>
+
           <!-- <option>---Please select---</option>
               <option>A+</option>
               <option>A-</option>
@@ -204,12 +259,13 @@
     <div>
       <label class="radio_cont" *ngFor="let op of radioOptions">{{op.label}}
         <input name="{{_dynamicGrpName}}" type="radio" (click)="onClickModelChange($event)" [disabled]="!_isEditable" value="{{op.value}}"
-          checked="{{op.checked}}">
+          checked="{{op.checked}}" selected="false">
         <span class="rchcmrk"></span>
       </label>
     </div>
   </div>
 </ng-template>
+
 
 <ng-template [idMapping]='templateid' [templateId]="gencomp[gencomp.Compcheckbox]">
   <div class="form-group crd_frm" [ngClass]="{'viewmode':!_isEditable}">

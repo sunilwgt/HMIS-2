@@ -7,10 +7,10 @@
             [propName]="'Name'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type> -->
             
             <hmis-vertical-label-type [selectOptions]="approveOption" [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Select Approver'"
-            class="col-lg-4 col-sm-6 required" [propName]="'approver_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+            class="col-lg-4 col-sm-6 required"  [isrequire]=true [errorMessage]="'Please Select Approver'"  [propName]="'approver_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
 
-                <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Approver Type'" class="col-lg-6 col-sm-6"
-            [propName]="'approver_type'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+                <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Approver Type'" class="col-lg-6 col-sm-6 required"
+            [propName]="'approver_type'" [isrequire]=true [errorMessage]="'Please Provide Approver Type'"  (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
           
             <!-- <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompText]" [labelname]="'Approver Type'" class="col-lg-6 col-sm-6"
             [propName]="'approver_type'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>

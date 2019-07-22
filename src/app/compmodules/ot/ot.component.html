@@ -46,10 +46,10 @@
                     <span>{{compData.patient_name}}</span>
                   </div>
 
-                  <div class="col-12 col-sm-3 col-md-2 col-lg-2 col-xl-2">
+                  <!-- <div class="col-12 col-sm-3 col-md-2 col-lg-2 col-xl-2">
                     <label>Age :</label>
                     <span>{{compData.patient_age}}</span>
-                  </div>
+                  </div> -->
 
                   <div class="col-12 col-sm-9 col-md-2 col-lg-2 col-xl-2">
                     <label>Sex :</label>
@@ -65,30 +65,39 @@
 
               <hr>
 
-              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="operationTypeListOption" [labelname]="'Operation Type*'" [isrequire]=true
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="operationTypeListOption" [labelname]="'Operation Type'" [isrequire]=true
               [errorMessage]="'Operation type require'"
-                class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6" [propName]="'operation_type_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+                class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6 required" [propName]="'operation_type_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
 
-              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compdatepast]" [labelname]="'Operation Date*'" [isrequire]=true  [errorMessage]="'Operation  date require'" class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+
+
+                <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compdate]" [labelname]="'Operation Date'" [isrequire]=true  [errorMessage]="'Operation  date require'" class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6 required" 
                 [propName]="'operation_datetime'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
                 
-
-                <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompTime]" [labelname]="'Opetation Start Time*'"    class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+                
+                <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompTime]" [labelname]="'Opetation Start Time'"    class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 required"
                 [propName]="'patient_operation_start'" (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Operation start date require'"
                 ></hmis-vertical-label-type>
 
-              <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompTime]" [labelname]="'Opetation end time*'"  [isrequire]=true [errorMessage]="'Operation End Time require'" class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+           
+
+                <!-- <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compdate]" [labelname]="'Date'" class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 required"
+                [propName]="'date'" (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Select Date'"
+                (errorOccur)="onErrorOccurFirstTab($event)"></hmis-vertical-label-type> -->
+
+
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.CompTimeend]" [labelname]="'Opetation end time'"   class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
                 [propName]="'patient_operation_end'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
 
 
               <!--hmis-vertical-label-type [templateid]="gencomp[gencomp.CompTime]" [labelname]="'Opetation Start Time'" class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3"
                 [propName]="'operation_time'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type-->
 
-              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="surguryTypeListOption" [labelname]="'Surgery Type*'" [isrequire]=true [errorMessage]="'Surgery type require'"
-                class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6" [propName]="'surgery_type_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="surguryTypeListOption" [labelname]="'Surgery Type'" [isrequire]=true [errorMessage]="'Surgery type require'"
+                class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6 required" [propName]="'surgery_type_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
 
-              <hmis-vertical-label-type  [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="doctorListOption" [labelname]="'Surgeon*'" [isrequire]=true [errorMessage]="'Surgeon require'"
-                class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6" [propName]="'doctor_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
+              <hmis-vertical-label-type  [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="doctorListOption" [labelname]="'Surgeon'" [isrequire]=true [errorMessage]="'Surgeon require'"
+                class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6 required" [propName]="'doctor_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
 
               <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]"  [isrequire]=false [selectOptions]="doctorListOption" [labelname]="'Anesthesiologist'"
                 class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6" [propName]="'anesthesiologist_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
@@ -96,7 +105,7 @@
               <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [selectOptions]="doctorListOption" [labelname]="'Assisting Doctor'" [isrequire]=false
                 class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6" [propName]="'assisting_doctor_id'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
 
-              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]"  [labelname]="'Purpose Of Surgery*'" [isrequire]=true [errorMessage]="'Purpose of surgery  require'"  class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+              <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]"  [labelname]="'Purpose Of Surgery'" [isrequire]=true [errorMessage]="'Purpose of surgery  require'"  class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 required"
                 [propName]="'purpose_of_surgery'" (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
 
               <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]"  [isrequire]=false [labelname]="'Special Instructions'" class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"

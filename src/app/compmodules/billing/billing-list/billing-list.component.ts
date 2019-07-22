@@ -166,6 +166,8 @@ private isreadonly = true;
   }
 
   ngOnInit() {
+    this.compLoadManager.setHeaderTitle('Billing')
+
     const a = this.comonService.getpermissionrole();
     if(a === 'readonly'){
 this.isreadonly = true;

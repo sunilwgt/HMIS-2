@@ -18,7 +18,7 @@
             <div class="tab-pane fade" [ngClass]="showNav[0] == true ? ' in active' : ''" id="tab1primary">
 
                 <div class="row patient-info">
-                    <hmis-keyup-search [labelname]="'Patient ID'" [data]="patientList" [propName]="'value'"
+                    <hmis-keyup-search [labelname]="'Admission ID'" [data]="patientList" [propName]="'value'"
                         (getSelectedItem)="getSelectedHandlerForPatient($event)" (onKeyUp)="onKeyUpSearchForPatient($event)"
                         class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3" *ngIf="!Isdisabled"></hmis-keyup-search>
                 </div>
@@ -47,7 +47,7 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compdate]" [labelname]="'Current Date'"
+                    <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compdatepast]" [labelname]="'Current Date'"
                         class="col-12 col-sm-3 col-md-4 col-lg-4 col-xl-3" [propName]="'current_date'"
                         (compValueChange)="valueChangeHandler($event)"></hmis-vertical-label-type>
 

@@ -4,7 +4,10 @@ import { NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
 export const ITEM_SELECTED: string = "ItemSelected";
 
 //------------ routerlink constant---------------- //
+
+export const RL_DASHBOARD: string = "dashboard";
 export const RL_REGISTRATION: string = "rlRegistration";
+
 export const RL_REGISTRATION_LIST: string = "rlRegistrationlist";
 export const RL_ADMISSION: string = "rlAdmission";
 export const RL_ADMISSION_LIST: string = "rlAdmissionList";
@@ -287,6 +290,10 @@ export const RESULT_TYPE_GET_DISCHARGE_TYPE_LIST: string = "getDischargeTypeList
 export const RESULT_TYPE_GET_ALL_DISCHARGE_TYPE_LIST: string = "getAllDischargeTypeList"
 
 export const RESULT_TYPE_GET_DISCHARGE_CERTIFICATE_LIST: string = "getDischargeCertificateList";
+export const RESULT_TYPE_GET_D_CERTIFICATE_DATEWISE: string = "getDischargeCertificateListdatewise";
+
+
+
 export const RESULT_TYPE_SET_DISCHARGE_CERTIFICATE: string = "setDischargeCertificate";
 export const RESULT_TYPE_EDIT_DISCHARGE_CERTIFICATE: string = "editDischargeCertificate";
 export const RESULT_TYPE_GET_SELECTED_DISCHARGE_CERTIFICATE: string = "getSelectedDischargeCertificate";
@@ -349,6 +356,8 @@ export const RESULT_TYPE_GET_PATIENT_AS_PER_ID: string = "getPatientAsPerID";
 export const RESULT_TYPE_GET_DOCTOR_AS_PER_ID: string = "getDoctorAsPerID";
 
 export const RESULT_TYPE_GET_HOSPITAL_DETAIL_LIST: string = "getHospitalDetailList";
+export const RESULT_TYPE_GET_HOSPITAL_DETAIL_LIST_LIST: string = "getHospitalDetailListlist";
+
 export const RESULT_TYPE_SET_HOSPITAL_DETAIL: string = "setHospitalDetail";
 export const RESULT_TYPE_EDIT_HOSPITAL_DETAIL: string = "editHospitalDetail";
 export const RESULT_TYPE_DELETE_HOSPITAL_DETAIL: string = "deleteHospitalDetail";
@@ -373,9 +382,22 @@ export const RESULT_TYPE_DELETE_ADMISSION: string = "deleteAdmission";
 export const RESULT_TYPE_GET_ADMITTED_PATIENT_DETAILS_AS_PER_ID: string = "getAdmittedPatientDetailsAsPerId";
 
 export const RESULT_TYPE_GET_NEW_BORN_LIST: string = "getNewBornList";
+export const RESULT_TYPE_GET_NEW_BORN_LIST_DATEWISE: string = "getNewBornListdatewise";
+
+export const RESULT_TYPE_SET_IMAGE_REGISTERATION: string = "setImageRegisteration";
+export const RESULT_TYPE_GET_IMAGE_REGISTERATION: string = "getImageRegisteration";
+
+
+
 export const RESULT_TYPE_SET_NEW_BORN: string = "setNewBorn";
 export const RESULT_TYPE_EDIT_NEW_BORN: string = "editNewBorn";
 export const RESULT_TYPE_DELETE_NEW_BORN: string = "deleteNewBorn";
+
+export const RESULT_TYPE_GET_LISCENCE_LIST: string = "getNewLiscenceList";
+export const RESULT_TYPE_SET_LISCENCE: string = "setLiscence";
+export const RESULT_TYPE_EDIT_LISCENCE: string = "editLiscence";
+export const RESULT_TYPE_DELETE_LISCENCE: string = "deleteLiscence";
+
 
 export const RESULT_TYPE_GET_BILLING_LIST: string = "getBillingList";
 export const RESULT_TYPE_GET_BILLING_LIST_FOR_DISCHARGE: string = "getBillingListForDischarge";
@@ -415,9 +437,18 @@ export const RESULT_TYPE_GET_EXTERNAL_BILLING: string = "getExternalBilling";
 export const RESULT_TYPE_EDIT_EXTERNAL_BILLING: string = "editExternalBilling";
 
 export const RESULT_TYPE_GET_OPERATION_THEATRE_LIST: string = "getOperationTheatreList";
+export const RESULT_TYPE_GET_OT_LIST_DATEWISE: string = "getOperationTheatreListDatewise";
+
 export const RESULT_TYPE_GET_OPERATION_THEATRE_SEARCH: string = "getOperationTheatreSearch";
 export const RESULT_TYPE_GET_OPERATION_THEATRE_BY_ADMISSION_SEQ: string = "getOperationTheatreByAdmissionSeq";
+export const RESULT_TYPE_GET_OPERATION_THEATRE_BY_ADMISSION_SEQ_FOR_NEWBORN: string = "getOperationTheatreByAdmissionSeqForNewborn";
+
+
 export const RESULT_TYPE_GET_PATIENT_DETAILS_FOR_OT: string = "getPatientDetailsForOT";
+export const RESULT_TYPE_GET_PATIENT_DETAILS_FOR_NEWBORN: string = "getPatientDetailsForNewborn";
+
+
+
 export const RESULT_TYPE_SET_OPERATION_THEATRE: string = "setOperationTheatre";
 export const RESULT_TYPE_EDIT_OPERATION_THEATRE: string = "editOperationTheatre";
 export const RESULT_TYPE_DELETE_OPERATION_THEATRE: string = "deleteOperationTheatre";
@@ -431,6 +462,8 @@ export const TEXT_BOX_ON_ENTER: string = "textBoxOnEnter";
 export const MENU_ITEM_CLICK: string = "menuItemClick";
 //----------------- Mode constant -----------------------//
 export const MODE_ADD: string = "modeAdd";
+export const MODE_ADD_WITH_PREVALUES: string = "modeAddpre";
+
 export const MODE_VIEW: string = "modeView";
 export const MODE_EDIT: string = "modeEdit";
 export const MODE_DELETE: string = "modeDelete";
@@ -527,6 +560,7 @@ export class RadioData {
   value: any;
   id?: string | number;
   checked?: boolean = undefined;
+  selected?:any;
 
   constructor() {
 

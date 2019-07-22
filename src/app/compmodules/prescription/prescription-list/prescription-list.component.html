@@ -8,6 +8,8 @@
             [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false" [substituteRows]="false" [expandableRows]="false"
             [translations]="translations" [indexColumn]="false" [selectOnRowClick]="true">
 
+            <data-table-column [property]="'$id'" [header]="'Sl. No.'" [sortable]="true" [width]=80>
+            </data-table-column>
             <data-table-column [property]="'patient_name'" [header]="'Patient name'" [sortable]="true" [resizable]=true [width]="180">
             </data-table-column>
             <data-table-column [property]="'doctro_under_name'" [header]="'Prescribed doctor'" [sortable]="true" [resizable]=true

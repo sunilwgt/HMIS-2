@@ -34,6 +34,8 @@ export class OtCreate {
   public patient_id: string;
   public operation_type_id: string;
   public operation_datetime?: string;
+  public operation_date?: string;
+
   public operation_time?: string;
   public surgery_type_id: string;
   public Doctor_Under?: string;

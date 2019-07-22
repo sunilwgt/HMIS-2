@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output ,EventEmitter } from '@angular/core';
 import { DataTableTranslations, DataTableResource } from 'angular5-data-table';
-import { RL_DEPARTMENT_TYPE, RL_DEPARTMENT, RESULT_TYPE_GET_DEPARTMENT, RESULT_TYPE_GET_DEPARTMENT_TYPE, ActionType, MODE_EDIT, MODE_VIEW, MODE_DELETE, RESULT_TYPE_GET_DEPARTMENT_TYPE_LIST, RESULT_TYPE_DELETE_DEPARTMENT_TYPE, RL_DEPARTMENT_LIST, RL_DEPARTMENT_TYPE_LIST } from '../../../models/common';
+import { RL_DEPARTMENT_TYPE, RL_DEPARTMENT, RESULT_TYPE_GET_DEPARTMENT, RESULT_TYPE_GET_DEPARTMENT_TYPE, ActionType, MODE_EDIT, MODE_VIEW, MODE_DELETE, RESULT_TYPE_GET_DEPARTMENT_TYPE_LIST, RESULT_TYPE_DELETE_DEPARTMENT_TYPE, RL_DEPARTMENT_LIST, RL_DEPARTMENT_TYPE_LIST, ACTION_BUTTON_STATE, DELETE, RL_DISEASE_TYPE, VIEW, EDIT } from '../../../models/common';
 import { BaseComponent } from '../../../utils/base.component';
 import { BaseServices } from '../../../utils/base.service';
+import { State } from '../../../models/state';
 
 @Component({
   selector: 'app-department-list',
@@ -10,12 +11,13 @@ import { BaseServices } from '../../../utils/base.service';
   styleUrls: ['./department-type-list.component.scss']
 })
 export class DepartmentTypeListComponent extends BaseComponent implements OnInit {
-
+  @Output() clickHandler: EventEmitter<any> = new EventEmitter();
+  public _stateObj: State;
   private departmenttype = [];
   private departmentTypeResource = new DataTableResource([]);
   private departmentTypeCount = 0;
 
-  constructor(baseService: BaseServices) {
+  constructor(private baseService: BaseServices) {
     super(baseService);
     this.hmisApi.getDetpartmentTypeList("");
 
@@ -48,27 +50,65 @@ export class DepartmentTypeListComponent extends BaseComponent implements OnInit
     paginationRange: 'Result range'
   };
 
-  private clickEventHandler(eventObj: ActionType): void {
-    switch (eventObj.mode) {
+  // private clickEventHandler(eventObj: ActionType): void {
+  //   switch (eventObj.mode) {
+  //     case MODE_EDIT:
+  //       this.compLoadManager.redirect(RL_DEPARTMENT_TYPE);
+  //       break;
+
+  //     case MODE_VIEW:
+  //       this.compLoadManager.redirect(RL_DEPARTMENT_TYPE);
+  //       break;
+
+  //     case MODE_DELETE:
+  //       this.hmisApi.deleteDepartmentType(eventObj.data.ID);
+  //       break;
+  //   }
+  // }
+
+
+
+
+  private clickEventHandler(eventObj: ActionType, mode, item): void {
+    console.log('eventObj', eventObj, mode, item);
+    switch (mode) {
       case MODE_EDIT:
+        this._stateObj.currentstate = EDIT;
+        this.updateState(this._stateObj);
+        this.state.currentstate = MODE_EDIT;
+        this.state.stateData = item;
+        this.clickHandler.emit(<ActionType>{ data: item, mode: MODE_EDIT });
         this.compLoadManager.redirect(RL_DEPARTMENT_TYPE);
         break;
 
       case MODE_VIEW:
+        this._stateObj.currentstate = VIEW;
+        this.updateState(this._stateObj);
+        this.state.currentstate = MODE_VIEW;
+        this.state.stateData = item;
+        this.clickHandler.emit(<ActionType>{ data: item, mode: MODE_VIEW });
         this.compLoadManager.redirect(RL_DEPARTMENT_TYPE);
         break;
 
       case MODE_DELETE:
-        this.hmisApi.deleteDepartmentType(eventObj.data.ID);
+        this._stateObj.currentstate = DELETE;
+        this.updateState(this._stateObj);
+        this.state.currentstate = MODE_DELETE;
+        this.state.stateData = item;
+        this.clickHandler.emit(<ActionType>{ data: item, mode: MODE_DELETE });
+        this.hmisApi.deleteDeceaseTypeAsPerId(item.ID);
         break;
     }
   }
+
 
   private addDepartmentType(): void {
     this.openCompInAddMode(RL_DEPARTMENT_TYPE);
   }
 
   ngOnInit() {
+    this._stateObj = this.baseService.stateService.createState(ACTION_BUTTON_STATE);
+
     //console.log(films);
   }
 

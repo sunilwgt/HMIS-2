@@ -51,14 +51,16 @@
 
 
 
-
+        <!-- (rowClick)="ongridclick($event , content)" -->
 
     <div class="clearfix"></div>
     <div style="margin: auto; margin-top:10px">
         <data-table id="patients-grid" headerTitle="New Born list" [items]="newBorn" [itemCount]="newBornCount"
             (reload)="reloadNewBorn($event)" [limit]="15" [sortAsc]="false" [selectColumn]="false" [multiSelect]="false"
             [substituteRows]="false" [expandableRows]="false" [translations]="translations" [indexColumn]="false"
-            [selectOnRowClick]="true" (rowClick)="ongridclick($event , content)">
+            [selectOnRowClick]="true" >
+            <data-table-column [property]="'$id'" [header]="'Seq.'" [sortable]="true"  [width]=80>
+            </data-table-column>
             <data-table-column [property]="'father_name'" [header]="'Father name'" [sortable]="true" [width]="160">
             </data-table-column>
             <data-table-column [property]="'mother_name'" [header]="'Mother name'" [sortable]="true" [width]="160">
@@ -102,7 +104,7 @@
         </data-table>
     </div>
 
-
+<!-- 
     <ng-template #content let-modal>
         <div class="modal-header" style="background-color: rgba(26, 82, 146, 0.856)">
             <h4 class="modal-title" id="modal-basic-title" style="color:rgb(4, 4, 26)">New Born
@@ -275,4 +277,4 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-outline-dark" (click)="closemodal('Save click')">Close</button>
         </div>
-    </ng-template>
+    </ng-template> -->

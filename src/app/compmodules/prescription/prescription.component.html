@@ -1,20 +1,15 @@
+
 <div class="card-body" style="margin-bottom: 0 ">
-  <form name="building_form" novalidate="novalidate">
+  <form name="prescription_form" novalidate="novalidate">
 
     <div class="row">
 
-      <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compdate]" [labelname]="'Date'" class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4"
-        [propName]="'date'" (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Select Date'"
-        (errorOccur)="onErrorOccurFirstTab($event)"></hmis-vertical-label-type>
+        <hmis-keyup-search [labelname]="'Registeration ID'" [data]="patientList" [propName]="'value'" (getSelectedItem)="getSelectedHandlerForPatient($event)"
+        (onKeyUp)="onKeyUpSearchForPatient($event)"  class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 required" *ngIf="!isEnabled"></hmis-keyup-search>
 
-      <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Doctor'" class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4"
-        [propName]="'doctor_id'" [selectOptions]="doctorListOption"  (compValueChange)="valueChangeHandler($event)" [isrequire]=true
-        [errorMessage]="'Select Doctor'" (errorOccur)="onErrorOccurFirstTab($event)" ></hmis-vertical-label-type>
+     
 
 
-
-      <hmis-keyup-search [labelname]="'Patient ID'" [data]="patientList" [propName]="'value'" (getSelectedItem)="getSelectedHandlerForPatient($event)"
-        (onKeyUp)="onKeyUpSearchForPatient($event)" class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4" *ngIf="!isEnabled"></hmis-keyup-search>
 
 
       <div class="col-12 patient-info" *ngIf="isEnabled   || labelEnabled">
@@ -23,28 +18,39 @@
             <label>Registration No :</label>
             <span>{{compData.patient_registration_no}}</span>
           </div>
-          <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
+          <div class="col-12 col-sm-12 col-md-4col-lg-4 col-xl-4">
             <label>Patient Name :</label>
             <span>{{compData.patient_name}}</span>
           </div>
-          <div class="col-12 col-sm-12 col-md-3">
+          <div class="col-12 col-sm-12 col-md-4col-lg-4 col-xl-4">
             <label>Age :</label>
             <span>{{compData.patient_age}}</span>
           </div>
-          <div class="col-12 col-sm-12 col-md-3">
+          <div class="col-12 col-sm-12 col-md-4col-lg-4 col-xl-4">
             <label>Sex :</label>
             <span>{{compData.patient_sex}}</span>
           </div>
         </div>
       </div>
-      <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'History'" class="col-lg-12 col-sm-12"
-        [propName]="'patient_history'" (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'provide history'"></hmis-vertical-label-type>
+
+      <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compdate]" [labelname]="'Date'" class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 required"
+      [propName]="'date'" (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Please Select Date'"
+      ></hmis-vertical-label-type>
+
+    <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Prescribed Doctor'" class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 required"
+      [propName]="'doctor_id'" [selectOptions]="doctorListOption"  (compValueChange)="valueChangeHandler($event)" [isrequire]=true
+      [errorMessage]="' Please Select Doctor'"  ></hmis-vertical-label-type>
+
+
+
+      <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Diagnosis(R/O)'" class="col-lg-12 col-sm-12 required"
+        [propName]="'patient_history'" (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Please Provide History'"></hmis-vertical-label-type>
     </div>
 
 
     <div class="row">
-      <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Medication'" class="col-lg-12 col-sm-12"
-        [propName]="'note'" (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'provide medication'"></hmis-vertical-label-type>
+      <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Medication'" class="col-lg-12 col-sm-12 required"
+        [propName]="'note'" (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Please Provide Medication'"></hmis-vertical-label-type>
     </div>
 
     <div class="col-lg-6 col-sm-6">
@@ -56,3 +62,75 @@
     </div>
   </form>
 </div>
+
+
+<!-- 
+
+
+<div class="card-body" style="margin-bottom: 0 ">
+  <form name="building_form" novalidate="novalidate">
+
+    <div class="row">
+      
+
+        <hmis-keyup-search [labelname]="'Registeration ID'" [data]="patientList" [propName]="'value'" (getSelectedItem)="getSelectedHandlerForPatient($event)"
+        (onKeyUp)="onKeyUpSearchForPatient($event)" class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 required" *ngIf="!isEnabled"></hmis-keyup-search>
+
+
+
+
+
+      <div class="col-12 patient-info" *ngIf="isEnabled   || labelEnabled">
+        <div class="row">
+          <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4" *ngIf="isEnabled">
+            <label>Registration No :</label>
+            <span>{{compData.patient_registration_no}}</span>
+          </div>
+          <div class="col-12 col-sm-12 col-md-4col-lg-4 col-xl-4">
+            <label>Patient Name :</label>
+            <span>{{compData.patient_name}}</span>
+          </div>
+          <div class="col-12 col-sm-12 col-md-4col-lg-4 col-xl-4">
+            <label>Age :</label>
+            <span>{{compData.patient_age}}</span>
+          </div>
+          <div class="col-12 col-sm-12 col-md-4col-lg-4 col-xl-4">
+            <label>Sex :</label>
+            <span>{{compData.patient_sex}}</span>
+          </div>
+        </div>
+      </div>
+   
+
+      <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Diagnosis(R/O)'" class="col-lg-12 col-sm-12 required"
+      [propName]="'patient_history'" (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Provide History'"></hmis-vertical-label-type>
+ 
+    <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compdate]" [labelname]="'Date'" class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 required"
+    [propName]="'date'" (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Select Date'"
+    (errorOccur)="onErrorOccurFirstTab($event)"></hmis-vertical-label-type>
+
+  <hmis-vertical-label-type [templateid]="gencomp[gencomp.Compselect]" [labelname]="'Prescribed Doctor'" class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 required"
+    [propName]="'doctor_id'" [selectOptions]="doctorListOption"  (compValueChange)="valueChangeHandler($event)" [isrequire]=true
+    [errorMessage]="'Select Doctor'" (errorOccur)="onErrorOccurFirstTab($event)" ></hmis-vertical-label-type>
+
+
+      <hmis-vertical-label-type [templateid]="gencomp[gencomp.Comptextarea]" [labelname]="'Medication'" class="col-lg-12 col-sm-12 required"
+        [propName]="'note'" (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Provide Medication'"></hmis-vertical-label-type>
+
+
+
+
+   
+      </div>
+
+  
+
+    <div class="col-lg-6 col-sm-6">
+      <div class="row">
+        <div class="add_department">
+          <button *ngIf="showSubmitBtn" type="submit" class="btn btn-default btn-info" (click)="submitClickHandler()">{{submitBtnLabel}}</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div> -->

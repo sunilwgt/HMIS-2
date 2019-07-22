@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Registration, DOB, CompDataInfo, PatientExt } from '../../models/registration';
-import { Option, RadioData, GenericPopupOption, RL_REGISTRATION_LIST, RESULT_TYPE_EDIT_PATIENT, RESULT_TYPE_SET_PATIENT, MODE_ADD, RESULT_TYPE_GET_DOCTOR, RESULT_TYPE_GET_STATE_LIST, UPDATE_FIELD_STATE, RL_REGISTER_CONFIRMATION_MODAL, PATIENT_ID_STATE, CUSTOM_COND, INVALID_FIELD, VALID_FIELD, CustomErrorInfo, RESULT_TYPE_DELETE_PATIENT, RESULT_TYPE_UPDATE_PATIENT_EXT, RESULT_TYPE_GET_DOCTOR_LIST, RESULT_TYPE_GET_ALL_DOCTOR_LIST, RESULT_TYPE_GET_HOSPITAL_DETAIL_LIST, RESULT_TYPE_GET_PATIENT_AS_PER_ID_FOR_EXT, RESULT_TYPE_GET_SELECTED_PATIENT_BY_ID, RESULT_TYPE_ADD_USER, MODE_EDIT, RESULT_TYPE_GET_ALL_USERSTYPE_VAlUE_PAIR, RESULT_TYPE_GET_USER_TYPE_PERMISSION_VAlUE_PAIR, RESULT_TYPE_GET_ALL_ROLES_BY_USERID, RESULT_TYPE_SET_ROLE_TO_USER, RESULT_TYPE_DELETE_ROLE_FROM_USER } from '../../models/common';
+import { Option, RadioData, GenericPopupOption, RL_REGISTRATION_LIST, RESULT_TYPE_EDIT_PATIENT, RESULT_TYPE_SET_PATIENT, MODE_ADD, RESULT_TYPE_GET_DOCTOR, RESULT_TYPE_GET_STATE_LIST, UPDATE_FIELD_STATE, RL_REGISTER_CONFIRMATION_MODAL, PATIENT_ID_STATE, CUSTOM_COND, INVALID_FIELD, VALID_FIELD, CustomErrorInfo, RESULT_TYPE_DELETE_PATIENT, RESULT_TYPE_UPDATE_PATIENT_EXT, RESULT_TYPE_GET_DOCTOR_LIST, RESULT_TYPE_GET_ALL_DOCTOR_LIST, RESULT_TYPE_GET_HOSPITAL_DETAIL_LIST, RESULT_TYPE_GET_PATIENT_AS_PER_ID_FOR_EXT, RESULT_TYPE_GET_SELECTED_PATIENT_BY_ID, RESULT_TYPE_ADD_USER, MODE_EDIT, RESULT_TYPE_GET_ALL_USERSTYPE_VAlUE_PAIR, RESULT_TYPE_GET_USER_TYPE_PERMISSION_VAlUE_PAIR, RESULT_TYPE_GET_ALL_ROLES_BY_USERID, RESULT_TYPE_SET_ROLE_TO_USER, RESULT_TYPE_DELETE_ROLE_FROM_USER, MODE_VIEW } from '../../models/common';
 import { GenericPopup } from '../../generic-components/generic-popup';
 import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { BaseServices } from '../../utils/base.service';
@@ -16,6 +16,8 @@ import { FormControl } from '@angular/forms';
 import { User } from '../../models/user';
 import { map } from 'rxjs/operators'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material';
+// import {MessageService} from 'primeng/api';
 @Component({
   selector: 'hmis-user',
   templateUrl: './user.component.html',
@@ -34,13 +36,14 @@ export class UserComponent extends BaseComponent implements OnInit {
   private govtIdType: Array<Option>;
   private _updateStateObj: State;
   private _popUpStateObj: State;
+ private phoneError: CustomErrorInfo;
+
   private doctorListOption: Array<DoctorOptions> = [];
   private stateListOption: Array<StateListOption> = [];
   private patient_state: Array<Option>;
   showNav: any = [];
   private patientId: string;
   private _subscription: Subscription;
-  private phoneError: CustomErrorInfo;
   private contactpersonphoneError: CustomErrorInfo;
   private ageError: CustomErrorInfo;
   private customCond: string = CUSTOM_COND;
@@ -48,7 +51,10 @@ export class UserComponent extends BaseComponent implements OnInit {
   private usersoption: Array<Option> = [];
   private userspermissionoption: Array<Option> = [];
 
-  private assignedroles = []
+ private passwordError: CustomErrorInfo;
+ private emailError: CustomErrorInfo;
+private isviewmode = false;
+  private assignedroles = [];
   private roledropdownList = [];
   private roledropdownListshow = [];
   selectedroleItems = [];
@@ -59,7 +65,8 @@ export class UserComponent extends BaseComponent implements OnInit {
   private isaddmode = false;
   toppings = new FormControl();
   toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
-  constructor(private http: HttpClient, baseService: BaseServices, private _errorService: ErrorService, private el: ElementRef
+  constructor(private http: HttpClient, private snackbar: MatSnackBar,
+    baseService: BaseServices, private _errorService: ErrorService, private el: ElementRef
   ) {
     super(baseService);
     // this.showNav[0] = true;
@@ -71,11 +78,6 @@ export class UserComponent extends BaseComponent implements OnInit {
     // this.hmisApi.userTypeSearchValuePair("");
     // this.hmisApi.userTypeSearchPermissionValuePair("");
     this.hmisApi.userTypeSearchValuePair("");
-
-
-
-
-
   }
 
 
@@ -86,7 +88,14 @@ export class UserComponent extends BaseComponent implements OnInit {
       console.log('data', data);
       // this.patientId = data.result;
       // this._popUpStateObj.stateData = this.patientId;
-      // this.compLoadManager.closePopup();
+      this.snackbar.open('Users added successfully', 'Close',
+      {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right',
+      });
+      this.compLoadManager.closePopup();
+      this.hmisApi.userSearch("");
       // this.genericPopup.openPopup(this.compLoadManager.redirect(RL_REGISTER_CONFIRMATION_MODAL, true));
       // this.stateService.updateState(this._popUpStateObj);
     }
@@ -97,13 +106,29 @@ export class UserComponent extends BaseComponent implements OnInit {
     }
     if (data.resulttype === RESULT_TYPE_SET_ROLE_TO_USER) {
       console.log(data);
-      alert('role set to the user ')
+      // alert('role set to the user ')
+      // this.messageService.add({severity:'success', summary:'Success', detail:'role set to the user '});
+
+      this.snackbar.open("role set to the user ", 'Close',
+      {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right',
+      });
       // this.hmisApi.getallrolesbyuserid(this.state.stateData.SID);
     }
 
     if (data.resulttype === RESULT_TYPE_DELETE_ROLE_FROM_USER) {
       console.log(data);
-      alert('role removed from  the user ')
+      // alert('role removed from  the user ')
+      // this.messageService.add({severity:'success', summary:'Success', detail:'role removed from  the user '});
+
+      this.snackbar.open("role removed from  the user", 'Close',
+      {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right',
+      });
       // this.hmisApi.getallrolesbyuserid(this.state.stateData.SID);
     }
 
@@ -117,7 +142,15 @@ export class UserComponent extends BaseComponent implements OnInit {
         console.log('all roles', data);
         if (data === null || data === undefined) {
           console.log('null data')
-          alert('no role provide yet')
+          // alert('no role provide yet')
+          // this.messageService.add({severity:'warn', summary:'Warning', detail:'no role provide yet'});
+
+          this.snackbar.open("no role provide yet", 'Close',
+          {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'right',
+          });
         } else if (data !== null && data !== undefined) {
           console.log('not null data')
           const ids = [];
@@ -144,6 +177,7 @@ export class UserComponent extends BaseComponent implements OnInit {
 
 
   ngOnInit() {
+
     this.updateDataForEVMode();
     console.log('currentstate', this.state.currentstate)
     if (this.state.currentstate === MODE_ADD) {
@@ -160,7 +194,22 @@ export class UserComponent extends BaseComponent implements OnInit {
       this.getrolesofauser(this.state.stateData.SID)
 
     }
+    if (this.state.currentstate === MODE_VIEW) {
+      this.isaddmode = true;
+      this.isviewmode = true;
+
+      console.log('get userid'  , this.state , this.isaddmode)
+
+      // console.log('compdata', this.compData);
+      // console.log('stateData', this.state.stateData.SID)
+      this.roledropdownList = [];
+      this.roledropdownListshow = [];
+      this.getrolesofauser(this.state.stateData.SID)
+
+    }
+
     this.dropdownSettingss();
+    console.log('final state'  , this.state);
 
   }
 
@@ -177,17 +226,32 @@ export class UserComponent extends BaseComponent implements OnInit {
   }
 
   onchangerole(event, rid, item) {
-    if (event.target.checked) {
-      console.log('usrid' , this.state)
-      const roleobj = { user_id: this.state.stateData.SID, role_id: rid }
-      console.log('roleobj', roleobj);
-      this.hmisApi.setroletouser(roleobj);
+    if(this.state.currentstate === MODE_VIEW){
+      // console.log('cant change you are in view mode')
+      // this.messageService.add({severity:'warn', summary:'Warning', detail:"Can't set role. you are in view mode"});
+      
+      // alert("Can't set role. you are in view mode")
+      // this.snackbar.open("Can't set role. you are in view mode", 'Close',
+      // {
+      //   duration: 3000,
+      //   verticalPosition: 'top',
+      //   horizontalPosition: 'right',
+      // });
 
-    } else {
-      console.log('usrid' , this.state)
-      const roleobj = { user_id: this.state.stateData.SID, role_id: rid }
-      this.hmisApi.removeroletouser(roleobj);
+    }else{
+      if (event.target.checked) {
+        console.log('usrid' , this.state)
+        const roleobj = { user_id: this.state.stateData.SID, role_id: rid }
+        console.log('roleobj', roleobj);
+        this.hmisApi.setroletouser(roleobj);
+  
+      } else {
+        console.log('usrid' , this.state)
+        const roleobj = { user_id: this.state.stateData.SID, role_id: rid }
+        this.hmisApi.removeroletouser(roleobj);
+      }
     }
+   
   }
 
   onItemSelect(item: any) {
@@ -203,27 +267,30 @@ export class UserComponent extends BaseComponent implements OnInit {
   SubmitClickHandler() {
     console.log('wefn', this.compData)
     console.log('cuurentstate', this.state.currentstate);
-    if (this.state.currentstate === MODE_ADD) {
-      this.hmisApi.setUser(this.compData);
-    }
-    if (this.state.currentstate === MODE_EDIT) {
-      // this.hmisApi.userTypeSearchValuePair("");
-    }
+    // if (this.state.currentstate === MODE_ADD) {
+    //   this.hmisApi.setUser(this.compData);
+    // }
+    // if (this.state.currentstate === MODE_EDIT) {
+    //   // this.hmisApi.userTypeSearchValuePair("");
+    // }
 
   }
 
   invokeAddFunction(): void {
+    console.log('add')
+    this.hmisApi.setUser(this.compData);
     //this.setExtnData();
     // this.compData.patient_age = "27";
     // this.compData.patient_age_unit = "month";
     //console.log(this.compData);
     //console.log("compdata ", this.compData);
-    this.hmisApi.setPatient(this.compData);
+    // this.hmisApi.setPatient(this.compData);
   }
 
   invokeEditFunction(): void {
     //this.setExtnData();
-    this.hmisApi.setPatientAsPerId(this.compData.ID, this.compData);
+    // this.hmisApi.setPatientAsPerId(this.compData.ID, this.compData);
+    this.hmisApi.userTypeSearchValuePair("");
   }
 
   invokeDeleteFunction(): void {
@@ -297,6 +364,70 @@ export class UserComponent extends BaseComponent implements OnInit {
     }
 
     this.phoneError = to;
+  }
+  
+
+
+    private customemailCheck(evntObj: any): void {
+      console.log(' custom email check', evntObj);
+      var re = /[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}/igm;
+
+  
+      let to: CustomErrorInfo = new CustomErrorInfo();
+      if (!evntObj.newval) {
+        to.isErrorShow = true;
+        to.fieldStatus = INVALID_FIELD;
+        to.data = evntObj;
+        to.errorMessage = "Please provide Email."
+      } else if (!re.test(evntObj.newval)) {
+        to.isErrorShow = true;
+        to.fieldStatus = INVALID_FIELD;
+        to.data = evntObj;
+        to.errorMessage = "Invalid email";
+      }
+      //  else if ((evntObj.newval).toString().length > 10) {
+      //   to.isErrorShow = true;
+      //   to.fieldStatus = INVALID_FIELD;
+      //   to.data = evntObj;
+      //   to.errorMessage = "10 digit exceeds";
+      // }
+       else {
+        to.isErrorShow = false;
+        to.fieldStatus = VALID_FIELD;
+        to.data = evntObj;
+        to.errorMessage = "";
+      }
+  
+      this.emailError = to;
+    }
+
+  private custompasswordCheck(evntObj: any): void {
+    console.log(' custom person check', evntObj);
+
+    let to: CustomErrorInfo = new CustomErrorInfo();
+    if (!evntObj.newval) {
+      to.isErrorShow = true;
+      to.fieldStatus = INVALID_FIELD;
+      to.data = evntObj;
+      to.errorMessage = "Please provide password"
+    } else if ((evntObj.newval).toString().length < 7) {
+      to.isErrorShow = true;
+      to.fieldStatus = INVALID_FIELD;
+      to.data = evntObj;
+      to.errorMessage = "Minimum 6 values required";
+    } else if ((evntObj.newval).toString().length > 20) {
+      to.isErrorShow = true;
+      to.fieldStatus = INVALID_FIELD;
+      to.data = evntObj;
+      to.errorMessage = "20 digit exceeds";
+    } else {
+      to.isErrorShow = false;
+      to.fieldStatus = VALID_FIELD;
+      to.data = evntObj;
+      to.errorMessage = "";
+    }
+
+    this.passwordError = to;
   }
 
 
