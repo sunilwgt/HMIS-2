@@ -59,7 +59,7 @@
     <label>{{labelname}}</label>
     <!-- <input placeholder="{{placeholderLabel}}" class="form-control"  type="date"  [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"
       [disabled]="!_isEditable"> -->
-      <p-calendar  [disabled]="!_isEditable" class="form-control select_block" placeholder="{{placeholderLabel}}"  showTime="true" hourFormat="12" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"></p-calendar>
+      <p-calendar  [disabled]="!_isEditable" class="form-control select_block" placeholder="{{placeholderLabel}}"  showTime="true" hourFormat="24" [(ngModel)]="compValue.fieldValue" (ngModelChange)="onModelChange($event)"></p-calendar>
 
     <label *ngIf="showErrorMsg" class="alertform">{{ errorMessage }}</label>
   </div>

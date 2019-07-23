@@ -18,8 +18,8 @@ export class BaseComponent implements OnDestroy {
   comonService: CommonService;
   stateService: StateService;
   compLoadManager: CompLoadManagerService;
- 
-  
+
+
 
   protected state: State;
   protected compData: any;
@@ -36,7 +36,7 @@ export class BaseComponent implements OnDestroy {
   private _isFieldsDirty: boolean = false;
 
   constructor(baseservice: BaseServices) {
-  
+
     this.hmisApi = baseservice.hmisApi;
     this.comonService = baseservice.comonService;
     this.stateService = baseservice.stateService;
@@ -86,7 +86,7 @@ export class BaseComponent implements OnDestroy {
   protected updateDataForEVMode(): void {
     if (this.state.currentstate === MODE_EDIT || this.state.currentstate === MODE_VIEW) {
       this.compData = this.state.stateData;
-    }  
+    }
     else {
       this.initialState();
     }
@@ -108,11 +108,9 @@ export class BaseComponent implements OnDestroy {
 
   protected valueChangeHandler(evt: CompDataInfo): void {
     this.compData[evt.propname] = evt.newval;
-    // console.log('this.compdata' , this.compData);
   }
 
   protected submitClickHandler(): void {
-    console.log('enter submit' , this.state.currentstate)
     if (this.validateSubmitHandler()) {
       switch (this.state.currentstate) {
         case MODE_ADD:
@@ -124,7 +122,7 @@ export class BaseComponent implements OnDestroy {
         case MODE_OTHERS:
           this.invokeOtherFunction();
           break;
-          case MODE_ADD_WITH_PREVALUES:
+        case MODE_ADD_WITH_PREVALUES:
           this.invokeAddFunction();
           break;
       }
@@ -141,20 +139,15 @@ export class BaseComponent implements OnDestroy {
   }
 
   protected validateSubmitHandler(): boolean {
-    console.log('defaultvalidation' , this.defaultvalidation);
     if (!this.defaultvalidation) {
       let registerState: RegisterState = this.stateService.getRegisteredStatesAsPerId(VALIDATE_FIELD_STATE);
-      console.log('registered state' , registerState)
       for (let v of registerState.states) {
-        console.log('v.currentstate' , v.currentstate)
         if (v.currentstate !== VALID_FIELD) {
           this.stateService.updateState(this._validateSObj);
-          console.log('false')
           return false;
         }
       }
 
-      console.log('true')
 
       return true;
     } else {
@@ -182,7 +175,7 @@ export class BaseComponent implements OnDestroy {
       case MODE_EDIT:
         this.btnProps(true, EDIT.toLocaleUpperCase());
         break;
-        case MODE_ADD_WITH_PREVALUES:
+      case MODE_ADD_WITH_PREVALUES:
         this.btnProps(true, ADD.toLocaleUpperCase());
         break;
     }
@@ -194,7 +187,6 @@ export class BaseComponent implements OnDestroy {
   }
 
   private initialState(): void {
-    console.log('initialstate')
     this.state.currentstate = MODE_ADD;
     this._sObj.currentstate = ADD;
     this.stateService.updateState(this._sObj);
@@ -202,7 +194,6 @@ export class BaseComponent implements OnDestroy {
 
   ngOnDestroy() {
     this._hmisApiSubscription.unsubscribe();
-    // console.log("ngdestroy");
     this._stateSubscription.unsubscribe();
     this._compLMSubscription.unsubscribe();
   }

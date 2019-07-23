@@ -54,7 +54,6 @@ export class OtListComponent extends BaseComponent implements OnInit, OnDestroy 
     //   });
     // }
     if (data.resulttype === RESULT_TYPE_GET_OT_LIST_DATEWISE) {
-      console.log('data' , data);
       this.OTList = data.result;
       this.arrangeOTPatientData(data.result);
       this.OTResource = new DataTableResource(this.OTList);
@@ -77,7 +76,6 @@ export class OtListComponent extends BaseComponent implements OnInit, OnDestroy 
   private arrangeOTPatientData(result) {
     for (let key in result) {
       var dateOfOT = this.OTList[key].operation_datetime.split("T");
-      console.log('otlistdate1' , dateOfOT)
       this.OTList[key]['operation_datetime'] = dateOfOT[0]
       // this.OTList[key]['operation_datetime'] = this.datepipe.transform(dateOfOT[0], 'dd-MM-yyyy');s
 
@@ -87,7 +85,6 @@ export class OtListComponent extends BaseComponent implements OnInit, OnDestroy 
       this.OTList[key]['patient_operation_end'] = OTEndTime[1];
       // this.isReleasedToBed = this.OTList[key].Is_Released_to_Bed;
       // this.stateService.stateData = this.isReleasedToBed;
-      // console.log(this.stateService.stateData);
     }
   }
 
@@ -124,7 +121,6 @@ export class OtListComponent extends BaseComponent implements OnInit, OnDestroy 
 
 
   // ongridclick1(e, item, con) {
-  //   console.log('item', item);
   //   if (this.clickdialog === false) {
   //     this.displaydialog = true;
   //     this.rowdata = item;
@@ -132,7 +128,7 @@ export class OtListComponent extends BaseComponent implements OnInit, OnDestroy 
   //   }
   // }
 
-  
+
 
   // open(content) {
   //   this.modalRef = this.modalServices.open(content, { size: 'lg' })
@@ -171,14 +167,12 @@ export class OtListComponent extends BaseComponent implements OnInit, OnDestroy 
   // }
 
   // private ClickEventHandler(eventObj: ActionType, mode, item): void {
-  //   console.log('mode' , mode , item)
   //   this.clickdialog = true;
   //   setInterval(() => {
   //     this.clickdialog = false;
   //   }, 1);
   //   switch (mode) {
   //     case MODE_EDIT:
-  //       console.log('edititem', item);
   //       this.compLoadManager.redirect(RL_OT);
   //       this.state.currentstate = MODE_EDIT;
   //       this.state.stateData = item;
@@ -186,7 +180,6 @@ export class OtListComponent extends BaseComponent implements OnInit, OnDestroy 
   //       break;
 
   //     case MODE_VIEW:
-  //     console.log('modeview', item);
 
   //       this.compLoadManager.redirect(RL_OT);
   //       this.state.currentstate = MODE_VIEW;
@@ -205,7 +198,6 @@ export class OtListComponent extends BaseComponent implements OnInit, OnDestroy 
 
 
   private ClickEventHandler(eventObj: ActionType, mode, item): void {
-    console.log('eventObj', eventObj, mode, item);
     switch (mode) {
       case MODE_EDIT:
         this._stateObj.currentstate = EDIT;
@@ -244,7 +236,6 @@ export class OtListComponent extends BaseComponent implements OnInit, OnDestroy 
   ngOnInit() {
     this.compLoadManager.setHeaderTitle('OT')
 
-    //console.log(films);
     this._stateObj = this.baseService.stateService.createState(ACTION_BUTTON_STATE);
 
     this._updateStateObj = this.stateService.createState(UPDATE_FIELD_STATE);
@@ -252,7 +243,6 @@ export class OtListComponent extends BaseComponent implements OnInit, OnDestroy 
     this.hmisApi.getotlistdatewise(this.convertedfromdate, this.convertedtodate, '');
   }
   searchPatient() {
-    // console.log('from' , this.dateValuefrom , 'to' , this.dateValueto)
     this.convertdate();
     this.hmisApi.getotlistdatewise(this.convertedfromdate, this.convertedtodate, '');
   }
@@ -273,15 +263,12 @@ export class OtListComponent extends BaseComponent implements OnInit, OnDestroy 
     this.comonService.setdateforotsearch(f, t)
   }
   exportToCSV() {
-    console.log('data', this.OTList)
 
-    // console.log('before data' , this.csvdata)
     // if(csvdata.length  > 0){
     //   while(this.csvdata.length > 0){
     //     csvdata.pop()
     //   }
     // }
-    // console.log('after data' , this.csvdata)
 
     _.forEach(this.OTList, (value, key) => {
       var newArray: any = {
@@ -309,7 +296,7 @@ export class OtListComponent extends BaseComponent implements OnInit, OnDestroy 
       decimalseparator: '.',
       showLabels: true,
       showTitle: true,
-      headers: ["Registeration Number", "Admission No.", "Ot seq.", "Patient Name", "Gender", "Phone", "Doctor Under", "Operation Datetime", "Operation Start Time", "Operation End Time" , "Purpose of Surgery" , "Instruction" ,"Surgery Type"]
+      headers: ["Registeration Number", "Admission No.", "Ot seq.", "Patient Name", "Gender", "Phone", "Doctor Under", "Operation Datetime", "Operation Start Time", "Operation End Time", "Purpose of Surgery", "Instruction", "Surgery Type"]
     };
     new Angular2Csv(this.csvdata, 'Ot list', options);
   }

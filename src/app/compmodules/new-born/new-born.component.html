@@ -72,6 +72,17 @@
           ></hmis-vertical-label-type> -->
 
          
+          <!-- <div class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6 agefield">
+            <div class="form-group">
+              <label>Date of Birth</label><br> -->
+              <!-- <input class="ageinputfield form-control" readonly type="text" [(ngModel)]="showage"> -->
+              <!-- <p-calendar  class="form-control select_block"   name="pdate" showTime="true" hourFormat="12" [(ngModel)]="showdatee"></p-calendar>
+
+            </div>
+          </div> -->
+
+          
+
           <hmis-vertical-label-type [templateid]="gencomp[gencomp.pdatewithtime]" [labelname]="'Date of Birth'" class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 required"
           [propName]="'dob'" (compValueChange)="valueChangeHandler($event)" [isrequire]=true [errorMessage]="'Please provide baby dob'"></hmis-vertical-label-type>
 

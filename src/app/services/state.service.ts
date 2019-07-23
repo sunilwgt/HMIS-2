@@ -44,7 +44,6 @@ export class StateService {
     let { isExists, registerstateobj } = this.checkDuplicateRegisterState(stateObj.stateID);
     if (isExists) {
       registerstateobj.states.push(stateObj);
-      console.log('isexist' , isExists)
     } else {
 
       let regState: RegisterState = new RegisterState();
@@ -52,7 +51,6 @@ export class StateService {
       regState.states = [];
       regState.states.push(stateObj);
       this._allRegisteredState.push(regState);
-      console.log('not exist' , this._allRegisteredState)
 
     }
   }
@@ -80,7 +78,6 @@ export class StateService {
 
   private checkDuplicateRegisterState(checkid: string | number): any {
     let indexno: number = 0;
-    console.log('allregis' ,checkid ,this._allRegisteredState)
     for (let v of this._allRegisteredState) {
       if (v.stateID === checkid) {
         return { isExists: true, registerstateobj: v, indexno: indexno }

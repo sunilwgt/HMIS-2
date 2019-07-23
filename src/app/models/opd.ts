@@ -283,7 +283,65 @@ export class BedOptions extends Option {
     };
 }
 export class NewBorn {
+
+
+    $id?: string;
+Discharged?: any;
+ID?: String
+OpenOT?: any;
+TotalOT?: any;
+admission_bed_id?: any;
+admission_id?: any;
+admission_notes?: any;
+admission_sequence?: any;
+admission_type?: any;
+admission_type_name?: any;
+bed_number?: any;
+body_height?: any;
+body_weight?: any;
+building_id?: any;
+building_name?: any;
+created_by?: any;
+created_on?: any;
+discharge_date?: any;
+doctor_name?: any;
+doctor_under_id?: any;
+emergency_contact_person?: any;
+emergency_contact_person_address?: any;
+emergency_contact_person_ph?: any;
+floor_id?: any;
+floor_name?: any;
+govt_id_type?: any;
+govt_id_value?: any;
+gurdian_ph_number?: any;
+modified_by?: any;
+name_of_gurdian?: any;
+nationality?: any;
+patient_address?: any;
+patient_age?: any;
+patient_blood_group?: any;
+patient_city?: any;
+patient_dob?: any;
+patient_first_name?: any;
+patient_id?: any;
+patient_last_name?: any;
+patient_name?: any;
+patient_phone?: any;
+patient_registration_no?: any;
+patient_sex?: any;
+police_station?: any;
+referred_doctor_id?: any;
+referred_doctor_name?: any;
+relationship_with_patient?: any;
+religion?: any;
+ward_name?: any;
+ward_number?: any;
+Is_malnutrition: boolean;
+is_born_critical_illness: boolean
+is_twin: boolean;
+dob:any;
     constructor() {
+        
 
     }
 }

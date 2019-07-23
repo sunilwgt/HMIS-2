@@ -71,7 +71,7 @@ export class RegistrationListComponent extends BaseComponent implements OnInit {
   private convertedtodate;
   @ViewChild(DataTable) patientsTable;
   @Inject('Window') private window: Window;
-  constructor(baseService: BaseServices, private helperFunc: HelperFunction, private externalApi:HmisExternalApisService, private modalServices: NgbModal,
+  constructor(baseService: BaseServices, private helperFunc: HelperFunction, private externalApi: HmisExternalApisService, private modalServices: NgbModal,
     public datepipe: DatePipe, private snackbar: MatSnackBar, private zone: NgZone, public modal: NgbActiveModal) {
     super(baseService);
     this.showNav[0] = true;
@@ -131,7 +131,6 @@ export class RegistrationListComponent extends BaseComponent implements OnInit {
   hmisApiSubscribe(data: any): void {
     if (data.resulttype === RESULT_TYPE_GET_PATIENT_SEARCH) {
       this.patients = data.result;
-      console.log('ew' , data.result);
       for (let value of this.patients) {
         var dateOfregistration = value.created_on.split("T");
         value.admitted_on = this.datepipe.transform(dateOfregistration[0], 'dd/MM/yyyy');
@@ -211,7 +210,6 @@ export class RegistrationListComponent extends BaseComponent implements OnInit {
   };
 
   //   getme(v){
-  // console.log('item is' , v)
   // if(v.patient_first_name === 's'){
   // return true
   // }else {
@@ -220,7 +218,6 @@ export class RegistrationListComponent extends BaseComponent implements OnInit {
   //   }
 
   private clickEventHandler(eventObj: ActionType, mode, item): void {
-    console.log('eventObj', eventObj, mode, item)
     // this.clickdialog = true;
     // setInterval(() => {
     //   this.clickdialog = false;
@@ -236,11 +233,10 @@ export class RegistrationListComponent extends BaseComponent implements OnInit {
         break;
 
       case MODE_VIEW:
-      // this.externalApi.getregisterationfiles(item.ID)
+        // this.externalApi.getregisterationfiles(item.ID)
         this.compLoadManager.redirect(RL_REGISTRATION);
         this.state.currentstate = MODE_VIEW;
         this.state.stateData = item;
-        console.log('statedata' , this.state)
         this.clickHandler.emit(<ActionType>{ data: item, mode: MODE_VIEW });
         break;
 
@@ -417,9 +413,9 @@ export class RegistrationListComponent extends BaseComponent implements OnInit {
     this.compLoadManager.setHeaderTitle('Registeration List')
 
     const a = this.comonService.getpermissionrole();
-    if(a === 'readonly'){
+    if (a === 'readonly') {
       this.isreadonly = true;
-    }else{
+    } else {
       this.isreadonly = false;
     }
     // this._updateStateObj = this.stateService.createState(UPDATE_FIELD_STATE);
@@ -454,7 +450,6 @@ export class RegistrationListComponent extends BaseComponent implements OnInit {
   }
 
   onc(a, b, c) {
-    console.log(a, b, c)
     if (this.once === true) {
       this.once = false;
     }

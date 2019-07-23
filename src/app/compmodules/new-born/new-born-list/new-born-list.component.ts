@@ -19,32 +19,31 @@ import { Angular2Csv } from 'angular2-csv';
   styleUrls: ['./new-born-list.component.scss']
 })
 export class NewBornListComponent extends BaseComponent implements OnInit {
-  @Output() clickHandler: EventEmitter <any> = new EventEmitter();
+  @Output() clickHandler: EventEmitter<any> = new EventEmitter();
   private csvdata = []
   private isreadonly = true;
   private newBorn = [];
   private newBornResource = new DataTableResource([]);
   private newBornCount = 0;
   private dateValuefrom;
-   private dateValueto;
-   private convertedfromdate;
-   private convertedtodate;
-modalOption: NgbModalOptions;
-private modalRef: NgbModalRef;
-closeResult: any;
-private displaydialog: boolean = false;
-private clickdialog: boolean = false;
-private rowdata:any;
+  private dateValueto;
+  private convertedfromdate;
+  private convertedtodate;
+  modalOption: NgbModalOptions;
+  private modalRef: NgbModalRef;
+  closeResult: any;
+  private displaydialog: boolean = false;
+  private clickdialog: boolean = false;
+  private rowdata: any;
 
-  constructor(baseService: BaseServices, private snackbar:MatSnackBar,
-    public datepipe: DatePipe ,  private modalServices: NgbModal) {
+  constructor(baseService: BaseServices, private snackbar: MatSnackBar,
+    public datepipe: DatePipe, private modalServices: NgbModal) {
     super(baseService);
     // this.hmisApi.getNewBornSearch("");
   }
 
   hmisApiSubscribe(data: any): void {
     // if (data.resulttype === RESULT_TYPE_GET_NEW_BORN_LIST) {
-    //   console.log("new born list     ",data.result);
     //   this.newBorn = data.result;
     //   this.arrangeDataForNewBorn(data.result);
     //   this.newBornResource = new DataTableResource(this.newBorn);
@@ -54,7 +53,6 @@ private rowdata:any;
     // }
 
     if (data.resulttype === RESULT_TYPE_GET_NEW_BORN_LIST_DATEWISE) {
-      console.log("new born list     ",data.result);
       this.newBorn = data.result;
       this.arrangeDataForNewBorn(data.result);
       this.newBornResource = new DataTableResource(this.newBorn);
@@ -62,7 +60,7 @@ private rowdata:any;
         this.newBornCount = count;
       });
     }
-    if(data.resulttype === RESULT_TYPE_DELETE_NEW_BORN){
+    if (data.resulttype === RESULT_TYPE_DELETE_NEW_BORN) {
       // this.hmisApi.getNewBornSearch("");
       this.getdate()
       this.hmisApi.getnewborndatewise(this.convertedfromdate, this.convertedtodate, '');
@@ -93,45 +91,49 @@ private rowdata:any;
     paginationRange: 'Result range'
   };
 
-  ongridclick(e , con){
-    if(this.clickdialog === false){
-    this.displaydialog = true;
-    this.rowdata = e.row.item;
-    this.open(con)
+  ongridclick(e, con) {
+    if (this.clickdialog === false) {
+      this.displaydialog = true;
+      this.rowdata = e.row.item;
+      this.open(con)
     }
-      }
+  }
 
-      open(content) {
-        this.modalRef =    this.modalServices.open(content , {size:'lg'})
-         }
-         closemodal(reason){
-       this.modalRef.close()
-         }
-    
+  open(content) {
+    this.modalRef = this.modalServices.open(content, { size: 'lg' })
+  }
+  closemodal(reason) {
+    this.modalRef.close()
+  }
+
 
   private ClickEventHandler(eventObj: ActionType, mode, item): void {
     this.clickdialog = true;
     setInterval(() => {
-    this.clickdialog = false;
-  }, 1);
+      this.clickdialog = false;
+    }, 1);
 
     switch (mode) {
       case MODE_EDIT:
-         this.compLoadManager.redirect(RL_NEW_BORN);
-         this.state.currentstate = MODE_EDIT;
-         this.state.stateData = item;
-         this.clickHandler.emit(<ActionType>{ data: item, mode: MODE_EDIT });
+        this.compLoadManager.redirect(RL_NEW_BORN);
+        this.state.currentstate = MODE_EDIT;
+        var date = new Date(item.dob);
+        item.dob = date;
+        this.state.stateData = item;
+        this.clickHandler.emit(<ActionType>{ data: item, mode: MODE_EDIT });
         break;
 
       case MODE_VIEW:
-         this.compLoadManager.redirect(RL_NEW_BORN);
-         this.state.currentstate = MODE_VIEW;
-         this.state.stateData = item;
-         this.clickHandler.emit(<ActionType>{ data: item, mode: MODE_VIEW });
+        this.compLoadManager.redirect(RL_NEW_BORN);
+        this.state.currentstate = MODE_VIEW;
+        var date = new Date(item.dob);
+        item.dob = date;
+        this.state.stateData = item;
+        this.clickHandler.emit(<ActionType>{ data: item, mode: MODE_VIEW });
         break;
 
       case MODE_DELETE:
-         this.hmisApi.deleteNewBornAsPerId(item.ID);
+        this.hmisApi.deleteNewBornAsPerId(item.ID);
         break;
     }
   }
@@ -139,35 +141,33 @@ private rowdata:any;
 
   private addNewBorn(): void {
     const a = this.comonService.getpermissionrole();
-    if(a=== 'readonly'){
+    if (a === 'readonly') {
       this.snackbar.open('Not Allowed', 'Close',
-      {
-        duration: 3000,
-        verticalPosition: 'top',
-        horizontalPosition: 'right',
-      });
-    }else{
+        {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right',
+        });
+    } else {
       this.state.currentstate = MODE_ADD;
       this.compLoadManager.redirect(RL_NEW_BORN);
     }
 
- 
+
   }
 
   ngOnInit() {
     this.compLoadManager.setHeaderTitle('New Born')
 
     const a = this.comonService.getpermissionrole();
-    if(a === 'readonly'){
-this.isreadonly = true;
-    }else{
+    if (a === 'readonly') {
+      this.isreadonly = true;
+    } else {
       this.isreadonly = false;
 
     }
     this.getdate()
-    console.log('wefwef' , this.convertedfromdate, this.convertedtodate,)
     this.hmisApi.getnewborndatewise(this.convertedfromdate, this.convertedtodate, '');
-    console.log('ngoninu')
   }
 
 
@@ -200,13 +200,12 @@ this.isreadonly = true;
 
 
   exportToCSV() {
-    console.log('data', this.newBorn)
 
     _.forEach(this.newBorn, (value, key) => {
       var newArray: any = {
         "patient_registration_no": value.patient_registration_no,
         "admission_sequence": value.admission_sequence,
-        "baby_alias_name":value.baby_alias_name,
+        "baby_alias_name": value.baby_alias_name,
         "mother_name": value.mother_name,
         "father_name": value.father_name,
         "sex": value.sex,
@@ -227,7 +226,7 @@ this.isreadonly = true;
       decimalseparator: '.',
       showLabels: true,
       showTitle: true,
-      headers: ["Registeration Number", "Admission No.", "Baby Name.", "Mother Name", "Father Name", "Baby Gender", "Baby Dob" ,"Baby Height", "Baby Weight", "Critical illness note", "Delievery Note" , "Delievery Type Name"]
+      headers: ["Registeration Number", "Admission No.", "Baby Name.", "Mother Name", "Father Name", "Baby Gender", "Baby Dob", "Baby Height", "Baby Weight", "Critical illness note", "Delievery Note", "Delievery Type Name"]
     };
     new Angular2Csv(this.csvdata, 'New Born list', options);
   }

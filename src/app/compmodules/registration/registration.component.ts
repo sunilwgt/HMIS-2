@@ -74,8 +74,6 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
 
   // convertimage(url){
   // let Token = this.hmisApi._hmistoken; 
-  //     console.log('token' , Token);
-  //     console.log('url' , url);
 
 
   //     let headers = new Headers({ "Access-Control-Allow-Origin":'*' ,'Token':Token , "Tenant_Key": "MedicareDb" })
@@ -94,11 +92,9 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
   //     };
   // const u = "https://www.google.com/imgres?imgurl=https%3A%2F%2Fimages.pexels.com%2Fphotos%2F67636%2Frose-blue-flower-rose-blooms-67636.jpeg%3Fcs%3Dsrgb%26dl%3Dbeauty-bloom-blue-67636.jpg%26fm%3Djpg&imgrefurl=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fbeauty%2F&docid=pFs_4Fcq5AgpmM&tbnid=A6JJqffgz3xzlM%3A&vet=10ahUKEwjdxuSx6MThAhXFsJ4KHfcBC6IQMwhqKAAwAA..i&w=4928&h=3264&bih=667&biw=1366&q=image&ved=0ahUKEwjdxuSx6MThAhXFsJ4KHfcBC6IQMwhqKAAwAA&iact=mrc&uact=8https://res.cloudinary.com/demo/image/fetch/w_300,h_300,c_fill,g_face,r_max,f_auto/https://upload.wikimedia.org/wikipedia/commons/0/0c/Scarlett_Johansson_C%C3%A9sars_2014.jpg"
   //     var request = new Request(u);
-  //     console.log('request ' , request);
 
 
   //     fetch(request ,options).then((response) => {
-  // console.log('fetch image response' , response)
   //     });
   // }
   // convertimage(url){
@@ -122,7 +118,6 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
   //     })
   // })
   // .then((response)=>{
-  //   console.log('response' , response)
   // })
   // // .then(blob => {
   // //     var url = window.URL.createObjectURL(blob);
@@ -137,12 +132,10 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
   // }
 
   convertimage(url) {
-
     this.htppclient.get(url, {
       headers: this.getHeaders(),
       responseType: 'blob'
     }).subscribe((res) => {
-      console.log('res', res)
     })
 
   }
@@ -179,14 +172,12 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
   hmisApiSubscribe(data: any): void {
     if (data.resulttype === RESULT_TYPE_SET_PATIENT) {
       this.patientId = data.result;
-      console.log('patient registertaion ', data)
       this._popUpStateObj.stateData = this.patientId;
       this.compLoadManager.closePopup();
       this.genericPopup.openPopup(this.compLoadManager.redirect(RL_REGISTER_CONFIRMATION_MODAL, true));
       this.stateService.updateState(this._popUpStateObj);
     }
     if (data.resulttype === RESULT_TYPE_GET_IMAGE_REGISTERATION) {
-      console.log('data', data)
       this.convertimage('https://hmismedicarefiles.file.core.windows.net/hmismedicarefiles/a4799f1d-b90d-4a30-bb0d-423fed69b150/download (1).jpg')
 
 
@@ -224,15 +215,13 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
     }
 
 
-    
+
     if (data.resulttype === RESULT_TYPE_GET_HOSPITAL_DETAIL_LIST) {
       this.hospitaldata = data.result[0];
     }
 
     //     if (data.resulttype === RESULT_TYPE_GET_SELECTED_PATIENT_BY_ID) {
     //       this.compData = data.result[0];
-    // console.clear();
-    //       console.log('compdata' , this.compData);
     //       // this.compData.patient_name = this.compData.patient_first_name + ' ' + this.compData.patient_last_name;
     //       this.updateAllFields();
     //     }
@@ -255,7 +244,6 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
       //         indexno: 0,
       //         label: "Please Select Profession",
       //         value: 0}, {label: "Buissness", value: "Buissness", id: 1}]
-      //         console.log('se' , selectedfeature ,this.doption);
       // this.doctorListOption = selectedfeature;
 
       //     },10000);
@@ -269,7 +257,6 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
 
 
 
-      console.log('profession option', this.ProfessionOption)
       this.religionOption = this.comonService.religionOption;
       this.modaloption = new GenericPopupOption();
       this.modaloption.size = "sm";
@@ -286,7 +273,6 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
         this.showage = 'Please select Dob'
       }
       if (this.state.currentstate === MODE_EDIT) {
-        console.log('mode edit')
         let age = this.getageforedit(this.state.stateData.patient_dob)
       }
     }
@@ -295,26 +281,22 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
 
   SubmitClickHandler() {
     this.state.currentstate = MODE_ADD;
-    this.submitClickHandler();
+    // this.submitClickHandler();
   }
 
   invokeAddFunction(): void {
     //this.setExtnData();
     // this.compData.patient_age = "27";
     // this.compData.patient_age_unit = "month";
-    //console.log(this.compData);
     this.compData.created_by = this.hmisApi.userDetail.created_by;
     this.compData.modified_by = this.hmisApi.userDetail.modified_by;
-    console.log("compdataadd ", this.compData);
     this.hmisApi.setPatient(this.compData);
   }
 
   invokeEditFunction(): void {
     //this.setExtnData();
-    console.log("compdata1 ", this.compData);
     this.compData.created_by = this.hmisApi.userDetail.created_by;
     this.compData.modified_by = this.hmisApi.userDetail.modified_by;
-    console.log("compdata2", this.compData);
 
     this.hmisApi.setPatientAsPerId(this.compData.ID, this.compData);
 
@@ -367,7 +349,6 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
    *
    */
   private customPhoneNoCheck(evntObj: any): void {
-    console.log(' custom person check', evntObj);
 
     let to: CustomErrorInfo = new CustomErrorInfo();
     if (!evntObj.newval) {
@@ -397,7 +378,6 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
 
 
   contactpersonPhoneNoCheck(evntObj: any): void {
-    console.log('contact person checkk', evntObj);
     let to: CustomErrorInfo = new CustomErrorInfo();
     if (!evntObj.newval) {
       to.isErrorShow = true;
@@ -460,7 +440,6 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
     this.compData.patient_dob = e.newval;
     if (e.newval === undefined) {
       this.showage = "Please select dob"
-      console.log('please hndle dob')
 
     } else {
       let age = this.helperFunc.getCalculatedAge(e.newval);
@@ -477,9 +456,7 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
   getageforedit(dob) {
     if (dob === undefined) {
       this.showage = "Please select dob"
-      console.log('please get dob')
     } else {
-      console.log('dob', dob)
       let age = this.helperFunc.getCalculatedAge(dob);
       if (age.age === 0) {
         this.showage = age.month + ' Month'
@@ -493,16 +470,13 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
   }
 
   // private updateAllFields(){
-  //   console.log(this.compData);
   //   for (const key in this.compData) {
-  //     console.log('keys' , key);
   //     if (this.compData.hasOwnProperty(key)) {
   //       this._updateStateObj.currentstate = key;
   //       this._updateStateObj.stateData = this.compData;
   //       this.stateService.updateState(this._updateStateObj);
   //     }
   //   }
-  //   console.log('this.updatestateob' , this._updateStateObj);
   // }
 
 }

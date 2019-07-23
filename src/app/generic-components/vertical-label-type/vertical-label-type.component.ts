@@ -147,11 +147,10 @@ export class VerticalLabelTypeComponent implements OnInit, OnDestroy, OnChanges 
       } else {
         this._fieldState.currentstate = VALID_FIELD;
       }
-console.log('fieldstate' , this._fieldState)
       this.baseService.stateService.registerState(this._fieldState);
 
     }
-    
+
     if (this.selectOptions && this.selectOptions.length > 0) {
       this.compValue.fieldValue = 0;
     }
@@ -175,7 +174,7 @@ console.log('fieldstate' , this._fieldState)
     if (this.fieldValue && this.fieldValue.length) {
       this.compValue.fieldValue = this.fieldValue;
     }
-this.pcalenderdate()
+    this.pcalenderdate()
   }
 
   ngOnChanges() {
@@ -219,63 +218,80 @@ this.pcalenderdate()
 
     }
   }
-  settimeinformat(e){
+
+  settimeinformatwithdb(e) {
+    var da = new Date(e);
+    var h: any = da.getHours();
+    var m: any = da.getMinutes();
+    var s: any = da.getSeconds();
+
+    if (h < 10) {
+      h = '0' + h;
+    }
+    if (m < 10) {
+      m = '0' + m;
+    }
+    if (s < 10) {
+      s = '0' + s;
+    }
+
+    let finaltime = h + ":" + m + ":" + s;
+
+    return finaltime
+
+
+  }
+  settimeinformat(e) {
     var da = new Date();
-    var h:any = da.getHours();
-    var m:any = da.getMinutes();
-    var s:any= da.getSeconds();
-    var hours:any = (h+24)%24; 
-    var mid='AM';
-    if(hours==0){ //At 00 hours we need to show 12 am
-      hours=12;
-      }
-      else if(hours>12)
-      {
-      hours=hours%12;
-      mid='PM';
-      }
-      if (hours < 10) {
-        hours = '0' + hours;
-      }
-      if (m < 10) {
-        m = '0' + m;
-      }
-      if (s < 10) {
-        s = '0' + s;
-      }
+    var h: any = da.getHours();
+    var m: any = da.getMinutes();
+    var s: any = da.getSeconds();
+    var hours: any = (h + 24) % 24;
+    var mid = 'AM';
+    if (hours == 0) { //At 00 hours we need to show 12 am
+      hours = 12;
+    }
+    else if (hours > 12) {
+      hours = hours % 12;
+      mid = 'PM';
+    }
+    if (hours < 10) {
+      hours = '0' + hours;
+    }
+    if (m < 10) {
+      m = '0' + m;
+    }
+    if (s < 10) {
+      s = '0' + s;
+    }
 
-      let finaltime =  hours+":" + m +":" + s + " "+ mid
-      console.log('hours' , hours+":" + m +":" + s + " "+ mid)
+    let finaltime = hours + ":" + m + ":" + s + " " + mid
 
-      return finaltime
-   
+    return finaltime
 
 
   }
 
   private onModelChange(evt: any, item: any = null) {
-    console.log('odate' , evt)
     if (this.templateid === GenericCompType[GenericCompType.Compdate]) {
       evt = this.helperFunc.convertDateToString(evt);
-      console.log('evt date' , evt)
 
       this.compDataInfo.extraprops = {
         calculatedAge: this.helperFunc.getCalculatedAge(evt)
       }
     }
     if (this.templateid === GenericCompType[GenericCompType.pdatewithtime]) {
-     let time =  this.settimeinformat(evt);
-      let a = this.helperFunc.convertDateToString(evt);
-evt = a + " " + time
-       console.log('evt pdate' , evt)
-      
+      // 2019-07-22T18:05:53
+      let time = this.settimeinformatwithdb(evt);
+      let a = this.helperFunc.convertDateToStringyearfirst(evt);
+      evt = a + "T" + time
+
       // this.compDataInfo.extraprops = {
       //   calculatedAge: this.helperFunc.getCalculatedAge(evt)
       // }
     }
     if (this.templateid === GenericCompType[GenericCompType.Compdatepast]) {
-      console.log('evt' , evt , this.mindate , this.maxdate);
-      this.setmaxdate(evt , this.mindate , this.maxdate)
+      this.setmaxdate(evt, this.mindate, this.maxdate)
       // evt = this.helperFunc.convertDateToString(evt);
       // this.compDataInfo.extraprops = {
       //   calculatedAge: this.helperFunc.getCalculatedAge(evt)
@@ -418,13 +434,11 @@ evt = a + " " + time
     const max = maxyear + '-' + m + '-' + day;
     this.mindate = min;
     this.maxdate = max;
-    console.log('mindate' , this.mindate , this.maxdate)
 
   }
 
-  setmaxdate(e , mind ,maxd){
+  setmaxdate(e, mind, maxd) {
     const eventdate = new Date(e);
-    console.log('date' , eventdate)
     let day: any = eventdate.getDate();
     let m: any = eventdate.getMonth() + 1;
     let y = eventdate.getFullYear();
@@ -440,9 +454,7 @@ evt = a + " " + time
     const max = y + '-' + m + '-' + day;
     this.eventmindate = min;
     this.eventmaxdate = max;
-    console.log('eventmindate' , this.eventmindate , this.eventmaxdate)
     var input = document.getElementById("Compdatebetween");
-    console.log('input' , input)
     input.setAttribute("min", this.eventmindate);
     input.setAttribute("max", this.eventmaxdate);
 
@@ -467,12 +479,11 @@ evt = a + " " + time
     // const max = maxyear + '-' + m + '-' + day;
     // this.mindateforpcalender = min;
     // this.maxdateforpcalender = max;
-    
-    // console.log('maxdate p calender' , this.maxdateforpcalender , this.mindateforpcalender)
+
   }
 
-  afunc(){
-    
+  afunc() {
+
     let date = new Date();
     let day: any = date.getDate();
     let m: any = date.getMonth() + 1;
@@ -488,9 +499,7 @@ evt = a + " " + time
     const max = maxyear + '-' + m + '-' + day;
     this.mindateforpcalender = min;
     this.maxdateforpcalender = max;
-    
-    console.log('maxdate p calender' , this.maxdateforpcalender , this.mindateforpcalender)
-    
-    console.log('maxdate' , this.maxdateforpcalender)
+
+
   }
 }

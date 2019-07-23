@@ -25,7 +25,7 @@ import { MatSnackBar } from '@angular/material';
 export class OtComponent extends BaseComponent implements OnInit {
   // @ViewChild(GenericPopup)
   // private genericPopup: GenericPopup;
-  private showerror:boolean = true;
+  private showerror: boolean = true;
   private _tempData: Building;
   private genderOptions: Array<RadioData>;
   private patientlist: Array<ISelectOption> = [];
@@ -44,9 +44,9 @@ export class OtComponent extends BaseComponent implements OnInit {
   private showsearch: boolean = false;
 
   showNav: any = [];
- 
 
-  constructor(baseService: BaseServices,private _errorService: ErrorService, private snackbar:MatSnackBar,
+
+  constructor(baseService: BaseServices, private _errorService: ErrorService, private snackbar: MatSnackBar,
     private helperFunc: HelperFunction, public datepipe: DatePipe) {
     super(baseService);
     this.showNav[0] = true;
@@ -90,41 +90,37 @@ export class OtComponent extends BaseComponent implements OnInit {
     if (data.resulttype === RESULT_TYPE_SET_OPERATION_THEATRE) {
 
       this.compLoadManager.redirect(RL_OT_LIST);
-      console.log('redirected' , data);
 
       let a = this.comonService.admobserver()
 
-      console.log('a' , a)
-      this.hmisApi.getotlistdatewise(a.from , a.to , '');
+      this.hmisApi.getotlistdatewise(a.from, a.to, '');
       // this.hmisApi.getOperationTheatreListing("");
 
       this.compLoadManager.closePopup();
       this.snackbar.open(data.result, 'Close',
-      {
-        duration: 3000,
-        verticalPosition: 'top',
-        horizontalPosition: 'right',
-      });
+        {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right',
+        });
 
     }
 
     if (data.resulttype === RESULT_TYPE_EDIT_OPERATION_THEATRE) {
-      console.log('dat' , data.result)
       this.compLoadManager.redirect(RL_OT_LIST);
       // this.hmisApi.getOperationTheatreListing("");
       let a = this.comonService.otbserver()
 
-      console.log('a' , a)
-      this.hmisApi.getotlistdatewise(a.from , a.to , '');
+      this.hmisApi.getotlistdatewise(a.from, a.to, '');
       // this.hmisApi.getOperationTheatreListing("");
 
       this.compLoadManager.closePopup();
       this.snackbar.open(data.result, 'Close',
-      {
-        duration: 3000,
-        verticalPosition: 'top',
-        horizontalPosition: 'right',
-      });
+        {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right',
+        });
     }
 
   }
@@ -152,7 +148,6 @@ export class OtComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('state3' , this.state)
 
     if (this.state.currentstate === MODE_OT) {
       this.showsearch = false;
@@ -176,9 +171,7 @@ export class OtComponent extends BaseComponent implements OnInit {
     this.compData.created_by = this.hmisApi.userDetail.created_by;
     this.compData.modified_by = this.hmisApi.userDetail.modified_by;
     this.OTModel = this.comonService.arrangeDataForOTModel(this.compData);
-    console.log('compdata' , this.compData)
 
-    console.log('otmodel' , this.OTModel)
     this.hmisApi.setOperationTheatre(this.OTModel);
   }
 
@@ -186,7 +179,7 @@ export class OtComponent extends BaseComponent implements OnInit {
 
     this.compData.created_by = this.hmisApi.userDetail.created_by;
     this.compData.modified_by = this.hmisApi.userDetail.modified_by;
-    
+
     this.OTModel = this.comonService.arrangeDataForOTModelForUpdate(this.compData);
     this.hmisApi.setOperationTheatreAsPerId(this.compData.operation_id, this.OTModel);
   }

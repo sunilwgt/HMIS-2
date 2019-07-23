@@ -242,5 +242,9 @@
 
 
 
-
+.form-group p-calendar { padding:0;
+    span { display: block; width:100%; border:none; box-shadow: 0;
+        input[type="text"] { width: 100%;}
+    }
+}
 

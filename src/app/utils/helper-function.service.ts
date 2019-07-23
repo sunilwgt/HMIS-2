@@ -33,6 +33,26 @@ export class HelperFunction {
     return `${d.getDate()}-${this.getMonthsArray()[d.getMonth()]}-${d.getFullYear()}`;
   }
 
+  convertDateToStringyearfirst(d: string): string {
+    let date = new Date(d);
+    let day: any = date.getDate();
+    let m: any = date.getMonth() + 1;
+    let y = date.getFullYear();
+    if (m < 10) {
+      m = '0' + m;
+    }
+    if (day < 10) {
+      day = '0' + day;
+    }
+
+    console.log('weli' , date , m , y)
+    let final = y+'-'+ m+'-'+day
+    return final;
+
+    // return `${d.getFullYear()}-${this.getMonthsArray()[d.getMonth()]}-${d.getDate()}`;
+
+
+  }
 
   private getMonthsArray(): Array<any> {
     return ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];

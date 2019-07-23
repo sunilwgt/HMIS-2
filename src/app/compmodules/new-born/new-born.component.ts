@@ -8,6 +8,7 @@ import { State } from '../../models/state';
 import { ISelectOption } from '../../interfaces/ISelectOption';
 import { patientListOption } from '../../models/patient';
 import { HelperFunction } from '../../utils/helper-function.service';
+import { a } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-new-born',
@@ -27,7 +28,7 @@ export class NewBornComponent extends BaseComponent implements OnInit {
   private admissionid: any;
   private showsearch: boolean = false;
   private iseditable: boolean = true;
-
+  private showdatee: any
 
 
   showNav: any = [];
@@ -59,12 +60,14 @@ export class NewBornComponent extends BaseComponent implements OnInit {
     if (data.resulttype === RESULT_TYPE_SET_NEW_BORN) {
       // this.hmisApi.getNewBornSearch("");
       const a = this.comonService.newborndateobserver();
-      console.log('new born date observer', a)
       this.hmisApi.getnewborndatewise(a.from, a.to, '');
       this.compLoadManager.closePopup();
       this.compLoadManager.redirect(RL_NEW_BORN_LIST);
     }
     if (data.resulttype === RESULT_TYPE_EDIT_NEW_BORN) {
+      const a = this.comonService.newborndateobserver();
+      this.hmisApi.getnewborndatewise(a.from, a.to, '');
+
       // this.hmisApi.getNewBornSearch("");
       this.compLoadManager.closePopup();
       this.compLoadManager.redirect(RL_NEW_BORN_LIST);
@@ -72,7 +75,10 @@ export class NewBornComponent extends BaseComponent implements OnInit {
 
   }
 
+  //   ondatechange(e){
 
+
+  //   }
   ngOnInit() {
     // if (this.state.currentstate === MODE_ADD) {
     //   this.showsearch = true;
@@ -84,25 +90,36 @@ export class NewBornComponent extends BaseComponent implements OnInit {
     this.bplOption = this.comonService.radioYesNoOptions;
     this.genderOptions = this.comonService.genderOptions;
     this.ProfessionOption = this.comonService.ProfessionOption;
-    console.log('profession option', this.ProfessionOption)
     this.updateDataForEVMode();
     if (this.state.currentstate === MODE_ADD) {
       this.showsearch = true;
       this.compData = new NewBorn();
       let item = { Is_malnutrition: false, is_born_critical_illness: false, is_twin: false }
-      console.log('default item ', item)
+      // let item = { Is_malnutrition: false}
+
       this.state.stateData = item;
       this.compData = item;
       this.state.currentstate = MODE_EDIT
       this.showSubmitBtn = false;
+
+      // this.adata()
     }
 
 
-
-    if (this.state.currentstate === MODE_EDIT || this.state.currentstate === MODE_VIEW) { }
+    if (this.state.currentstate === MODE_EDIT || this.state.currentstate === MODE_VIEW) {
+      // var date = new Date(this.compData.dob);
+      // this.showdatee = date
+    }
     this.updateAllFields();
-    console.log('final state', this.state)
   }
+
+  // adata(){
+  //   let a = "2015-03-25T10:08:45";
+  //   // const date = new Date();
+  //   var date = new Date(a);
+  //   this.showdatee = date
+
+  // }
 
   private updateAllFields() {
     for (const key in this.compData) {
@@ -115,7 +132,7 @@ export class NewBornComponent extends BaseComponent implements OnInit {
   }
 
   invokeAddFunction(): void {
-    console.log('compdata' , this.compData)
+    this.hmisApi.setNewBorn(this.compData);
     // this.updateAllFields();
   }
 
@@ -127,12 +144,11 @@ export class NewBornComponent extends BaseComponent implements OnInit {
     this.compData.created_by = this.hmisApi.userDetail.created_by;
     this.compData.modified_by = this.hmisApi.userDetail.modified_by;
     // this.compData.dob = this.comonService.datepipe.transform(this.compData.dob, 'dd-MM-yyyy');
-    console.log('update new born' , this.compData)
   }
 
   SubmitClickHandler() {
     this.state.currentstate = MODE_ADD;
-    console.log('compdata' , this.compData)
+    this.updateNewBornModel(this.compData);
     this.submitClickHandler();
   }
 
@@ -149,9 +165,8 @@ export class NewBornComponent extends BaseComponent implements OnInit {
 
 
 
-  invokeEditFunction(){
-    console.log("fire edit mode    ", this.compData);
-    //this.hmisApi.setNewBornAsPerId(this.compData.ID,this.compData);
+  invokeEditFunction() {
+    this.hmisApi.setNewBornAsPerId(this.compData.ID, this.compData);
   }
 
   toggleNav(index) {
@@ -175,7 +190,6 @@ export class NewBornComponent extends BaseComponent implements OnInit {
       arrPatient.push(dOpt);
     }
     this.patientList = arrPatient;
-    console.log('patient list ', this.patientList)
   }
 
   getSelectedHandlerForPatient(evntObj: any): void {
@@ -183,10 +197,8 @@ export class NewBornComponent extends BaseComponent implements OnInit {
     this.admissionid = evntObj.data.id
   }
   showage;
-  showdatewithtime(){
-    console.log('date' , this.showage)
+  showdatewithtime() {
   }
-  valueChangeHandler(e){
-console.log('eeee' , e)
-  }
+  //   valueChangeHandler(e){
+  //   }
 }
